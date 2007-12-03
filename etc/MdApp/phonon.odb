@@ -1,0 +1,4 @@
+from molDynamics.gulp.Phonon import Phonon  
+
+def runType():
+	return Phonon('phonon')

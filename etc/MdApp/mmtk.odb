@@ -1,0 +1,4 @@
+from molDynamics.mmtk.Mmtk import Mmtk  
+
+def mdEngine():
+	return Mmtk('mmtk')

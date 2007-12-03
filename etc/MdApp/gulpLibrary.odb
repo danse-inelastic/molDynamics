@@ -1,0 +1,4 @@
+from molDynamics.gulp.forcefields.InputFile import InputFile
+
+def forcefield():
+	return InputFile('gulpLibrary')

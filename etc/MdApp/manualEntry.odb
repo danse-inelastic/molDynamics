@@ -1,0 +1,4 @@
+from molDynamics.gulp.forcefields.ForcefieldLoader import ForcefieldLoader
+
+def forcefield():
+	return ForcefieldLoader('manualEntry')

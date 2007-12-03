@@ -1,0 +1,4 @@
+from molDynamics.gulp.Fit import Fit  
+
+def runType():
+	return Fit('fit')

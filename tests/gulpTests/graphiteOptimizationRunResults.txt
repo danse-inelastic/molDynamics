@@ -1,0 +1,29 @@
+  Supercell dimensions :  x =   4  y =   2  z =   1
+
+  Cartesian lattice vectors (Angstroms) :
+
+       24.560000    8.507834    0.000000
+       -7.368000   21.269584    0.000000
+        0.000000    0.000000    9.040000
+
+  Cell parameters (Angstroms/Degrees):
+
+  a =      25.9919    alpha =  90.0000
+  b =      22.5096    beta  =  90.0000
+  c =       9.0400    gamma =  90.0000
+
+--------------------------------------------------------------------------------
+
+  Final cell parameters and derivatives :
+
+--------------------------------------------------------------------------------
+       a           25.889291 Angstrom     dE/de1(xx)     0.000069 eV/strain
+       b           22.420784 Angstrom     dE/de2(yy)     0.000000 eV/strain
+       c            9.004326 Angstrom     dE/de3(zz)     0.000000 eV/strain
+       alpha       90.000000 Degrees      dE/de4(yz)     0.000000 eV/strain
+       beta        90.000000 Degrees      dE/de5(xz)     0.000000 eV/strain
+       gamma       90.000000 Degrees      dE/de6(xy)     0.000000 eV/strain
+
+(25.9919 - 25.889291)/25.9919 = 0.00394773 
+(22.5096 - 22.420784)/22.5096 = 0.003945694
+(9.0400 - 9.004326)/9.0400 = 0.003946239
