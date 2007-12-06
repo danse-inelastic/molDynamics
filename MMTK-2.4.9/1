@@ -1,2 +1,0 @@
-/tmp/ccm7YB4P.o: In function `main':erfc_test.c:(.text+0x22): undefined reference to `erfc'
-collect2: ld returned 1 exit status
