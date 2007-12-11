@@ -66,7 +66,7 @@ This class maps the DANSE data structures to GULP's input deck.
         return options
         
     def execute(self):
-        '''writes out the files and starts the executable'''
+        '''writes out the files, starts the executable, and parses the output files'''
         if self.i.runType.runTypeIdentifier!='mdRestart':
             self.inputFileContents = \
             self.listToString(self.identifyKeywords(self.keywordWriter))+linesep+\
@@ -76,7 +76,9 @@ This class maps the DANSE data structures to GULP's input deck.
             f.close()
             system(self.i.engineExecutablePath+' < '+self.i.inputDeckName+' > '+self.i.logFilename)
         else:
-            system(self.i.engineExecutablePath+' < '+self.i.restartFilename+' >> '+self.i.logFilename)
+            system(self.i.engineExecutablePath+' < '+self.i.restartFilename+' >> '+self.i.logFilename)    
+        #parse the files
+
 
   
 # version
