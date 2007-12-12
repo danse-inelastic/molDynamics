@@ -78,6 +78,7 @@ This class maps the DANSE data structures to GULP's input deck.
         else:
             system(self.i.engineExecutablePath+' < '+self.i.restartFilename+' >> '+self.i.logFilename)    
         #parse the files
+        o=OutputParser(self.i.logFilename, self.i)
 
 
   
