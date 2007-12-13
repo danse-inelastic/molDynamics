@@ -49,37 +49,56 @@ class OutputParser:
         self.gulpOutputFile=gulpOutputFile
         #temp=file(inventory.sample.i.atomicStructure.i.xyzFile.i.inputFile)
         self.numAtoms=124#int(temp.readline())
-        self.modes=3*self.numAtoms
+        self.numModes=3*self.numAtoms
+        self.numKpoints=0
 
     def getEigsNVecsFast(self):
         '''gets eigenvalues and vectors fast'''
         gulpOutput = file(self.gulpOutputFile)
         eigsOutput = file('eigs.out','w')
-        self.eigs=[]
-        self.vecs=[]
+#        self.totalEigs=[]
+#        self.totalVecs=[]
         while True:
             line = gulpOutput.readline()
-            if not line:
+            if not line: # this kicks us out when we get to the end of the file
+                break
+            if 'Number of k points for this configuration =' in line:
+                self.numKpoints=int((line.split())[-1])
+        self.eigs=[]#np.zeros(self.numKpoints)
+        self.vecs=[]#np.zeros(self.numKpoints)
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
                 break
             if 'Frequency' in line:
-                self.eigs=self.eigs+(line.split())[1:]
+                eigs += (line.split())[1:]
             elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
                 gulpOutput.readline()
                 self.getVecs(gulpOutput)
+#                self.eigs.append(eig)
         gulpOutput.close()
-        return self.eigs,self.vecs
+        #reshape according to the number of kpoints
+        self.eigs=np.array(self.eigs)
+        self.eigs.reshape((self.numKpoints,self.numModes))
+        self.vecs=np.array(self.vecs)
+        self.vecs.reshape((self.numKpoints,self.numModes))
+        writeEigVecs(vecs)
+        return
                 
     def getVecs(self,gulpOutput):
-        mode1=[]
-        mode2=[]
-        mode3=[]
+        mode1=np.zeros(self.numAtoms+(3,2))
+        mode2=np.zeros(self.numAtoms+(3,2))
+        mode3=np.zeros(self.numAtoms+(3,2))
         for i in range(self.numAtoms):
-            mode1=mode1 + (gulpOutput.readline().split())[2:]
-            mode2=mode2 + (gulpOutput.readline().split())[2:]
-            mode3=mode3 + (gulpOutput.readline().split())[2:]
+            for j in range(3):
+                mode1[i][j][:],mode2[i][j][:],mode3[i][j][:] = (gulpOutput.readline().split())[2:]
         self.vecs.append(mode1)
         self.vecs.append(mode2)
         self.vecs.append(mode3)
+        
+    
+        
+    def writeEigVecsToFile(self):
         writeEigVecs
         
             
