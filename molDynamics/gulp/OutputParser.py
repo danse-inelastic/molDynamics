@@ -2,6 +2,7 @@ from pyparsing import *
 import pickle
 import numpy as np
 from os import linesep
+import re
 #import scipy.io
 from Polarizations import write as writeEigVecs
 
@@ -25,7 +26,9 @@ integer.setParseAction( convertNumbers )
 threeNums = Group(number + number + number)
 vecLine = Group(integer + Word(alphas) + threeNums + threeNums)
 
-eigAndVec = Suppress(Literal("Frequency")) + threeNums + \
+frequencyLine = Suppress(Literal("Frequency")) + threeNums
+
+eigAndVec = frequencyLine + \
   Suppress(Literal("Real    Imaginary   Real    Imaginary   Real    Imaginary")) + \
   OneOrMore(vecLine)
 
@@ -61,9 +64,11 @@ class OutputParser:
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
-                break
+                sys.stderr.write('no kpoints in this output file')
+                sys.exit(2)
             if 'Number of k points for this configuration =' in line:
                 self.numKpoints=int((line.split())[-1])
+                break
         self.eigs=[]#np.zeros(self.numKpoints)
         self.vecs=[]#np.zeros(self.numKpoints)
         while True:
@@ -71,7 +76,12 @@ class OutputParser:
             if not line: # this kicks us out when we get to the end of the file
                 break
             if 'Frequency' in line:
-                eigs += (line.split())[1:]
+                #print frequencyLine.parseString(line)
+                #if frequencyLine.parseString(line):
+                space_re='[ \t]+'
+                float_re='[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
+                    self.eigs += map(lambda x: float(x),(line.split())[1:])
             elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
                 gulpOutput.readline()
                 self.getVecs(gulpOutput)
@@ -81,28 +91,26 @@ class OutputParser:
         self.eigs=np.array(self.eigs)
         self.eigs.reshape((self.numKpoints,self.numModes))
         self.vecs=np.array(self.vecs)
-        self.vecs.reshape((self.numKpoints,self.numModes))
-        writeEigVecs(vecs)
+        self.vecs.reshape((self.numKpoints,self.numModes,self.numAtoms,3,2))
+        writeEigVecs(self.vecs)
         return
                 
     def getVecs(self,gulpOutput):
-        mode1=np.zeros(self.numAtoms+(3,2))
-        mode2=np.zeros(self.numAtoms+(3,2))
-        mode3=np.zeros(self.numAtoms+(3,2))
+        mode1=np.zeros((self.numAtoms,3,2))
+        mode2=np.zeros((self.numAtoms,3,2))
+        mode3=np.zeros((self.numAtoms,3,2))
         for i in range(self.numAtoms):
             for j in range(3):
-                mode1[i][j][:],mode2[i][j][:],mode3[i][j][:] = (gulpOutput.readline().split())[2:]
+                vals = (gulpOutput.readline().split())[2:]
+                mode1[i][j][:]=np.array(map(lambda x: float(x),vals[0:2]))
+                mode2[i][j][:]=np.array(map(lambda x: float(x),vals[2:4]))
+                mode3[i][j][:]=np.array(map(lambda x: float(x),vals[4:6])) 
         self.vecs.append(mode1)
         self.vecs.append(mode2)
         self.vecs.append(mode3)
+#    def writeEigVecsToFile(self):
+#        writeEigVecs
         
-    
-        
-    def writeEigVecsToFile(self):
-        writeEigVecs
-        
-            
-
     def readChunk(self, gulpOutput, chunkSize=1000):
         '''reads a chunk of the file, but always breaks at two or more consecutive blank lines'''
         previousLineBlank=False
@@ -166,6 +174,6 @@ if __name__=='__main__':
     #o=OutputParser('/home/jbk/gulp3.0/newkc24PhononOpt/phon6x3FineMeshVecs.gout')
     o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/phonSmallFineMesh.gout')
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/test.out')
-    #print o.getEigenvectors()
-    f=file('test.log','w')
-    print >>f, o.getEigsNVecsFast()
+    o.getEigsNVecsFast()
+    #f=file('test.log','w')
+    #print >>f, o.getEigsNVecsFast()
