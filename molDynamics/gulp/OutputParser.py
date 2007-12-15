@@ -5,6 +5,7 @@ from os import linesep
 import re
 #import scipy.io
 from Polarizations import write as writeEigVecs
+from Polarizations import read as readEigVecs
 
 # numbers: 1, 30.0, 1e-5, -99
 number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) + \
@@ -33,8 +34,6 @@ eigAndVec = frequencyLine + \
   OneOrMore(vecLine)
 
 eigsAndVecs = OneOrMore(eigAndVec)
-
-
 
 class OutputParser:
     
@@ -91,20 +90,32 @@ class OutputParser:
         self.eigs=np.array(self.eigs)
         self.eigs.reshape((self.numKpoints,self.numModes))
         self.vecs=np.array(self.vecs)
-        self.vecs.reshape((self.numKpoints,self.numModes,self.numAtoms,3,2))
+        self.vecs=self.vecs.reshape((self.numKpoints,self.numModes,self.numAtoms,3))
         writeEigVecs(self.vecs)
         return
                 
     def getVecs(self,gulpOutput):
-        mode1=np.zeros((self.numAtoms,3,2))
-        mode2=np.zeros((self.numAtoms,3,2))
-        mode3=np.zeros((self.numAtoms,3,2))
+        mode1=np.zeros((self.numAtoms,3),dtype=complex)
+        mode2=np.zeros((self.numAtoms,3),dtype=complex)
+        mode3=np.zeros((self.numAtoms,3),dtype=complex)
+        def assignOperand(num):
+            if num[0] in '0123456789':
+                return '+'
+            elif num[0]=='-':
+                return ''
+            else:
+                sys.stderr.write('unknown operator')
+                sys.exit(2)
         for i in range(self.numAtoms):
             for j in range(3):
                 vals = (gulpOutput.readline().split())[2:]
-                mode1[i][j][:]=np.array(map(lambda x: float(x),vals[0:2]))
-                mode2[i][j][:]=np.array(map(lambda x: float(x),vals[2:4]))
-                mode3[i][j][:]=np.array(map(lambda x: float(x),vals[4:6])) 
+                operand1=assignOperand(vals[1])
+                operand3=assignOperand(vals[3])
+                operand5=assignOperand(vals[5])
+                #print vals, operand1
+                mode1[i][j]=complex(vals[0]+operand1+vals[1]+'j')
+                mode2[i][j]=complex(vals[2]+operand3+vals[3]+'j')
+                mode3[i][j]=complex(vals[4]+operand5+vals[5]+'j')
         self.vecs.append(mode1)
         self.vecs.append(mode2)
         self.vecs.append(mode3)
@@ -177,3 +188,4 @@ if __name__=='__main__':
     o.getEigsNVecsFast()
     #f=file('test.log','w')
     #print >>f, o.getEigsNVecsFast()
+    print readEigVecs()
