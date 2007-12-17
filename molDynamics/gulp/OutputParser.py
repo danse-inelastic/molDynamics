@@ -4,8 +4,8 @@ import numpy as np
 from os import linesep
 import re
 #import scipy.io
-from Polarizations import write as writeEigVecs
-from Polarizations import read as readEigVecs
+from idf.Polarizations import write as writeEigVecs
+from idf.Polarizations import read as readEigVecs
 
 # numbers: 1, 30.0, 1e-5, -99
 number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) + \
@@ -50,11 +50,13 @@ class OutputParser:
         
         self.gulpOutputFile=gulpOutputFile
         #temp=file(inventory.sample.i.atomicStructure.i.xyzFile.i.inputFile)
-        self.numAtoms=124#int(temp.readline())
+#        self.numAtoms=124#int(temp.readline())
+#        self.numModes=3*self.numAtoms
+        self.numAtoms=1116#int(temp.readline())
         self.numModes=3*self.numAtoms
         self.numKpoints=0
 
-    def getEigsNVecsFast(self):
+    def getEigsNVecsFast(self,outputFile="Polarizations.dat"):
         '''gets eigenvalues and vectors fast'''
         gulpOutput = file(self.gulpOutputFile)
         eigsOutput = file('eigs.out','w')
@@ -88,10 +90,14 @@ class OutputParser:
         gulpOutput.close()
         #reshape according to the number of kpoints
         self.eigs=np.array(self.eigs)
+        print self.eigs.shape
+        print (self.numKpoints,self.numModes)
         self.eigs.reshape((self.numKpoints,self.numModes))
         self.vecs=np.array(self.vecs)
+        print self.vecs.shape
+        print (self.numKpoints,self.numModes,self.numAtoms,3)
         self.vecs=self.vecs.reshape((self.numKpoints,self.numModes,self.numAtoms,3))
-        writeEigVecs(self.vecs)
+        writeEigVecs(self.vecs,outputFile)
         return
                 
     def getVecs(self,gulpOutput):
@@ -182,10 +188,10 @@ class OutputParser:
 #            f.close()
             
 if __name__=='__main__':
-    #o=OutputParser('/home/jbk/gulp3.0/newkc24PhononOpt/phon6x3FineMeshVecs.gout')
-    o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/phonSmallFineMesh.gout')
+    o=OutputParser('/home/jbk/gulp3.0/newkc24PhononOpt/phon6x3FineMeshVecs.gout')
+    #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/phonSmallFineMesh.gout')
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/test.out')
-    o.getEigsNVecsFast()
+    o.getEigsNVecsFast(outputFile="PolarizationsTest.dat")
     #f=file('test.log','w')
     #print >>f, o.getEigsNVecsFast()
-    print readEigVecs()
+    #print readEigVecs()
