@@ -29,6 +29,9 @@ vecLine = Group(integer + Word(alphas) + threeNums + threeNums)
 
 frequencyLine = Suppress(Literal("Frequency")) + threeNums
 
+#kpointLines = OneOrMore(Group(Suppress(integer) + number + number + number + Suppress(number)))
+kpointLines = Group(integer + number + number + number + number)
+
 eigAndVec = frequencyLine + \
   Suppress(Literal("Real    Imaginary   Real    Imaginary   Real    Imaginary")) + \
   OneOrMore(vecLine)
@@ -55,13 +58,10 @@ class OutputParser:
         self.numAtoms=1116#int(temp.readline())
         self.numModes=3*self.numAtoms
         self.numKpoints=0
-
-    def getEigsNVecsFast(self,outputFile="Polarizations.dat"):
-        '''gets eigenvalues and vectors fast'''
+        
+    def getEigsOneByOne(self,outputFile="Polarizations.dat"):
+        '''gets eigenvalues and vectors one by one and writes them to file--good for BIG eigenvectors'''
         gulpOutput = file(self.gulpOutputFile)
-        eigsOutput = file('eigs.out','w')
-#        self.totalEigs=[]
-#        self.totalVecs=[]
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
@@ -90,12 +90,53 @@ class OutputParser:
         gulpOutput.close()
         #reshape according to the number of kpoints
         self.eigs=np.array(self.eigs)
-        print self.eigs.shape
-        print (self.numKpoints,self.numModes)
+        #print self.eigs.shape
+        #print (self.numKpoints,self.numModes)
         self.eigs.reshape((self.numKpoints,self.numModes))
         self.vecs=np.array(self.vecs)
-        print self.vecs.shape
-        print (self.numKpoints,self.numModes,self.numAtoms,3)
+        #print self.vecs.shape
+        #print (self.numKpoints,self.numModes,self.numAtoms,3)
+        self.vecs=self.vecs.reshape((self.numKpoints,self.numModes,self.numAtoms,3))
+        writeEigVecs(self.vecs,outputFile)
+        return       
+
+    def getEigsNVecsFast(self,outputFile="Polarizations.dat"):
+        '''gets eigenvalues and vectors fast'''
+        gulpOutput = file(self.gulpOutputFile)
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
+                sys.stderr.write('no kpoints in this output file')
+                sys.exit(2)
+            if 'Number of k points for this configuration =' in line:
+                self.numKpoints=int((line.split())[-1])
+                break
+        self.eigs=[]#np.zeros(self.numKpoints)
+        self.vecs=[]#np.zeros(self.numKpoints)
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
+                break
+            if 'Frequency' in line:
+                #print frequencyLine.parseString(line)
+                #if frequencyLine.parseString(line):
+                space_re='[ \t]+'
+                float_re='[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
+                    self.eigs += map(lambda x: float(x),(line.split())[1:])
+            elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
+                gulpOutput.readline()
+                self.getVecs(gulpOutput)
+#                self.eigs.append(eig)
+        gulpOutput.close()
+        #reshape according to the number of kpoints
+        self.eigs=np.array(self.eigs)
+        #print self.eigs.shape
+        #print (self.numKpoints,self.numModes)
+        self.eigs.reshape((self.numKpoints,self.numModes))
+        self.vecs=np.array(self.vecs)
+        #print self.vecs.shape
+        #print (self.numKpoints,self.numModes,self.numAtoms,3)
         self.vecs=self.vecs.reshape((self.numKpoints,self.numModes,self.numAtoms,3))
         writeEigVecs(self.vecs,outputFile)
         return
@@ -128,6 +169,34 @@ class OutputParser:
 #    def writeEigVecsToFile(self):
 #        writeEigVecs
         
+    def getKpoints(self):
+        gulpOutput = file(self.gulpOutputFile)
+        brillouinZonePart=''
+        #first look for Brillouin zone sampling part of output file:
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
+                sys.stderr.write('no kpoints in this output file')
+                sys.exit(2)
+            if 'Brillouin zone sampling points :' in line:
+                break
+        previousLineBlank=False
+        while True:
+            line = gulpOutput.readline()
+            brillouinZonePart+=line
+            if line=='\n': 
+                if previousLineBlank==True: break
+                else: previousLineBlank=True;continue
+            else: previousLineBlank=False
+        gulpOutput.close()
+        #now get the kpoints:
+        self.kpoints = []
+        dataSource=kpointLines.scanString(brillouinZonePart)
+        for data, dataStart, dataEnd in dataSource:
+            self.kpoints.append(data.asList())
+        print self.kpoints 
+        
+#------------------------------------------------------------deprecated        
     def readChunk(self, gulpOutput, chunkSize=1000):
         '''reads a chunk of the file, but always breaks at two or more consecutive blank lines'''
         previousLineBlank=False
@@ -146,6 +215,7 @@ class OutputParser:
                 else: previousLineBlank=False
         return lines
             
+#------------------------------------------------------------deprecated 
     def getEigenvectors(self):
         '''get the eigenvalues and eigenvectors and output them in Max's format'''
         eigsVecsList = []
@@ -178,20 +248,13 @@ class OutputParser:
 #                else: previousLineBlank=False
 #        return lines
     
-    
-#        try:
-#            for line in f:
-#                if 'Frequency' in line:
-#                    
-#                    
-#        finally:
-#            f.close()
             
 if __name__=='__main__':
     o=OutputParser('/home/jbk/gulp3.0/newkc24PhononOpt/phon6x3FineMeshVecs.gout')
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/phonSmallFineMesh.gout')
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/test.out')
-    o.getEigsNVecsFast(outputFile="PolarizationsTest.dat")
+    #o.getEigsNVecsFast(outputFile="PolarizationsTest.dat")
+    o.getKpoints()
     #f=file('test.log','w')
     #print >>f, o.getEigsNVecsFast()
     #print readEigVecs()
