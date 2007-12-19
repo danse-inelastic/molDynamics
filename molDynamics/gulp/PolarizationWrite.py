@@ -41,7 +41,7 @@ as a numpy."""
         version,  = unpack('<i',f[i:i+intSize])               ; i += intSize
         comment,  = unpack('<1024s',f[i:i+1024*strSize])      ; i += 1024*strSize
         D,N_b,N_q = unpack('<3i',f[i:i+3*intSize])            ; i += 3*intSize
-        res       = unpack('<%id' % (N_q*N_b*D*N_b*D*2),f[i:])
+        res       = unpack('<%id' % (N_b*D*2),f[i:])
         res = numpy.array(res)
         res.shape = (N_q,N_b*D,N_b,D,2)
         Pols = res[:,:,:,:,0] + 1j*res[:,:,:,:,1]
