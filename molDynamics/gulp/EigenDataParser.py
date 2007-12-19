@@ -38,7 +38,7 @@ eigAndVec = frequencyLine + \
 
 eigsAndVecs = OneOrMore(eigAndVec)
 
-class OutputParser:
+class EigenDataParser:
     
     def __init__(self,gulpOutputFile,inventory=''):
         
@@ -99,6 +99,34 @@ class OutputParser:
         self.vecs=self.vecs.reshape((self.numKpoints,self.numModes,self.numAtoms,3))
         writeEigVecs(self.vecs,outputFile)
         return       
+
+    def getAndWriteVecs(self,gulpOutput):
+        mode1=np.zeros((self.numAtoms,3),dtype=complex)
+        mode2=np.zeros((self.numAtoms,3),dtype=complex)
+        mode3=np.zeros((self.numAtoms,3),dtype=complex)
+        def assignOperand(num):
+            if num[0] in '0123456789':
+                return '+'
+            elif num[0]=='-':
+                return ''
+            else:
+                sys.stderr.write('unknown operator')
+                sys.exit(2)
+        for i in range(self.numAtoms):
+            for j in range(3):
+                vals = (gulpOutput.readline().split())[2:]
+                operand1=assignOperand(vals[1])
+                operand3=assignOperand(vals[3])
+                operand5=assignOperand(vals[5])
+                #print vals, operand1
+                mode1[i][j]=complex(vals[0]+operand1+vals[1]+'j')
+                mode2[i][j]=complex(vals[2]+operand3+vals[3]+'j')
+                mode3[i][j]=complex(vals[4]+operand5+vals[5]+'j')
+        self.vecs.append(mode1)
+        self.vecs.append(mode2)
+        self.vecs.append(mode3)
+#    def writeEigVecsToFile(self):
+#        writeEigVecs
 
     def getEigsNVecsFast(self,outputFile="Polarizations.dat"):
         '''gets eigenvalues and vectors fast'''
@@ -194,7 +222,7 @@ class OutputParser:
         dataSource=kpointLines.scanString(brillouinZonePart)
         for data, dataStart, dataEnd in dataSource:
             self.kpoints.append(data.asList())
-        print self.kpoints 
+        return self.kpoints 
         
 #------------------------------------------------------------deprecated        
     def readChunk(self, gulpOutput, chunkSize=1000):
@@ -254,7 +282,8 @@ if __name__=='__main__':
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/phonSmallFineMesh.gout')
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/test.out')
     #o.getEigsNVecsFast(outputFile="PolarizationsTest.dat")
-    o.getKpoints()
+    #o.getKpoints()
+    o.getEigsOneByOne(outputFile="/home/jbk/DANSE/MolDyn/molDynamics/tests/gulpTests/parsingTests/PolarizationsTest.dat")
     #f=file('test.log','w')
     #print >>f, o.getEigsNVecsFast()
     #print readEigVecs()
