@@ -168,7 +168,7 @@ if __name__=='__main__':
     #o=OutputParser('/home/jbk/gulp3.0/newkc24PhononOpt/phon6x3FineMeshVecs.gout')
     o=LargeEigenDataParser('/home/jbk/gulp3.0/kc24PhononsOpt/phonSmallFineMesh.gout',
         polarizationsFilename=mdParsing+sep+"PolarizationsTest.dat",
-        EsFilename="Es.dat")
+        EsFilename=mdParsing+sep+"Es.dat")
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/test.out')
     #o.getEigsNVecsFast(outputFile="PolarizationsTest.dat")
     #o.getKpoints()
