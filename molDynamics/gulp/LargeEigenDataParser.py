@@ -5,7 +5,7 @@ from os import sep
 import re, sys
 #import scipy.io
 from molDynamics.gulp.E import write as writeEs
-from molDynamics.gulp.PolarizationIO import PolarizationIO
+from molDynamics.gulp.PolarizationWrite import PolarizationWrite
 
 # numbers: 1, 30.0, 1e-5, -99
 number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) + \
@@ -55,11 +55,11 @@ class LargeEigenDataParser:
         self.gulpOutputFile=gulpOutputFile
         self.EsFilename=EsFilename
         #temp=file(inventory.sample.i.atomicStructure.i.xyzFile.i.inputFile)
-        self.numAtoms=124#int(temp.readline())
+        self.numAtoms=62#int(temp.readline())
 #        self.numAtoms=1116#int(temp.readline())
         self.numModes=3*self.numAtoms
         self.numKpoints=0
-        self.pIO=PolarizationIO(filename=polarizationsFilename, 
+        self.pWrite=PolarizationWrite(filename=polarizationsFilename, 
                                 numAtoms=self.numAtoms, numks=self.numKpoints)
         
     def parseEigsOneByOne(self):
@@ -131,9 +131,9 @@ class LargeEigenDataParser:
         mode1=mode1.reshape(self.numAtoms,3)
         mode2=mode2.reshape(self.numAtoms,3)
         mode3=mode3.reshape(self.numAtoms,3)
-        self.pIO.writeVec(mode1)
-        self.pIO.writeVec(mode2)
-        self.pIO.writeVec(mode3)
+        self.pWrite.writeVec(mode1)
+        self.pWrite.writeVec(mode2)
+        self.pWrite.writeVec(mode3)
         
     def getKpoints(self):
         gulpOutput = file(self.gulpOutputFile)
