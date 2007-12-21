@@ -5,7 +5,7 @@ from os import sep
 import re, sys
 #import scipy.io
 from molDynamics.gulp.E import write as writeEs
-from molDynamics.gulp.PolarizationWrite import PolarizationWrite
+from molDynamics.gulp.NetcdfPolarizationWrite import NetcdfPolarizationWrite
 
 # numbers: 1, 30.0, 1e-5, -99
 number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) + \
@@ -42,7 +42,7 @@ class LargeEigenDataParser:
     
     hbarTimesC=6.58211899e-16*10e3*29.978*10e9#hbar eV*s * 1 meV/eV * c cm/s = hbarTimesC meV*cm
     
-    def __init__(self, gulpOutputFile, inventory='',EsFilename="Es.dat", polarizationsFilename="Polarizations.dat"):
+    def __init__(self, gulpOutputFile, inventory='',EsFilename="Es.dat", polarizationsFilename="Polarizations.nc"):
         # because output file may be quite large, we must parse only the parts we want and 
         # immediately extract them and put them in the desired return format
         
@@ -59,7 +59,9 @@ class LargeEigenDataParser:
 #        self.numAtoms=1116#int(temp.readline())
         self.numModes=3*self.numAtoms
         self.numKpoints=0
-        self.pWrite=PolarizationWrite(filename=polarizationsFilename, 
+#        self.pWrite=PolarizationWrite(filename=polarizationsFilename, 
+#                                numAtoms=self.numAtoms, numks=self.numKpoints)
+        self.polWrite=NetcdfPolarizationWrite(filename=polarizationsFilename, 
                                 numAtoms=self.numAtoms, numks=self.numKpoints)
         
     def parseEigsOneByOne(self):
@@ -75,6 +77,8 @@ class LargeEigenDataParser:
                 break
         self.eigs=[]
         self.vecs=[]
+        kpointIndex=0
+        branchIndex=0
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
@@ -88,8 +92,12 @@ class LargeEigenDataParser:
                     self.eigs += map(lambda x: float(x),(line.split())[1:])
             elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
                 gulpOutput.readline()
-                self.getAndWriteVecs(gulpOutput)
+                self.getAndWriteVecs(kpointIndex,gulpOutput)
+                branchIndex+=3
 #                self.eigs.append(eig)
+            if branchIndex==self.numModes:
+                kpointIndex+=1
+                branchIndex=0
         gulpOutput.close()
         self.eigs=np.array(self.eigs)
         #turn these into energies
@@ -100,7 +108,7 @@ class LargeEigenDataParser:
         self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
         writeEs(self.eigs, self.EsFilename)    
 
-    def getAndWriteVecs(self,gulpOutput):
+    def getAndWriteVecs(self,kpointIndex,gulpOutput):
         mode1=np.zeros((self.numAtoms*3),dtype=complex)
         mode2=np.zeros((self.numAtoms*3),dtype=complex)
         mode3=np.zeros((self.numAtoms*3),dtype=complex)
@@ -120,6 +128,7 @@ class LargeEigenDataParser:
             if line=="\n": # this kicks us out when we get to the end of the block
                 break
             vals = (line.split())[2:]
+            #print vals
             operand1=assignOperand(vals[1])
             operand3=assignOperand(vals[3])
             operand5=assignOperand(vals[5])
@@ -131,9 +140,9 @@ class LargeEigenDataParser:
         mode1=mode1.reshape(self.numAtoms,3)
         mode2=mode2.reshape(self.numAtoms,3)
         mode3=mode3.reshape(self.numAtoms,3)
-        self.pWrite.writeVec(mode1)
-        self.pWrite.writeVec(mode2)
-        self.pWrite.writeVec(mode3)
+        self.polWrite.writeVec(kpointIndex,mode1)
+        self.polWrite.writeVec(kpointIndex,mode2)
+        self.polWrite.writeVec(kpointIndex,mode3)
         
     def getKpoints(self):
         gulpOutput = file(self.gulpOutputFile)

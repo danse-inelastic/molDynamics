@@ -11,8 +11,7 @@ strSize = calcsize('<s')
 
 class PolarizationWrite:
     
-    def __init__(self, filename='Polarizations', comment='',
-                 dimension=3, numAtoms=1, numks=1):
+    def __init__(self, filename='Polarizations', comment='', dimension=3, numAtoms=1, numks=1):
         self.f=open(filename,'w')
         self.f.write(pack('<64s','Polarizations'))
         self.f.write(pack('<i',version))
@@ -22,12 +21,13 @@ class PolarizationWrite:
         self.f.write(pack('<i',numks))
 
     def writeVec(self,vec):
-        """Takes numpy Polarizations with shape (N_b,D) and writes \n
-to binary file."""
-    
+        """Takes numpy Polarizations with shape (N_b,D) and writes to binary file."""
+        #print vec,vec.shape
         res = numpy.zeros( vec.shape + (2,) )
         res[:,:,0] = numpy.real(vec)
         res[:,:,1] = numpy.imag(vec)
         res = tuple( res.reshape( (-1) ) )
+        print len(res)
         self.f.write( pack('<%id' % len(res),*res) )
+        #print 'wrote this'
 
