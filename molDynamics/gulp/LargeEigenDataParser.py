@@ -97,7 +97,7 @@ class LargeEigenDataParser:
         #print self.eigs.shape
         #print (self.numKpoints,self.numModes)
         #reshape according to the number of kpoints
-        self.eigs.reshape((self.numKpoints, self.numModes))
+        self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
         writeEs(self.eigs, self.EsFilename)    
 
     def getAndWriteVecs(self,gulpOutput):
