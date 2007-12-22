@@ -58,11 +58,11 @@ class LargeEigenDataParser:
         self.numAtoms=62#int(temp.readline())
 #        self.numAtoms=1116#int(temp.readline())
         self.numModes=3*self.numAtoms
-        self.numKpoints=0
+        self.numKpoints=1
 #        self.pWrite=PolarizationWrite(filename=polarizationsFilename, 
 #                                numAtoms=self.numAtoms, numks=self.numKpoints)
         self.polWrite=NetcdfPolarizationWrite(filename=polarizationsFilename, 
-                                numAtoms=self.numAtoms, numks=self.numKpoints)
+                                numks=self.numKpoints,numAtoms=self.numAtoms)
         
     def parseEigsOneByOne(self):
         '''gets eigenvalues and vectors one by one and writes them to file--good for BIG eigenvectors'''
@@ -78,7 +78,7 @@ class LargeEigenDataParser:
         self.eigs=[]
         self.vecs=[]
         kpointIndex=0
-        branchIndex=0
+        modeIndex=0
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
@@ -92,12 +92,12 @@ class LargeEigenDataParser:
                     self.eigs += map(lambda x: float(x),(line.split())[1:])
             elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
                 gulpOutput.readline()
-                self.getAndWriteVecs(kpointIndex,gulpOutput)
-                branchIndex+=3
+                self.getAndWriteVecs(kpointIndex,modeIndex,gulpOutput)
+                modeIndex+=3
 #                self.eigs.append(eig)
-            if branchIndex==self.numModes:
+            if modeIndex==self.numModes:
                 kpointIndex+=1
-                branchIndex=0
+                modeIndex=0
         gulpOutput.close()
         self.eigs=np.array(self.eigs)
         #turn these into energies
@@ -108,7 +108,41 @@ class LargeEigenDataParser:
         self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
         writeEs(self.eigs, self.EsFilename)    
 
-    def getAndWriteVecs(self,kpointIndex,gulpOutput):
+    def getAndWriteVecs(self, kpointIndex, modeIndex, gulpOutput):
+        mode1=np.zeros((self.numModes,2))
+        mode2=np.zeros((self.numModes,2))
+        mode3=np.zeros((self.numModes,2))
+        def assignOperand(num):
+            if num[0] in '0123456789':
+                return '+'
+            elif num[0]=='-':
+                return ''
+            else:
+                sys.stderr.write('unknown operator')
+                sys.exit(2)
+#        for i in range(self.numAtoms):
+#            for j in range(3):
+        i=0
+        while True:
+            line = gulpOutput.readline()
+            if line=="\n": # this kicks us out when we get to the end of the block
+                break
+            vals = (line.split())[2:]
+            #print vals
+            mode1[i][:]=np.array(vals[0:2])
+            mode2[i][:]=np.array(vals[2:4])
+            mode3[i][:]=np.array(vals[4:6])
+            i+=1
+        mode1=mode1.reshape(self.numAtoms,3,2)
+        mode2=mode2.reshape(self.numAtoms,3,2)
+        mode3=mode3.reshape(self.numAtoms,3,2)
+        #print 'mode1',mode1
+        #sys.exit()
+        self.polWrite.writeVec(kpointIndex, modeIndex, mode1)
+        self.polWrite.writeVec(kpointIndex, modeIndex+1, mode2)
+        self.polWrite.writeVec(kpointIndex, modeIndex+2, mode3)
+
+    def getAndWriteVecsAsComplex(self, kpointIndex, modeIndex, gulpOutput):
         mode1=np.zeros((self.numAtoms*3),dtype=complex)
         mode2=np.zeros((self.numAtoms*3),dtype=complex)
         mode3=np.zeros((self.numAtoms*3),dtype=complex)
@@ -140,9 +174,9 @@ class LargeEigenDataParser:
         mode1=mode1.reshape(self.numAtoms,3)
         mode2=mode2.reshape(self.numAtoms,3)
         mode3=mode3.reshape(self.numAtoms,3)
-        self.polWrite.writeVec(kpointIndex,mode1)
-        self.polWrite.writeVec(kpointIndex,mode2)
-        self.polWrite.writeVec(kpointIndex,mode3)
+        self.polWrite.writeVec(kpointIndex, modeIndex, mode1)
+        self.polWrite.writeVec(kpointIndex, modeIndex+1, mode2)
+        self.polWrite.writeVec(kpointIndex, modeIndex+2, mode3)
         
     def getKpoints(self):
         gulpOutput = file(self.gulpOutputFile)
