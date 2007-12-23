@@ -138,9 +138,12 @@ class LargeEigenDataParser:
         mode3=mode3.reshape(self.numAtoms,3,2)
         #print 'mode1',mode1
         #sys.exit()
-        self.polWrite.writeVec(kpointIndex, modeIndex, mode1)
-        self.polWrite.writeVec(kpointIndex, modeIndex+1, mode2)
-        self.polWrite.writeVec(kpointIndex, modeIndex+2, mode3)
+#        self.polWrite.writeVec(kpointIndex, modeIndex, mode1)
+#        self.polWrite.writeVec(kpointIndex, modeIndex+1, mode2)
+#        self.polWrite.writeVec(kpointIndex, modeIndex+2, mode3)
+        self.polWrite.writeVec(mode1)
+        self.polWrite.writeVec(mode2)
+        self.polWrite.writeVec(mode3)
 
     def getAndWriteVecsAsComplex(self, kpointIndex, modeIndex, gulpOutput):
         mode1=np.zeros((self.numAtoms*3),dtype=complex)
