@@ -40,7 +40,7 @@ eigsAndVecs = OneOrMore(eigAndVec)
 
 class LargeEigenDataParser:
     
-    hbarTimesC=6.58211899e-16*10e3*29.978*10e9#hbar eV*s * 1 meV/eV * c cm/s = hbarTimesC meV*cm
+    hbarTimesC=6.58211899e-16*1e3*29.978*1e9#hbar eV*s * 1 meV/eV * c cm/s = hbarTimesC meV*cm
     
     def __init__(self, gulpOutputFile, inventory='',EsFilename="Es.dat", polarizationsFilename="Polarizations.nc"):
         # because output file may be quite large, we must parse only the parts we want and 
@@ -55,17 +55,20 @@ class LargeEigenDataParser:
         self.gulpOutputFile=gulpOutputFile
         self.EsFilename=EsFilename
         #temp=file(inventory.sample.i.atomicStructure.i.xyzFile.i.inputFile)
-        self.numAtoms=62#int(temp.readline())
+        self.numAtoms=1116#int(temp.readline())
 #        self.numAtoms=1116#int(temp.readline())
         self.numModes=3*self.numAtoms
-        self.numKpoints=1
+        self.parseKpoints()
 #        self.pWrite=PolarizationWrite(filename=polarizationsFilename, 
 #                                numAtoms=self.numAtoms, numks=self.numKpoints)
         self.polWrite=NetcdfPolarizationWrite(filename=polarizationsFilename, 
-                                numks=self.numKpoints,numAtoms=self.numAtoms)
+                                numks=self.numKpoints, numAtoms=self.numAtoms)
         
     def parseEigsOneByOne(self):
         '''gets eigenvalues and vectors one by one and writes them to file--good for BIG eigenvectors'''
+        
+        self.numKpoints=len(self.getKpoints())
+        
         gulpOutput = file(self.gulpOutputFile)
         while True:
             line = gulpOutput.readline()
@@ -181,7 +184,7 @@ class LargeEigenDataParser:
         self.polWrite.writeVec(kpointIndex, modeIndex+1, mode2)
         self.polWrite.writeVec(kpointIndex, modeIndex+2, mode3)
         
-    def getKpoints(self):
+    def parseKpoints(self):
         gulpOutput = file(self.gulpOutputFile)
         brillouinZonePart=''
         #first look for Brillouin zone sampling part of output file:
@@ -206,7 +209,11 @@ class LargeEigenDataParser:
         dataSource=kpointLines.scanString(brillouinZonePart)
         for data, dataStart, dataEnd in dataSource:
             self.kpoints.append(data.asList())
-        return self.kpoints 
+        self.numKpoints=len(self.kpoints)
+                 
+    def getKpoints(self):
+        return self.kpoints
+
     
             
 if __name__=='__main__':

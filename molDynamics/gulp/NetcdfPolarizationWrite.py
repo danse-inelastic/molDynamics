@@ -37,7 +37,7 @@ class NetcdfPolarizationWrite:
         """Takes numpy Polarizations and writes to binary file."""
         #print 'vec to be written',vec
         vec=vec.reshape(-1)
-        #print kIndex, branchIndex, vec
+        #print vec
 #        self.polarizations[kIndex][branchIndex]=vec
 #        print 'wrote self.polarizations[kIndex][branchIndex]=',self.polarizations[kIndex][branchIndex]
         #print 'polarizations before',self.polarizations[self.currentIndex:self.currentIndex+len(vec)]
