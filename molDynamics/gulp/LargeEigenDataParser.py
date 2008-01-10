@@ -51,7 +51,8 @@ class LargeEigenDataParser:
 
         # so eventually take the inventory and decide which values have been set and look for them (or have an object 
         # which has this information encoded)
-        
+        self.removeNegativeFrequencies=True # eventually put in a way to remove negative frequencies
+        self.convertToEnergies=True
         self.gulpOutputFile=gulpOutputFile
         self.EsFilename=EsFilename
         #temp=file(inventory.sample.i.atomicStructure.i.xyzFile.i.inputFile)
@@ -66,8 +67,6 @@ class LargeEigenDataParser:
         
     def parseEigsOneByOne(self):
         '''gets eigenvalues and vectors one by one and writes them to file--good for BIG eigenvectors'''
-        
-        self.numKpoints=len(self.getKpoints())
         
         gulpOutput = file(self.gulpOutputFile)
         while True:
@@ -104,9 +103,10 @@ class LargeEigenDataParser:
         gulpOutput.close()
         self.eigs=np.array(self.eigs)
         #turn these into energies
-        self.eigs=self.hbarTimesC*self.eigs
+        if self.convertToEnergies:
+            self.eigs=self.hbarTimesC*self.eigs
         #print self.eigs.shape
-        #print (self.numKpoints,self.numModes)
+        print (self.numKpoints,self.numModes)
         #reshape according to the number of kpoints
         self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
         writeEs(self.eigs, self.EsFilename)    
