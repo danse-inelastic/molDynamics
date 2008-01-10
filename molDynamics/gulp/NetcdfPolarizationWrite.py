@@ -24,8 +24,8 @@ class NetcdfPolarizationWrite:
 #        dimensions=cdf.def_dim('dimensions',numDimensions)
 #        realOrImaginary=cdf.def_dim('realOrImaginary',2)
 #        self.polarizations = cdf.def_var('polarizations', NC.DOUBLE, (k,modes,atoms,dimensions,realOrImaginary))
-        
-        all = cdf.def_dim('all',numks*numModes*numAtoms*numDimensions*2)
+        totalEntries=numks*numModes*numAtoms*numDimensions*2
+        all = cdf.def_dim('all',totalEntries)
         
         self.polarizations = cdf.def_var('polarizations', NC.DOUBLE, (all))
         #self.polarizations.a

@@ -56,7 +56,7 @@ class LargeEigenDataParser:
         self.gulpOutputFile=gulpOutputFile
         self.EsFilename=EsFilename
         #temp=file(inventory.sample.i.atomicStructure.i.xyzFile.i.inputFile)
-        self.numAtoms=1116#int(temp.readline())
+        self.parseNumAtoms()
 #        self.numAtoms=1116#int(temp.readline())
         self.numModes=3*self.numAtoms
         self.parseKpoints()
@@ -106,7 +106,7 @@ class LargeEigenDataParser:
         if self.convertToEnergies:
             self.eigs=self.hbarTimesC*self.eigs
         #print self.eigs.shape
-        print (self.numKpoints,self.numModes)
+        #print (self.numKpoints,self.numModes)
         #reshape according to the number of kpoints
         self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
         writeEs(self.eigs, self.EsFilename)    
@@ -213,6 +213,17 @@ class LargeEigenDataParser:
                  
     def getKpoints(self):
         return self.kpoints
+    
+    def parseNumAtoms(self):
+        gulpOutput = file(self.gulpOutputFile)
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
+                sys.stderr.write('no kpoints in this output file')
+                sys.exit(2)
+            if 'Total number atoms/shells =' in line:
+                break
+        self.numAtoms=int(line.split()[4])
 
     
             
