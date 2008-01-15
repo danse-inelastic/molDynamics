@@ -34,14 +34,16 @@ def getEnergies(fileName):
 #--- Get the free energy ------------------------------------------
 
 F=[]
+U=[]
 # loop over different temperatures
 for f,T in zip(files,temps):
     T = float(T)
     #extract energies from gulp outputs
     energies,times=getEnergies(f)
     #calculate Q's and F's at each temperature
-    Q=np.sum( np.exp(-1.0*energies/(kb*T)) )/float( len(energies) )
-    F.append(-kb*T*np.log(Q))
+    Q=np.sum( np.exp(energies/(kb*T)) )    #/float( len(energies) )
+    U.append(np.sum(np.exp(energies/(kb*T)) )/Q)     #/float( len(energies) )
+    F.append(kb*T*np.log(Q))
 
 # interpolate to get F -- should equal energy of structure at absolute 0 
 #   (do quick minimization to find out)
