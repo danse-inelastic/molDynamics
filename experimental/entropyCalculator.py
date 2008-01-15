@@ -5,9 +5,8 @@ sym  = 'Ni'
 temps=['0345','0691','1036','1382']
 files=[temp + '/' + sym + '.conv.gout' for temp in temps]
 
-#weird Brandon setup
-#files=['Ni.345.conv.gout','Ni.691.conv.gout','Ni.1036.conv.gout','Ni.1382.conv.gout']
-#temps=[file.split('.')[1] for file in files]
+#--- OR: ---
+# files=[ sym + '.' + str(int(temp)) + '.conv.gout' for temp in temps]
 
 #--- Imports ------------------------------------------------------
 import numpy as np
@@ -41,16 +40,15 @@ for f,T in zip(files,temps):
     #extract energies from gulp outputs
     energies,times=getEnergies(f)
     #calculate Q's and F's at each temperature
-    Q=np.sum( np.exp(energies/(kb*T)) )    #/float( len(energies) )
-    U.append(np.sum(np.exp(energies/(kb*T)) )/Q)     #/float( len(energies) )
+    Q =       np.sum( np.exp(energies/(kb*T)) )    #/float( len(energies) )
+    U.append( np.dot( energies ,np.exp(energies/(kb*T)) )/Q) #/float( len(energies) )
     F.append(kb*T*np.log(Q))
 
-# interpolate to get F -- should equal energy of structure at absolute 0 
+# interpolate to get F -- should equal energy of structure at absolute 0
 #   (do quick minimization to find out)
 
-# get entropy as a function of temperature from S = (U - F )/ T 
+# get entropy as a function of temperature from S = (U - F )/ T
 #   S=(U-F)/temps
-
 
 
 
