@@ -37,13 +37,18 @@ EXPORT_PYTHON_MODULES = \
     __init__.py \
     AtomLoader.py \
     Coordinates.py \
+    E.py \
+    EigenDataParser.py \
     Fit.py \
     Gulp.py \
     KeywordWriter.py \
+    LargeEigenDataParser.py \
     Md.py \
+    NetcdfPolarizationWrite.py \
     Optimize.py \
     OptionWriter.py \
     Phonon.py \
+    PolarizationWrite.py \
     Potential.py \
     TrajectoryType.py \
     Visitable.py \
