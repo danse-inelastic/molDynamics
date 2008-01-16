@@ -46,13 +46,13 @@ statMechNormalizer= -3*N*math.log(h) - (1/2.*math.log(2*math.pi*N) + N*math.log(
 for f,T in zip(files,temps):
     T = float(T)
     #extract energies from gulp outputs
-    energies,times=getEnergies(f)
-    normalizedEns=energies/(kb*T)*eVToMegaeV
-    boltzFactor=np.exp(normalizedEns)
+    energies,times = getEnergies(f)
+    shiftedEnergies = energies/(kb*T) + 80000/(kb*T)
+    boltzFactor = np.exp(shiftedEnergies)
     #calculate Q's and F's at each temperature
     Q =       np.sum( boltzFactor )    #/float( len(energies) )
-    U.append( np.dot( energies , boltzFactor )/Q) #/float( len(energies) )
-    F.append(kb*T*(np.log(Q)+statMechNormalizer))
+    U.append( np.dot(energies, boltzFactor)/Q) #/float( len(energies) )
+    F.append(-kb*T*(np.log(Q)+statMechNormalizer))
 
 # interpolate to get F -- should equal energy of structure at absolute 0
 #   (do quick minimization to find out)
