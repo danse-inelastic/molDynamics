@@ -41,13 +41,14 @@ F=[]
 U=[]
 eVToMegaeV=1e-6
 N=864
-shift=3975
+
 statMechNormalizer= -3*N*math.log(h) - (1/2.*math.log(2*math.pi*N) + N*math.log(N) - N)
 # loop over different temperatures
 for f,T in zip(files,temps):
     T = float(T)
     #extract energies from gulp outputs
     energies,times = getEnergies(f)
+    shift=-energies[0]
     shiftedEnergies = energies/(kb*T) + shift/(kb*T)
     boltzFactor = np.exp(shiftedEnergies)
     #calculate Q's and F's at each temperature
