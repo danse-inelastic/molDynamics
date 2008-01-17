@@ -96,7 +96,7 @@ class LargeEigenDataParser:
                 gulpOutput.readline()
                 self.getAndWriteVecs(kpointIndex,modeIndex,gulpOutput)
                 modeIndex+=3
-                print 'wrote kpoint, mode',kpointIndex,modeIndex
+                print 'LargeEigenDataParser wrote kpoint, mode',kpointIndex,modeIndex
 #                self.eigs.append(eig)
             if modeIndex==self.numModes:
                 kpointIndex+=1
