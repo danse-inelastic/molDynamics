@@ -65,9 +65,40 @@ class LargeEigenDataParser:
         self.polWrite=NetcdfPolarizationWrite(filename=polarizationsFilename, 
                                 numks=self.numKpoints, numAtoms=self.numAtoms)
         
-    def parseEigsOneByOne(self):
-        '''gets eigenvalues and vectors one by one and writes them to file--good for BIG eigenvectors'''
+    def parseEigenvalues(self):
+        '''gets eigenvalues and writes them to file'''
+        gulpOutput = file(self.gulpOutputFile)
+        self.eigs=[]
+        kpointIndex=0
+        modeIndex=0
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
+                break
+            if 'Frequency' in line:
+                #print frequencyLine.parseString(line)
+                #if frequencyLine.parseString(line):
+                space_re='[ \t]+'
+                float_re='[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
+                    self.eigs += map(lambda x: float(x),(line.split())[1:])
+            if modeIndex==self.numModes:
+                kpointIndex+=1
+                modeIndex=0
+        gulpOutput.close()
+        self.eigs=np.array(self.eigs)
+        #turn these into energies
+        if self.convertToEnergies:
+            self.eigs=self.hbarTimesC*self.eigs
+        #print self.eigs.shape
+        #print (self.numKpoints,self.numModes)
+        #reshape according to the number of kpoints
+        self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
+        writeEs(self.eigs, self.EsFilename)  
         
+        
+    def parseEigenvaluesEigenvectorsOneByOne(self):
+        '''gets eigenvalues and vectors one by one and writes them to file--good for BIG eigenvectors'''
         gulpOutput = file(self.gulpOutputFile)
         while True:
             line = gulpOutput.readline()
@@ -110,7 +141,8 @@ class LargeEigenDataParser:
         #print (self.numKpoints,self.numModes)
         #reshape according to the number of kpoints
         self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
-        writeEs(self.eigs, self.EsFilename)    
+        writeEs(self.eigs, self.EsFilename)   
+  
 
     def getAndWriteVecs(self, kpointIndex, modeIndex, gulpOutput):
         mode1=np.zeros((self.numModes,2))
@@ -237,7 +269,7 @@ if __name__=='__main__':
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/test.out')
     #o.getEigsNVecsFast(outputFile="PolarizationsTest.dat")
     #o.getKpoints()
-    o.parseEigsOneByOne()
+    o.parseEigenvaluesEigenvectorsOneByOne()
     #f=file('test.log','w')
     #print >>f, o.getEigsNVecsFast()
     #print readEigVecs()
