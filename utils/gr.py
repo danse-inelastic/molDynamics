@@ -1,48 +1,46 @@
 #!/usr/bin/python
 """
-gr.py (ver 1.0/20060809)
-\tcalculate radial distribution function of ATOMS_AROUND atoms type
-\taround atomas of a type given as ATOM_CENTRAL using the trajectory
-\tgiven in xyz format file
-\tIn the output file it prints: g(r)_id_gas_norm normalized to the number of
-\tparticles in the ideal gas and its integral gives 1,
-\tg(r)_unnorm (where: g(r)_id_gas_norm = g(r)_unnorm / n_ideal),
-\tand g(r)_unnorm_cumsum - cumulative sum of g(r)_unnorm multiplied by number of
-\tATOMS_AROUND type atoms, i.e., g(r)_unnorm_cumsum gives coordination number
-\tfor atoms ATOMS_AROUND around atoms ATOMS_CENTRAL (maximum value of g(r)_unnorm_cumsum
-\tgives number of atoms ATOMS_AROUND in the box)
-\twrriten by Lukasz Cwiklik, cwiklik<<at>>gmail.com
-\thttp://www.molecular.cz/~cwiklik
+gr.py 
+calculate radial distribution function of ATOMS_AROUND atoms type
+around atomas of a type given as ATOM_CENTRAL using the trajectory
+given in xyz format file
+In the output file it prints: g(r)_id_gas_norm normalized to the number of
+particles in the ideal gas and its integral gives 1,
+g(r)_unnorm (where: g(r)_id_gas_norm = g(r)_unnorm / n_ideal), and g(r)_unnorm_cumsum - cumulative sum of g(r)_unnorm multiplied by number of
+ATOMS_AROUND type atoms, i.e., g(r)_unnorm_cumsum gives coordination number
+for atoms ATOMS_AROUND around atoms ATOMS_CENTRAL (maximum value of g(r)_unnorm_cumsum
+gives number of atoms ATOMS_AROUND in the box)
+
 
 Usage:
-\tgr.py [OPTIONS] ATOMS_CENTRAL ATOMS_AROUND LX LY LZ
+gr.py [OPTIONS] ATOMS_CENTRAL ATOMS_AROUND LX LY LZ
 
 ATOMS1, ATOM2
-\tsymbols of atoms for which pair analysis will be performed
-\t(may be the same in order to get self-correlation function)
+symbols of atoms for which pair analysis will be performed
+(may be the same in order to get self-correlation function)
 
 LX, LY, LZ
-\tperiodic box lengths on x, y and z direction (not needed if
-\t-n option is set)
+periodic box lengths on x, y and z direction (not needed if
+-n option is set)
 
 Options:
 --help or -h
-\tprint this message
+print this message
 -i argument
-\tname in input file (in xyz format, coords.xyz is default)
+name in input file (in xyz format, coords.xyz is default)
 -o argument
-\tname of output file (gr.out as default)
+name of output file (gr.out as default)
 -f argument
-\tnumber of first time frame to analysis, first frame is default
+number of first time frame to analysis, first frame is default
 -t argument
-\tnumber of last time frame to analysis, last frame is default
+number of last time frame to analysis, last frame is default
 -b argument
-\tbean size (0.02 is default)
+bean size (0.02 is default)
 -n
-\tturn off periodic boundary conditions (pbc are assumed by
-\tdefault), LX, LY, LZ not needed
+turn off periodic boundary conditions (pbc are assumed by
+default), LX, LY, LZ not needed
 -x
-\ttake into account all atoms (ATOM1 and ATOM2 must not be set)
+take into account all atoms (ATOM1 and ATOM2 must not be set)
 """
 
 import sys, os, math, glob, getopt, string
