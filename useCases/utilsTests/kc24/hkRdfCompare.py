@@ -36,15 +36,18 @@ plot(x,y)
 title('H-K')
 axis(limits)
 
-x,y=extractColumns('kH2Rdf.out')
+x,y=extractColumns('allRdf.out')
 subplot(223)
 plot(x,y)
-title('K-H')
+title('all')
 axis(limits)
 
 x,y=extractColumns('h2Rdf.out')
 subplot(224)
 plot(x,y)
+x,y=extractColumns('h2Rdf.out')
+plot(x,y)
+
 title('H')
 axis(limits)
 
