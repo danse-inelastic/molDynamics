@@ -318,6 +318,13 @@ def main(argv=None):
             volume = 1.0 # volume=unity / why not ;)
         rho = float(n_atoms) / volume
         ideal_constant = 4.0 * math.pi * rho / 3.0
+        
+        bigGConstant = 4.0 * math.pi * rho
+        
+        for item in grHistogram:
+            print grHistogram
+        print len(grHistogram)
+        
         for i_norm in range(len(grHistogram)):
             #Allen Ch. 6.2 (but here with zero-based indexing)
             rlower = i_norm * opts.bean
@@ -373,5 +380,6 @@ def main(argv=None):
         return 2
 
 if __name__ == "__main__":
-    sys.exit(main())
+    #sys.exit(main())
+    main()
 
