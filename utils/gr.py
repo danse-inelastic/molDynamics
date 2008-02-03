@@ -300,7 +300,7 @@ def main(argv=None):
                 raise Usage, err
         
         for i_normf in range(len(grHistogram)):
-            grHistogram[i_normf] = float(grHistogram[i_normf]) / analyzedFramesCounter / n_analyzed
+            grHistogram[i_normf] = float(grHistogram[i_normf]) / analyzedFramesCounter
         # storing unnormalized to the ideal gas data and cumulative sum (for printing)
         #and multiplying by number of atoms of second type!
         grHistogramUnnorm = []
@@ -316,22 +316,28 @@ def main(argv=None):
             volume = float(opts.lx * opts.ly * opts.lz)
         else:
             volume = 1.0 # volume=unity / why not ;)
-        rho = float(n_atoms) / volume
-        ideal_constant = 4.0 * math.pi * rho / 3.0
-        
-        bigGConstant = 4.0 * math.pi * rho
-        
-        for item in grHistogram:
-            print grHistogram
-        print len(grHistogram)
-        
-        for i_norm in range(len(grHistogram)):
-            #Allen Ch. 6.2 (but here with zero-based indexing)
-            rlower = i_norm * opts.bean
-            rupper = rlower + opts.bean
-            nideal = ideal_constant * (math.pow(rupper,3) - math.pow(rlower,3))
-            grHistogram[i_norm] = float(grHistogram[i_norm]) / nideal
+            
+        rho = float(n_analyzed) / volume
 
+#        rho = float(n_atoms) / volume
+#        ideal_constant = 4.0 * math.pi * rho / 3.0
+#        for i_norm in range(len(grHistogram)):
+#            #Allen Ch. 6.2 (but here with zero-based indexing)
+#            rlower = i_norm * opts.bean
+#            rupper = rlower + opts.bean
+#            nideal = ideal_constant * (math.pow(rupper,3) - math.pow(rlower,3))
+#            grHistogram[i_norm] = float(grHistogram[i_norm]) / nideal
+            
+        #bigGConstant = 4.0 * math.pi * rho
+        #for item in grHistogram:
+        #    print item
+        #print len(grHistogram)
+        GrHistogram = []
+        for i_norm in range(len(grHistogram)):
+            curr_r = 0.5*opts.bean + i_norm * opts.bean
+            grHistogram[i_norm] = volume/(4*math.pi*curr_r**2*n_analyzed**2) * float(grHistogram[i_norm]) 
+            GrHistogram.append(4*math.pi*rho*curr_r*(float(grHistogram[i_norm]) - 1.0))
+            
         fo = open(opts.out_filename, "w")
 
         out_line = "# gr.py output, gr.py by Lukasz Cwiklik, cwiklik<at>gmail.com\n"
@@ -353,9 +359,10 @@ def main(argv=None):
         out_line =  "# number of analyzed time frames: " + str(analyzedFramesCounter) + "\n"
         fo.write(out_line)
         out_line = "#r".ljust(20) + \
-              "g(r)_id_gas_norm".ljust(20) + \
+              "G(r)_norm".ljust(20) + \
               "g(r)_unnonorm".ljust(20) + \
               "g(r)_unnorm_cumsum".ljust(20) + "\n"
+        #"g(r)_id_gas_norm".ljust(20) + \
         fo.write(out_line)
         for i in range(len(grHistogram)):
             curr_r = 0.5*opts.bean + i * opts.bean
