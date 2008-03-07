@@ -1156,3 +1156,4 @@ sample 5.0 fs
 output movie xyz kc24-70K.xyz
 output history kc24-70K.his
 write 0.25 ps
+dump molDynamics.res

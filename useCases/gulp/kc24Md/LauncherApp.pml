@@ -3,7 +3,7 @@
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !
 !
-! [u'[u"[\'{LicenseText}\']"]']
+! [u'[u\'[u"[\\\'{LicenseText}\\\']"]\']']
 !
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
@@ -48,7 +48,7 @@
             <property name="timestampLine"> Generated automatically by %s on %s</property>
             <property name="help-components">False</property>
             <property name="lastLine"> End of file </property>
-            <property name="licenseText">[u'[u\'[u"[\\\'{LicenseText}\\\']"]\']']</property>
+            <property name="licenseText">[u'[u\'[u\\\'[u"[\\\\\\\'{LicenseText}\\\\\\\']"]\\\']\']']</property>
             <property name="copyrightLine">(C) %s  All Rights Reserved</property>
             <property name="organization"></property>
             <property name="bannerWidth">78</property>
@@ -61,6 +61,6 @@
 <!-- version-->
 <!-- $Id$-->
 
-<!-- Generated automatically by Renderer on Sun Nov 25 15:49:55 2007-->
+<!-- Generated automatically by Renderer on Thu Mar  6 16:10:42 2008-->
 
 <!-- End of file -->

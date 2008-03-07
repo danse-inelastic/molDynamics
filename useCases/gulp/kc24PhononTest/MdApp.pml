@@ -3,7 +3,7 @@
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !
 !
-! [u'[u"[\'{LicenseText}\']"]']
+! [u'[u\'[u"[\\\'{LicenseText}\\\']"]\']']
 !
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
@@ -23,7 +23,7 @@
         <component name="gulp">
             <property name="help-persistence">False</property>
             <property name="help">False</property>
-            <property name="Engine Executable Path">/home/jbk/gulp3.0/Src/gulp</property>
+            <property name="Engine Executable Path">/home/jbk/gulp-3.4-dev--amw--17-2-08/Src/gulp</property>
             <property name="Log Filename">molDynamics.log</property>
             <facility name="Sample">Sample</facility>
             <property name="help-properties">False</property>
@@ -31,7 +31,7 @@
             <property name="help-components">False</property>
             <property name="runType">phonon</property>
             <property name="Compute Material Properties">False</property>
-            <property name="outputDir">/home/jbk/DANSE/molDynamics/tests/gulpTests/kc24PhononTest</property>
+            <property name="outputDir">/home/jbk/DANSE/MolDyn/molDynamics/useCases/gulp/kc24PhononTest</property>
             <property name="Input Filename">kc24-70K.gin</property>
 
             <component name="Sample">
@@ -42,14 +42,13 @@
                 <property name="help-properties">False</property>
                 <property name="Temperature or Initial Energy (K)">None</property>
                 <property name="help-components">False</property>
-                <property name="Partial Charges">None</property>
 
                 <component name="xyzFile">
                     <property name="help-components">False</property>
                     <property name="help-properties">False</property>
                     <property name="help-persistence">False</property>
                     <property name="help">False</property>
-                    <property name="inputFile">/home/jbk/DANSE/molDynamics/tests/gulpTests/kc24PhononTest/kc24Relaxed.xyz</property>
+                    <property name="inputFile">/home/jbk/DANSE/MolDyn/molDynamics/useCases/gulp/kc24PhononTest/kc24Relaxed.xyz</property>
                 </component>
 
             </component>
@@ -69,7 +68,7 @@
 
             <component name="potential">
                 <property name="help-persistence">False</property>
-                <property name="Try to Identify Molecules">identify molecules; retain intramolecular Coulomb</property>
+                <property name="Try to Identify Molecules">identify molecules; retain intramolecular Coulomb forces</property>
                 <property name="Assign Bonding Based on Initial Geometry Only">True</property>
                 <property name="Calculate Dispersion in Reciprocal Space">False</property>
                 <property name="help-properties">False</property>
@@ -82,7 +81,7 @@
                     <property name="help-properties">False</property>
                     <property name="help-persistence">False</property>
                     <property name="help">False</property>
-                    <property name="inputFile">/home/jbk/DANSE/molDynamics/tests/gulpTests/kc24PhononTest/graphite.lib</property>
+                    <property name="inputFile">/home/jbk/DANSE/MolDyn/molDynamics/useCases/gulp/kc24PhononTest/graphite.lib</property>
                 </component>
 
             </component>
@@ -103,7 +102,7 @@
             <property name="timestampLine"> Generated automatically by %s on %s</property>
             <property name="help-components">False</property>
             <property name="lastLine"> End of file </property>
-            <property name="licenseText">[u'[u\'[u"[\\\'{LicenseText}\\\']"]\']']</property>
+            <property name="licenseText">[u'[u\'[u\\\'[u"[\\\\\\\'{LicenseText}\\\\\\\']"]\\\']\']']</property>
             <property name="copyrightLine">(C) %s  All Rights Reserved</property>
             <property name="organization"></property>
             <property name="bannerWidth">78</property>
@@ -116,6 +115,6 @@
 <!-- version-->
 <!-- $Id$-->
 
-<!-- Generated automatically by Renderer on Sat Dec  1 13:52:34 2007-->
+<!-- Generated automatically by Renderer on Thu Mar  6 15:54:22 2008-->
 
 <!-- End of file -->
