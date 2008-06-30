@@ -35,12 +35,12 @@
             <property name="Input Filename">kc24-70K.gin</property>
 
             <component name="Sample">
-                <property name="Pressure (GPa)">None</property>
+                <property name="Pressure (GPa)">0</property>
                 <property name="atomicStructure">xyzFile</property>
                 <property name="help-persistence">False</property>
                 <property name="help">False</property>
                 <property name="help-properties">False</property>
-                <property name="Temperature or Initial Energy (K)">None</property>
+                <property name="Temperature or Initial Energy (K)">0</property>
                 <property name="help-components">False</property>
 
                 <component name="xyzFile">
