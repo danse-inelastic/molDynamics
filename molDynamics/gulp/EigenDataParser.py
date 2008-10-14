@@ -1,3 +1,7 @@
+#NOTE: this class is probably deprecated--the newer was LargeEigenDataParser 
+#which was later renamed to OutputParser
+
+
 from pyparsing import *
 import pickle
 import numpy as np

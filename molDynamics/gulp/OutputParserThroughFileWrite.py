@@ -38,11 +38,12 @@ eigAndVec = frequencyLine + \
 
 eigsAndVecs = OneOrMore(eigAndVec)
 
-class LargeEigenDataParser:
+class OutputParserThroughFileWrite:
     
     hbarTimesC=6.58211899e-16*1e3*29.978*1e9#hbar eV*s * 1 meV/eV * c cm/s = hbarTimesC meV*cm
+    parsingEigenvalues=False
     
-    def __init__(self, gulpOutputFile, inventory='',EsFilename="Es.dat", polarizationsFilename="Polarizations.nc"):
+    def __init__(self, gulpOutputFile='', inventory='',EsFilename="Es.dat", polarizationsFilename="Polarizations.nc"):
         # because output file may be quite large, we must parse only the parts we want and 
         # immediately extract them and put them in the desired return format
         
@@ -65,9 +66,30 @@ class LargeEigenDataParser:
         self.polWrite=NetcdfPolarizationWrite(filename=polarizationsFilename, 
                                 numks=self.numKpoints, numAtoms=self.numAtoms)
         
+    def parseInitialConfiguration(self):
+        '''gets the initial configuration from gulp's output file--Unfinished'''
+        import urllib
+        gulpOutput = urllib.urlopen(self.gulpOutputFile)
+        self.initialConfiguration=[]
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
+                break
+            if 'Frequency' in line:
+                #print frequencyLine.parseString(line)
+                #if frequencyLine.parseString(line):
+                space_re='[ \t]+'
+                float_re='[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
+                    self.eigs += map(lambda x: float(x),(line.split())[1:])
+            if modeIndex==self.numModes:
+                kpointIndex+=1
+                modeIndex=0        
+        
     def parseEigenvalues(self):
         '''gets eigenvalues and writes them to file'''
-        gulpOutput = file(self.gulpOutputFile)
+        import urllib
+        gulpOutput = urllib.urlopen(self.gulpOutputFile)
         self.eigs=[]
         kpointIndex=0
         modeIndex=0
@@ -96,10 +118,49 @@ class LargeEigenDataParser:
         self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
         writeEs(self.eigs, self.EsFilename)  
         
+    def getGammaPtEigenvaluesAndEigenvectors(self):
+        '''returns eigenvalues and vectors when kpt is 0,0,0'''
+        import urllib
+        gulpOutput = urllib.urlopen(self.gulpOutputFile)               
+        self.eigs=[]
+        self.vecs=[]
+        kpointIndex=0
+        modeIndex=0
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
+                break
+            if 'Frequency' in line:
+                #print frequencyLine.parseString(line)
+                #if frequencyLine.parseString(line):
+                space_re='[ \t]+'
+                float_re='[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
+                    self.eigs += map(lambda x: float(x),(line.split())[1:])
+                for i in range(6):
+                    gulpOutput.readline()
+                self.getAndWriteVecs(kpointIndex,modeIndex,gulpOutput)
+                modeIndex+=6
+                print 'LargeEigenDataParser wrote kpoint, mode',kpointIndex,modeIndex
+#                self.eigs.append(eig)
+            if modeIndex==self.numModes:
+                kpointIndex+=1
+                modeIndex=0
+        gulpOutput.close()
+        self.eigs=np.array(self.eigs)
+        #turn these into energies
+        if self.convertToEnergies:
+            self.eigs=self.hbarTimesC*self.eigs
+        #print self.eigs.shape
+        #print (self.numKpoints,self.numModes)
+        #reshape according to the number of kpoints
+        self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
+        writeEs(self.eigs, self.EsFilename)  
         
     def parseEigenvaluesEigenvectorsOneByOne(self):
         '''gets eigenvalues and vectors one by one and writes them to file--good for BIG eigenvectors'''
-        gulpOutput = file(self.gulpOutputFile)
+        import urllib
+        gulpOutput = urllib.urlopen(self.gulpOutputFile)               
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
@@ -143,6 +204,42 @@ class LargeEigenDataParser:
         self.eigs=self.eigs.reshape((self.numKpoints, self.numModes))
         writeEs(self.eigs, self.EsFilename)   
   
+    def getGammaPtVecs(self, kpointIndex, modeIndex, gulpOutput):
+        mode1=np.zeros((self.numModes,2))
+        mode2=np.zeros((self.numModes,2))
+        mode3=np.zeros((self.numModes,2))
+        def assignOperand(num):
+            if num[0] in '0123456789':
+                return '+'
+            elif num[0]=='-':
+                return ''
+            else:
+                sys.stderr.write('unknown operator')
+                sys.exit(2)
+#        for i in range(self.numAtoms):
+#            for j in range(3):
+        i=0
+        while True:
+            line = gulpOutput.readline()
+            if line=="\n": # this kicks us out when we get to the end of the block
+                break
+            vals = (line.split())[2:]
+            #print vals
+            mode1[i][:]=np.array(vals[0:2])
+            mode2[i][:]=np.array(vals[2:4])
+            mode3[i][:]=np.array(vals[4:6])
+            i+=1
+        mode1=mode1.reshape(self.numAtoms,3,2)
+        mode2=mode2.reshape(self.numAtoms,3,2)
+        mode3=mode3.reshape(self.numAtoms,3,2)
+        #print 'mode1',mode1
+        #sys.exit()
+#        self.polWrite.writeVec(kpointIndex, modeIndex, mode1)
+#        self.polWrite.writeVec(kpointIndex, modeIndex+1, mode2)
+#        self.polWrite.writeVec(kpointIndex, modeIndex+2, mode3)
+        self.polWrite.writeVec(mode1)
+        self.polWrite.writeVec(mode2)
+        self.polWrite.writeVec(mode3)
 
     def getAndWriteVecs(self, kpointIndex, modeIndex, gulpOutput):
         mode1=np.zeros((self.numModes,2))
@@ -218,7 +315,8 @@ class LargeEigenDataParser:
         self.polWrite.writeVec(kpointIndex, modeIndex+2, mode3)
         
     def parseKpoints(self):
-        gulpOutput = file(self.gulpOutputFile)
+        import urllib
+        gulpOutput = urllib.urlopen(self.gulpOutputFile)
         brillouinZonePart=''
         #first look for Brillouin zone sampling part of output file:
         while True:
@@ -248,7 +346,8 @@ class LargeEigenDataParser:
         return self.kpoints
     
     def parseNumAtoms(self):
-        gulpOutput = file(self.gulpOutputFile)
+        import urllib
+        gulpOutput = urllib.urlopen(self.gulpOutputFile)
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
@@ -263,7 +362,7 @@ class LargeEigenDataParser:
 if __name__=='__main__':
     mdParsing="/home/jbk/DANSE/MolDyn/molDynamics/tests/gulpTests/parsingTests"
     #o=OutputParser('/home/jbk/gulp3.0/newkc24PhononOpt/phon6x3FineMeshVecs.gout')
-    o=LargeEigenDataParser('/home/jbk/gulp3.0/kc24PhononsOpt/phonSmallFineMesh.gout',
+    o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/phonSmallFineMesh.gout',
         polarizationsFilename=mdParsing+sep+"PolarizationsTest.dat",
         EsFilename=mdParsing+sep+"Es.dat")
     #o=OutputParser('/home/jbk/gulp3.0/kc24PhononsOpt/test.out')
