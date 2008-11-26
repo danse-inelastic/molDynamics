@@ -43,7 +43,6 @@ EXPORT_PYTHON_MODULES = \
     Gulp.py \
     KeywordWriter.py \
     LargeEigenDataParser.py \
-    Md.py \
     NetcdfPolarizationWrite.py \
     Optimize.py \
     OptionWriter.py \

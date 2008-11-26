@@ -26,26 +26,26 @@ This class maps the API to MMTK commands and executes them."""
         import pyre.inventory as inv 
         integrator = inv.str('Integrator', default = 'velocity-verlet')
         integrator.meta['tip'] = 'type of integrator'
-        runType = inv.str('Run Type', default = 'md')
+        runType = inv.facility('Run Type', default = 'md')
         runType.validator=inv.choice(['md', 'restart md'])
         runType.meta['tip'] = 'type of run'
         runType.meta['importance'] = 9
 
     def __init__(self, name='mmtk'):
         MolDynamics.__init__(self, name, facility='mdEngine')
-        self._setDefaults()
+        #self._setDefaults()
         self.mmtkUniverse = None
         
     def printWarnings(self):
         '''print warnings if the user chooses settings which are incorrect'''
         pass
         
-    def _setDefaults(self):
-        '''set defaults specific to mmtk'''
-        self.i.trajectoryFilename = 'molDynamics.nc'
-        self.i.restartFilename = 'restart.nc'
-        self.i.sampleFrequency = self.i.timeStep*Units.fs
-        self.i.dumpFrequency = self.i.timeStep*Units.fs
+#    def _setDefaults(self):
+#        '''set defaults specific to mmtk'''
+#        self.i.trajectoryFilename = 'molDynamics.nc'
+#        self.i.restartFilename = 'restart.nc'
+#        self.i.sampleFrequency = self.i.timeStep*Units.fs
+#        self.i.dumpFrequency = self.i.timeStep*Units.fs
         
     def _norm(self,vec):
         """gives the Euclidean _norm of a list"""

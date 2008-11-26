@@ -12,8 +12,8 @@
 #
 
 from sample.Sample import Sample
-from UnitCell import UnitCell
-from UnitCellBuilder import UnitCellBuilder
+from crystal.UnitCell import UnitCell
+from crystal.UnitCellBuilder import UnitCellBuilder
 from molDynamics.mmtk.Mmtk import Mmtk
 from molDynamics.mmtk.AmberForcefield import AmberForcefield
 from molDynamics.mmtk.LennardJonesForcefield import LennardJonesForcefield
@@ -21,7 +21,7 @@ from molDynamics.mmtk.LennardJonesForcefield import LennardJonesForcefield
 import unittest 
 import string
 
-molDynamicsHome='/home/brandon/DANSE'
+
 
 appName = "Mmtk"
 caseName = "fulltest"
