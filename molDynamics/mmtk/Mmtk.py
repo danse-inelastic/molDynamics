@@ -26,13 +26,13 @@ This class maps the API to MMTK commands and executes them."""
         import pyre.inventory as inv 
         integrator = inv.str('Integrator', default = 'velocity-verlet')
         integrator.meta['tip'] = 'type of integrator'
-        runType = inv.facility('Run Type', default = 'md')
-        runType.validator=inv.choice(['md', 'restart md'])
+        runType = inv.facility('runType', default = 'md')
+        runType.meta['known_plugins']=['md', 'restart md']
         runType.meta['tip'] = 'type of run'
         runType.meta['importance'] = 9
 
     def __init__(self, name='mmtk'):
-        MolDynamics.__init__(self, name, facility='mdEngine')
+        MolDynamics.__init__(self, name, 'mdEngine')
         #self._setDefaults()
         self.mmtkUniverse = None
         
