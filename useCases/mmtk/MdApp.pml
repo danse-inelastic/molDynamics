@@ -3,7 +3,7 @@
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !
 !
-! {LicenseText}
+! [u"['{LicenseText}']"]
 !
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
@@ -34,34 +34,20 @@
             <property name="outputDir">/home/jbk/DANSE/MolDyn/molDynamics/useCases/mmtk</property>
 
             <component name="Sample">
-                <property name="Pressure (GPa)">None</property>
-                <property name="atomicStructure">unitCellBuilder</property>
+                <property name="Pressure (GPa)">0</property>
+                <property name="atomicStructure">xyzFile</property>
                 <property name="help-persistence">False</property>
                 <property name="help">False</property>
                 <property name="help-properties">False</property>
-                <property name="Temperature or Initial Energy (K)">None</property>
+                <property name="Temperature or Initial Energy (K)">100</property>
                 <property name="help-components">False</property>
 
-                <component name="unitCellBuilder">
+                <component name="xyzFile">
+                    <property name="help-components">False</property>
+                    <property name="help-properties">False</property>
                     <property name="help-persistence">False</property>
                     <property name="help">False</property>
-                    <property name="Unit Cell">UnitCell a=[ 1.  0.  0.], b=[ 0.  1.  0.], c=[ 0.  0.  1.]
-</property>
-                    <property name="Atomic/Species information"></property>
-                    <property name="help-properties">False</property>
-                    <property name="help-components">False</property>
-
-                    <component name="UnitCell">
-                        <property name="c Vector">0.0 0.0 1.0</property>
-                        <property name="help-persistence">False</property>
-                        <property name="help">False</property>
-                        <property name="a Vector">1.0 0.0 0.0</property>
-                        <property name="b Vector">0.0 1.0 0.0</property>
-                        <property name="help-properties">False</property>
-                        <property name="help-components">False</property>
-                        <property name="Space Group">1</property>
-                    </component>
-
+                    <property name="inputFile">/home/jbk/DANSE/MolDyn/molDynamics/useCases/mmtk/argon.xyz</property>
                 </component>
 
             </component>
@@ -101,7 +87,7 @@
             <property name="timestampLine"> Generated automatically by %s on %s</property>
             <property name="help-components">False</property>
             <property name="lastLine"> End of file </property>
-            <property name="licenseText">['{LicenseText}']</property>
+            <property name="licenseText">[u'[u"[\'{LicenseText}\']"]']</property>
             <property name="copyrightLine">(C) %s  All Rights Reserved</property>
             <property name="organization"></property>
             <property name="bannerWidth">78</property>
@@ -114,6 +100,6 @@
 <!-- version-->
 <!-- $Id$-->
 
-<!-- Generated automatically by Renderer on Wed Nov 26 15:02:19 2008-->
+<!-- Generated automatically by Renderer on Thu Nov 27 05:07:37 2008-->
 
 <!-- End of file -->
