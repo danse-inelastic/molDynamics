@@ -30,8 +30,9 @@ This class maps the API to MMTK commands and executes them."""
         runType.meta['known_plugins']=['md', 'restart md']
         runType.meta['tip'] = 'type of run'
         runType.meta['importance'] = 9
-        forcefield = inv.str('Integrator', default = 'velocity-verlet')
-        integrator.meta['tip'] = 'type of integrator'
+        forcefield = inv.facility('forcefield', default = 'md')
+        runType.meta['known_plugins']=['md', 'restart md']
+        runType.meta['tip'] = 'type of run'
 
     def __init__(self, name='mmtk'):
         MolDynamics.__init__(self, name, 'mdEngine')
