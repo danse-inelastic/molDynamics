@@ -85,7 +85,7 @@ This class maps the API to MMTK commands and executes them."""
         
     def _setForcefield(self):
         '''This function sets the forcefield.'''
-        self.ff=self.i.forcefield.getForcefield()
+        self.ff=self.i.forcefields.getForcefield()
         
     def _setInitialConditions(self):
         '''map MolDynamics unit cell stuff to MMTK's. 
@@ -198,7 +198,7 @@ This class maps the API to MMTK commands and executes them."""
         
     def integrate(self):
         '''integrates an atomic system forward in time and produces a trajectory'''
-        self.printErrorMessages()
+        self._printErrorMessages()
         self._setForcefield()
         self._setInitialConditions()
         self.createTrajectoryAndIntegrator()
@@ -212,8 +212,13 @@ This class maps the API to MMTK commands and executes them."""
             raise Exception, 'your ensemble is not suppported by mmtk'
         return
     
-    def printErrorMessages(self):
-        self.i.runType.printErrorMessages();
+    def _printErrorMessages(self):
+        if self.i.sampleFrequency > self.i.timeStep*Units.fs:
+            print '''Mmtk does not allow a different sample frequency than every timestep.
+            Write frequency will be set to every timestep.''' 
+        if self.i.dumpFrequency > self.i.timeStep*Units.fs:
+            print '''Mmtk does not allow a different dump frequency than every timestep.
+            Dump frequency will be set to every timestep.'''
         
     def restartIntegrate(self):
         '''performs a restart of an md run'''

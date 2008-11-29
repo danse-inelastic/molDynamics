@@ -15,7 +15,6 @@
     <component name="MdApp">
         <property name="typos">strict</property>
         <property name="help-persistence">False</property>
-        <property name="dumpconfiguration">False</property>
         <property name="help">False</property>
         <property name="help-properties">False</property>
         <property name="help-components">False</property>
@@ -27,30 +26,10 @@
             <property name="Integrator">velocity-verlet</property>
             <property name="Engine Executable Path"></property>
             <property name="Log Filename">molDynamics.log</property>
-            <facility name="Sample">Sample</facility>
             <property name="help-properties">False</property>
             <property name="help-components">False</property>
             <property name="runType">md</property>
             <property name="outputDir">/home/jbk/DANSE/MolDyn/molDynamics/useCases/mmtk</property>
-
-            <component name="Sample">
-                <property name="Pressure (GPa)">0</property>
-                <property name="atomicStructure">xyzFile</property>
-                <property name="help-persistence">False</property>
-                <property name="help">False</property>
-                <property name="help-properties">False</property>
-                <property name="Temperature or Initial Energy (K)">100</property>
-                <property name="help-components">False</property>
-
-                <component name="xyzFile">
-                    <property name="help-components">False</property>
-                    <property name="help-properties">False</property>
-                    <property name="help-persistence">False</property>
-                    <property name="help">False</property>
-                    <property name="inputFile">/home/jbk/DANSE/MolDyn/molDynamics/useCases/mmtk/argon.xyz</property>
-                </component>
-
-            </component>
 
 
             <component name="md">
