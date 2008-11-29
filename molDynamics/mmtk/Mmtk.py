@@ -30,6 +30,8 @@ This class maps the API to MMTK commands and executes them."""
         runType.meta['known_plugins']=['md', 'restart md']
         runType.meta['tip'] = 'type of run'
         runType.meta['importance'] = 9
+        forcefield = inv.str('Integrator', default = 'velocity-verlet')
+        integrator.meta['tip'] = 'type of integrator'
 
     def __init__(self, name='mmtk'):
         MolDynamics.__init__(self, name, 'mdEngine')
@@ -82,7 +84,7 @@ This class maps the API to MMTK commands and executes them."""
         
     def _setForcefield(self):
         '''This function sets the forcefield.'''
-        self.ff=self.i.forcefields.getForcefield()
+        self.ff=self.i.forcefield.getForcefield()
         
     def _setInitialConditions(self):
         '''map MolDynamics unit cell stuff to MMTK's. 
@@ -195,7 +197,7 @@ This class maps the API to MMTK commands and executes them."""
         
     def integrate(self):
         '''integrates an atomic system forward in time and produces a trajectory'''
-        self._printErrorMessages()
+        self.printErrorMessages()
         self._setForcefield()
         self._setInitialConditions()
         self.createTrajectoryAndIntegrator()
@@ -209,13 +211,8 @@ This class maps the API to MMTK commands and executes them."""
             raise Exception, 'your ensemble is not suppported by mmtk'
         return
     
-    def _printErrorMessages(self):
-        if self.i.sampleFrequency > self.i.timeStep*Units.fs:
-            print '''Mmtk does not allow a different sample frequency than every timestep.
-            Write frequency will be set to every timestep.''' 
-        if self.i.dumpFrequency > self.i.timeStep*Units.fs:
-            print '''Mmtk does not allow a different dump frequency than every timestep.
-            Dump frequency will be set to every timestep.'''
+    def printErrorMessages(self):
+        self.i.runType.printErrorMessages();
         
     def restartIntegrate(self):
         '''performs a restart of an md run'''
@@ -235,9 +232,9 @@ This class maps the API to MMTK commands and executes them."""
     def execute(self):
         '''writes out the files, starts the executable, and parses the output files'''
         self.printWarnings()
-        if self.i.runType=='md':
+        if self.i.runType.name=='md':
             self.integrate()
-        elif self.i.runType=='restart md':
+        elif self.i.runType.name=='restart md':
             self.restart()
         
     def getFinalConfiguration(self):
