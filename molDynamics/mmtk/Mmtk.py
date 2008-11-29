@@ -39,10 +39,6 @@ This class maps the API to MMTK commands and executes them."""
         #self._setDefaults()
         self.mmtkUniverse = None
         
-    def printWarnings(self):
-        '''print warnings if the user chooses settings which are incorrect'''
-        pass
-        
 #    def _setDefaults(self):
 #        '''set defaults specific to mmtk'''
 #        self.i.trajectoryFilename = 'molDynamics.nc'
@@ -85,7 +81,7 @@ This class maps the API to MMTK commands and executes them."""
         
     def _setForcefield(self):
         '''This function sets the forcefield.'''
-        self.ff=self.i.forcefields.getForcefield()
+        self.ff=self.i.forcefield.getForcefield()
         
     def _setInitialConditions(self):
         '''map MolDynamics unit cell stuff to MMTK's. 
@@ -198,7 +194,7 @@ This class maps the API to MMTK commands and executes them."""
         
     def integrate(self):
         '''integrates an atomic system forward in time and produces a trajectory'''
-        self._printErrorMessages()
+        self.printWarnings()
         self._setForcefield()
         self._setInitialConditions()
         self.createTrajectoryAndIntegrator()
@@ -212,17 +208,12 @@ This class maps the API to MMTK commands and executes them."""
             raise Exception, 'your ensemble is not suppported by mmtk'
         return
     
-    def _printErrorMessages(self):
-        if self.i.sampleFrequency > self.i.timeStep*Units.fs:
-            print '''Mmtk does not allow a different sample frequency than every timestep.
-            Write frequency will be set to every timestep.''' 
-        if self.i.dumpFrequency > self.i.timeStep*Units.fs:
-            print '''Mmtk does not allow a different dump frequency than every timestep.
-            Dump frequency will be set to every timestep.'''
-        
+    def printWarnings(self):
+        self.i.runType.printWarnings()
+
     def restartIntegrate(self):
         '''performs a restart of an md run'''
-        self._printErrorMessages()
+        self.printWarnings()
         self._setForcefield()
         self._setInitialConditions()
         self.createRestartTrajectoryAndIntegrator()

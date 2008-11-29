@@ -37,9 +37,11 @@ distclean::
 # export
 
 EXPORT_ETC = \
+	amber.odb \
     fit.odb \
     gulp.odb \
     gulpLibrary.odb \
+    lennardJones.odb \
     manualEntry.odb \
     md.odb \
     mmtk.odb \

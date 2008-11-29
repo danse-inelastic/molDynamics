@@ -14,10 +14,6 @@ from MMTK.ForceFields import LennardJonesForceField as LennardJonesFF
 class LennardJonesForcefield(GeneralForcefield):
     '''Represents the Lennard Jones set of potential options from MMTK'''
 
-    class Inventory(GeneralForcefield.Inventory):
-        import pyre.inventory as inv
-        ljCutoff = inv.str('Lennard-Jones Cutoff (nm)', default = 'None (minimum image convention for periodic systems)')
-        ljCutoff.meta['tip'] = 'cutoff for Lennard Jones interactions'
 
     def __init__(self, name='LennardJonesForcefield'):
         Component.__init__(self, name, facility='facility')

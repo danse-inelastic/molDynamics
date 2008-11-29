@@ -1,0 +1,4 @@
+from molDynamics.mmtk.AmberForcefield import AmberForcefield  
+
+def forcefield():
+	return AmberForcefield('amber')

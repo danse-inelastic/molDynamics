@@ -1,4 +1,4 @@
-from molDynamics.gulp.Gulp import Gulp  
+from molDynamics.mmtk.LennardJonesForcefield import LennardJonesForcefield  
 
-def mdEngine():
-	return Gulp('gulp')
+def forcefield():
+	return LennardJonesForcefield('lennardJones')

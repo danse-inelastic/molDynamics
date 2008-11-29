@@ -13,7 +13,9 @@ class GeneralForcefield(Component):
     '''Represents the Amber set of potential options from MMTK'''
     
     class Inventory(Component.Inventory):
-        pass
+        import pyre.inventory as inv
+        ljCutoff = inv.str('Lennard-Jones Cutoff (nm)', default = 'None (minimum image convention for periodic systems)')
+        ljCutoff.meta['tip'] = 'cutoff for Lennard Jones interactions'
 
 
     def __init__(self, name='GeneralForcefield'):
