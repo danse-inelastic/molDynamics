@@ -15,7 +15,7 @@ class AmberForcefield(GeneralForcefield):
     '''Represents the Amber set of potential options from MMTK'''
     class Inventory(GeneralForcefield.Inventory):
         import pyre.inventory as inv
-        electrostaticCutoff = inv.str('Electrostatic Cutoff (nm)', default = 'None (ewald summation for periodic systems)')
+        electrostaticCutoff = inv.str('Electrostatic Cutoff (nm)', default = 'None (Ewald summation for periodic systems)')
         electrostaticCutoff.meta['tip'] = 'cutoff for electrostatic interactions'
         type = inv.str('Type of Forcefield',default='Amber94')
         type.validator = inv.choice(['Amber94','Amber99'])
@@ -37,8 +37,6 @@ class AmberForcefield(GeneralForcefield):
             return Amber94ForceField(ljCutoff, electrostaticCutoff)
         elif self.i.type=='Amber99':
             return Amber99ForceField(ljCutoff, electrostaticCutoff)
-        
-
         
     def _defaults(self):
         Component._defaults(self)
