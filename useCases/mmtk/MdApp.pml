@@ -28,7 +28,6 @@
             <property name="Log Filename">molDynamics.log</property>
             <property name="help-properties">False</property>
             <property name="help-components">False</property>
-            <property name="runType">md</property>
             <property name="outputDir">/home/jbk/DANSE/MolDyn/molDynamics/useCases/mmtk</property>
 
 

@@ -95,14 +95,7 @@ fluctuations relatively small'''
     
     def identifyKeywords( self, visitor): 
         return visitor.writeMdKeywords(self)
-    
-    def printWarnings(self):
-        if self.i.sampleFrequency > self.i.timeStep:
-            print '''Mmtk does not allow a different sample frequency than every timestep.
-            Write frequency will be set to every timestep.''' 
-        if self.i.dumpFrequency > self.i.timeStep:
-            print '''Mmtk does not allow a different dump frequency than every timestep.
-            Dump frequency will be set to every timestep.'''
+
 
 
 # version

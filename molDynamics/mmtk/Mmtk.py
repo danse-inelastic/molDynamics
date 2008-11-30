@@ -26,13 +26,50 @@ This class maps the API to MMTK commands and executes them."""
         import pyre.inventory as inv 
         integrator = inv.str('Integrator', default = 'velocity-verlet')
         integrator.meta['tip'] = 'type of integrator'
-        runType = inv.facility('runType', default = 'md')
-        runType.meta['known_plugins']=['md', 'restart md']
+        runType = inv.str('runType', default = 'md')
+        runType.validator = inv.choice(['md', 'restart md'])
         runType.meta['tip'] = 'type of run'
-        runType.meta['importance'] = 9
+        
         forcefield = inv.facility('forcefield', default = 'amber')
         forcefield.meta['known_plugins']=['amber', 'lennardJones']
         forcefield.meta['tip'] = 'type of forcefield'
+                
+        barostatParameter = inv.float('Barostat Parameter', default = 0.005)
+        barostatParameter.meta['tip'] = '''barostat parameter to keep fluctuations relatively small'''
+        
+        ensemble= inv.str('Thermodynamic Ensemble', default = 'nve') 
+        ensemble.validator=inv.choice(["nve", "nvt", "npt"])
+        ensemble.meta['tip'] = 'thermodynamic ensemble (nve, nvt, npt, ...)'
+        
+        equilibrationTime = inv.float('Equilibration Time (ps)', default = 0.0)
+        equilibrationTime.meta['tip'] = 'equilibration time of the simulation (ps)'
+        
+        productionTime = inv.float('Production Time (ps)', default = 5.0)
+        productionTime.meta['tip'] = 'production time of the simulation'
+        
+        sampleFrequency = inv.float('Properties Calculation Frequency (fs)', default = 5.0)
+        sampleFrequency.meta['tip'] = '''frequency at which sampled properties are 
+written to trajectory and log file'''
+        
+        thermostatParameter = inv.float('Thermostat Parameter', default = 0.005)
+        thermostatParameter.meta['tip'] = '''thermostat parameter to keep 
+fluctuations relatively small'''
+        
+        timeStep = inv.float('Time step (fs)', default = 0.5)
+        timeStep.meta['tip'] = 'integration time step (ps)'
+        
+        trajectoryFilename = inv.str('Trajectory Filename', default='molDynamics')
+        trajectoryFilename.meta['tip'] = 'name of trajectory file(s)'
+
+        restartFilename = inv.str('Restart Filename', default = 'molDynamics.res')
+        restartFilename.meta['tip'] = '''restart file for resuming an md run or optimization'''
+        
+        dumpFrequency = inv.float('Dump Frequency (ps)', default = 0.0)
+        dumpFrequency.meta['tip'] = '''frequency at which a restart file is written'''
+
+        trajectoryType = inv.str('Trajectory Type', default='xyz')
+        trajectoryType.meta['tip'] = 'type of trajectory output'  
+        trajectoryType.validator=inv.choice(['xyz', 'history', 'xyz and history'])
 
     def __init__(self, name='mmtk'):
         MolDynamics.__init__(self, name, 'mdEngine')
@@ -117,7 +154,7 @@ This class maps the API to MMTK commands and executes them."""
     def createTrajectoryAndIntegrator(self):
         '''create trajectory and integrator'''
         #initialize velocities--this has to happen after adding atoms
-        self.mmtkUniverse.initializeVelocitiesToTemperature(self.i.sample.i.initialTemp)
+        self.mmtkUniverse.initializeVelocitiesToTemperature(self.i.sample.i.temperature)
         # Create trajectory and integrator.
         self.mmtkTrajectory = Trajectory(self.mmtkUniverse, self.i.trajectoryFilename, "w")
         self.mmtkIntegrator = VelocityVerletIntegrator(self.mmtkUniverse, delta_t=self.i.timeStep*Units.fs)
@@ -207,9 +244,6 @@ This class maps the API to MMTK commands and executes them."""
         else:
             raise Exception, 'your ensemble is not suppported by mmtk'
         return
-    
-    def printWarnings(self):
-        self.i.runType.printWarnings()
 
     def restartIntegrate(self):
         '''performs a restart of an md run'''
@@ -229,9 +263,9 @@ This class maps the API to MMTK commands and executes them."""
     def execute(self):
         '''writes out the files, starts the executable, and parses the output files'''
         self.printWarnings()
-        if self.i.runType.name=='md':
+        if self.i.runType=='md':
             self.integrate()
-        elif self.i.runType.name=='restart md':
+        elif self.i.runType=='restart md':
             self.restart()
         
     def getFinalConfiguration(self):
@@ -242,6 +276,14 @@ This class maps the API to MMTK commands and executes them."""
     
     def getMaterialProperties(self):
         raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
+
+    def printWarnings(self):
+        if self.i.sampleFrequency > self.i.timeStep:
+            print '''Mmtk does not allow a different sample frequency than every timestep.
+            Write frequency will be set to every timestep.''' 
+        if self.i.dumpFrequency > self.i.timeStep:
+            print '''Mmtk does not allow a different dump frequency than every timestep.
+            Dump frequency will be set to every timestep.'''
 
 # main
 if __name__ == '__main__':
