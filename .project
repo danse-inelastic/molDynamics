@@ -3,6 +3,7 @@
 	<name>molDynamics</name>
 	<comment></comment>
 	<projects>
+		<project>common</project>
 		<project>crystal</project>
 		<project>pyregui</project>
 	</projects>
