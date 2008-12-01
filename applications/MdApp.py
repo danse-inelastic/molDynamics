@@ -24,7 +24,7 @@ class MdApp(Script):
 
     def __init__(self):
         Script.__init__(self, 'MdApp')
-        self.i=self.inventory
+        self.i = self.inventory
         
     def main(self, *args, **kwds):
         self.i.mdEngine.execute()

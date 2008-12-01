@@ -13,7 +13,6 @@
 from sample.Sample import Sample
 from pyre.components.Component import Component
 from pyregui.inventory.extensions.OutputDir import OutputDir
-from pyregui.inventory.extensions.InputFile import InputFile
 
 
 class MolDynamics(Component):
@@ -27,9 +26,7 @@ class MolDynamics(Component):
 
         logFilename = inv.str('Log Filename', default = 'molDynamics.log')
         logFilename.meta['tip'] = 'name of log file for md run'
-        
-        engineExecutablePath = InputFile('Engine Executable Path', default = "")
-        engineExecutablePath.meta['tip'] = '''path to the engine's executable'''
+
         
         outputDir = OutputDir( 'outputDir', default = "" )
         outputDir.meta['tip'] = 'Output directory'

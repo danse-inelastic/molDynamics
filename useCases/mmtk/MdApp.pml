@@ -23,8 +23,7 @@
         <component name="mmtk">
             <property name="help-persistence">False</property>
             <property name="help">False</property>
-            <property name="Integrator">velocity-verlet</property>
-            <property name="Engine Executable Path"></property>
+            <property name="integrator">velocity-verlet</property>
             <property name="Log Filename">molDynamics.log</property>
             <property name="help-properties">False</property>
             <property name="help-components">False</property>

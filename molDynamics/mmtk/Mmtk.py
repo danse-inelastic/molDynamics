@@ -24,8 +24,9 @@ This class maps the API to MMTK commands and executes them."""
 
     class Inventory(MolDynamics.Inventory):
         import pyre.inventory as inv 
-        integrator = inv.str('Integrator', default = 'velocity-verlet')
+        integrator = inv.str('integrator', default = 'velocity-verlet')
         integrator.meta['tip'] = 'type of integrator'
+        
         runType = inv.str('runType', default = 'md')
         runType.validator = inv.choice(['md', 'restart md'])
         runType.meta['tip'] = 'type of run'
@@ -132,18 +133,18 @@ fluctuations relatively small'''
             (a,b,c,al,be,ga)=self._vecsToParams(ucList)
             if self.appEqual(al, 90.0) and self.appEqual(be, 90.0) and self.appEqual(ga, 90.0):
                 if a==b and b==c:
-                    self.mmtkUniverse=MMTK.CubicPeriodicUniverse(a*Units.Ang, self.ff)
+                    self.mmtkUniverse = MMTK.CubicPeriodicUniverse(a*Units.Ang, self.ff)
                 else:
-                    self.mmtkUniverse=MMTK.OrthorhombicPeriodicUniverse(
+                    self.mmtkUniverse = MMTK.OrthorhombicPeriodicUniverse(
                             (a*Units.Ang, b*Units.Ang, c*Units.Ang), self.ff)
             else:
-                uc=self.i.sample.unitCell
-                self.mmtkUniverse=MMTK.ParallelepipedicPeriodicUniverse(
+                uc = self.i.sample.unitCell
+                self.mmtkUniverse = MMTK.ParallelepipedicPeriodicUniverse(
                     ((uc[0][0]*Units.Ang, uc[0][1]*Units.Ang, uc[0][2]*Units.Ang),
                      (uc[1][0]*Units.Ang, uc[1][1]*Units.Ang, uc[1][2]*Units.Ang),
                      (uc[2][0]*Units.Ang, uc[2][1]*Units.Ang, uc[2][2]*Units.Ang)), self.ff)
         #add objects to mmtkUniverse
-        atomsOnly=atoms.split(linesep)[:-1]
+        atomsOnly = atoms.split(linesep)[:-1]
         for atom in atomsOnly:
             species, x, y, z = atom.split()
             self.mmtkUniverse.addObject(MMTK.Atom(species, position = \

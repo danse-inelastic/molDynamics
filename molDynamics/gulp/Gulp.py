@@ -15,7 +15,7 @@ from os import system, linesep
 from molDynamics.gulp.Potential import Potential
 from molDynamics.gulp.OptionWriter import OptionWriter
 from molDynamics.gulp.KeywordWriter import KeywordWriter
-
+from pyregui.inventory.extensions.InputFile import InputFile
 
 class Gulp(MolDynamics):
     """GULP MD engine for MolDynamics interface.  
@@ -26,12 +26,18 @@ This class maps the DANSE data structures to GULP's input deck.
         import pyre.inventory as inv
         computeMaterialProperties = inv.bool('Compute Material Properties', default = False)
         computeMaterialProperties.meta['tip'] = 'whether to print material properties'
+        
+        engineExecutablePath = InputFile('Engine Executable Path', default = "")
+        engineExecutablePath.meta['tip'] = '''path to the engine's executable'''
+        
         inputDeckName = inv.str('Input Filename', default = 'molDynamics.gin')
         inputDeckName.meta['tip'] = '''input file for executable'''
+        
         runType = inv.facility('runType', default = 'md')
         runType.meta['known_plugins'] = ['md', 'optimize', 'fit', 'phonon'] 
         runType.meta['tip'] = 'type of run'
         runType.meta['importance'] = 9
+        
         potential = inv.facility('Potential', default = Potential())
         potential.meta['tip'] = 'overall types of potentials to use'
   
