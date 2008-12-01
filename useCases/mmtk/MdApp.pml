@@ -3,7 +3,7 @@
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !
 !
-! [u'[u"[\'{LicenseText}\']"]']
+! [u'[u\'[u"[\\\'{LicenseText}\\\']"]\']']
 !
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
@@ -15,7 +15,6 @@
     <component name="MdApp">
         <property name="typos">strict</property>
         <property name="help-persistence">False</property>
-        <property name="dumpconfiguration">False</property>
         <property name="help">False</property>
         <property name="help-properties">False</property>
         <property name="help-components">False</property>
@@ -56,8 +55,6 @@
                 <component name="unitCellBuilder">
                     <property name="help-persistence">False</property>
                     <property name="help">False</property>
-                    <property name="Unit Cell">UnitCell a=[ 1.  0.  0.], b=[ 0.  1.  0.], c=[ 0.  0.  1.]
-</property>
                     <property name="Atomic/Species information">Ar      3.373126384         2.329856338        -2.826008948    
 Ar      2.184357371       -0.6902249983       -0.4624501391    
 Ar      2.631821072        -4.942839122         4.263390170    
@@ -924,6 +921,7 @@ Ar     -5.218350717        -2.206262543         2.401592284
 Ar     -2.945065630        -4.325036364        0.7462262815</property>
                     <property name="help-properties">False</property>
                     <property name="help-components">False</property>
+                    <property name="unitCell">UnitCell</property>
 
                     <component name="UnitCell">
                         <property name="c Vector">0.0 0.0 34.7786</property>
@@ -965,7 +963,7 @@ Ar     -2.945065630        -4.325036364        0.7462262815</property>
             <property name="timestampLine"> Generated automatically by %s on %s</property>
             <property name="help-components">False</property>
             <property name="lastLine"> End of file </property>
-            <property name="licenseText">[u'[u\'[u"[\\\'{LicenseText}\\\']"]\']']</property>
+            <property name="licenseText">[u'[u\'[u\\\'[u"[\\\\\\\'{LicenseText}\\\\\\\']"]\\\']\']']</property>
             <property name="copyrightLine">(C) %s  All Rights Reserved</property>
             <property name="organization"></property>
             <property name="bannerWidth">78</property>
@@ -978,6 +976,6 @@ Ar     -2.945065630        -4.325036364        0.7462262815</property>
 <!-- version-->
 <!-- $Id$-->
 
-<!-- Generated automatically by Renderer on Mon Dec  1 06:09:38 2008-->
+<!-- Generated automatically by Renderer on Mon Dec  1 11:02:37 2008-->
 
 <!-- End of file -->
