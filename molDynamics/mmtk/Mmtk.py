@@ -125,7 +125,7 @@ fluctuations relatively small'''
         '''map MolDynamics unit cell stuff to MMTK's. 
         Eventually much of this will be taken by the crystal class''' 
         atoms = self.i.sample.getAtomsAsString()
-        uc = self.i.sample.i.atomicStructure.i.unitCell.getCellVectors()
+        uc = self.i.sample.getCellVectors()
         if uc==None:
             self.mmtkUniverse = MMTK.InfiniteUniverse(self.ff)
         else:
