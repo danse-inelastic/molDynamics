@@ -124,7 +124,7 @@ fluctuations relatively small'''
     def _setInitialConditions(self):
         '''map MolDynamics unit cell stuff to MMTK's. 
         Eventually much of this will be taken by the crystal class''' 
-        atoms = self.i.sample.i.atomicStructure.i.atoms
+        atoms = self.i.sample.getAtomsAsString()
         uc = self.i.sample.i.atomicStructure.i.unitCell.getCellVectors()
         if uc==None:
             self.mmtkUniverse = MMTK.InfiniteUniverse(self.ff)
