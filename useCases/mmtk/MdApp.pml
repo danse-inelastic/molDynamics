@@ -3,7 +3,7 @@
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 !
 !
-! [u'[u\'[u\\\'[u"[\\\\\\\'{LicenseText}\\\\\\\']"]\\\']\']']
+! [u'[u\'[u\\\'[u\\\\\\\'[u"[\\\\\\\\\\\\\\\'{LicenseText}\\\\\\\\\\\\\\\']"]\\\\\\\']\\\']\']']
 !
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
@@ -921,7 +921,7 @@ Ar     -5.218350717        -2.206262543         2.401592284
 Ar     -2.945065630        -4.325036364        0.7462262815</property>
                     <property name="help-properties">False</property>
                     <property name="help-components">False</property>
-                    <property name="unitCell"><crystal.UnitCell.UnitCell object at 0x32e6b50></property>
+                    <property name="unitCell"><crystal.UnitCell.UnitCell object at 0x8e0eecc></property>
 
                     <component name="UnitCell">
                         <property name="a">34.7786 0.0 0.0</property>
@@ -963,7 +963,7 @@ Ar     -2.945065630        -4.325036364        0.7462262815</property>
             <property name="timestampLine"> Generated automatically by %s on %s</property>
             <property name="help-components">False</property>
             <property name="lastLine"> End of file </property>
-            <property name="licenseText">[u'[u\'[u\\\'[u\\\\\\\'[u"[\\\\\\\\\\\\\\\'{LicenseText}\\\\\\\\\\\\\\\']"]\\\\\\\']\\\']\']']</property>
+            <property name="licenseText">[u'[u\'[u\\\'[u\\\\\\\'[u\\\\\\\\\\\\\\\'[u"[\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\'{LicenseText}\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\']"]\\\\\\\\\\\\\\\']\\\\\\\']\\\']\']']</property>
             <property name="copyrightLine">(C) %s  All Rights Reserved</property>
             <property name="organization"></property>
             <property name="bannerWidth">78</property>
@@ -976,6 +976,6 @@ Ar     -2.945065630        -4.325036364        0.7462262815</property>
 <!-- version-->
 <!-- $Id$-->
 
-<!-- Generated automatically by Renderer on Mon Dec  1 13:53:20 2008-->
+<!-- Generated automatically by Renderer on Mon Dec  1 15:02:41 2008-->
 
 <!-- End of file -->
