@@ -21,7 +21,7 @@
         <property name="mdEngine">mmtk</property>
 
         <component name="mmtk">
-            <property name="Trajectory Filename">molDynamics</property>
+            <property name="Trajectory Filename">molDynamics.nc</property>
             <property name="help-persistence">False</property>
             <property name="help">False</property>
             <property name="Equilibration Time (ps)">0.0</property>
@@ -33,7 +33,7 @@
             <facility name="Sample">Sample</facility>
             <property name="help-properties">False</property>
             <property name="Barostat Parameter">0.005</property>
-            <property name="Production Time (ps)">5.0</property>
+            <property name="Production Time (ps)">50.0</property>
             <property name="forcefield">lennardJones</property>
             <property name="Thermostat Parameter">0.005</property>
             <property name="Properties Calculation Frequency (fs)">5.0</property>
@@ -921,7 +921,7 @@ Ar     -5.218350717        -2.206262543         2.401592284
 Ar     -2.945065630        -4.325036364        0.7462262815</property>
                     <property name="help-properties">False</property>
                     <property name="help-components">False</property>
-                    <property name="unitCell"><crystal.UnitCell.UnitCell object at 0x8e0eecc></property>
+                    <property name="unitCell">UnitCell</property>
 
                     <component name="UnitCell">
                         <property name="a">34.7786 0.0 0.0</property>

@@ -285,6 +285,21 @@ fluctuations relatively small'''
         if self.i.dumpFrequency > self.i.timeStep:
             print '''Mmtk does not allow a different dump frequency than every timestep.
             Dump frequency will be set to every timestep.'''
+            
+    def equilibrationSteps(self):
+        '''Number of time steps to reach equilibration'''
+        if self.i.timeStep==0:
+            raise Exception, 'please set the time step to a nonzero value'
+        else:
+            val=int(self.i.equilibrationTime/self.i.timeStep)
+        return val
+    
+    def productionSteps(self):
+        '''Number of time steps to finish production'''
+        if self.i.timeStep==0:
+            raise Exception, 'please set the time step to a nonzero value'
+        else:
+            return int(self.i.productionTime/self.i.timeStep)
 
 # main
 if __name__ == '__main__':
