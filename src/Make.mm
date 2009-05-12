@@ -9,25 +9,19 @@
 # <LicenseText>
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
 
-PROJECT = molDynamics
+#PROJECT = nMoldyn
 
 #--------------------------------------------------------------------------
 #
 
-PROJ_TIDY += *.log *.pyc
-PROJ_CLEAN =
 
 BUILD_DIRS = \
-	src \
-
+	molDynamics \
+	
 OTHER_DIRS = \
-	applications \
-	etc \
 
 RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
-
 
 #--------------------------------------------------------------------------
 #
@@ -35,22 +29,14 @@ RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
 all: export
 	BLD_ACTION="all" $(MM) recurse
 
-docs: 
-	BLD_ACTION="docs" $(MM) recurse
 
 #--------------------------------------------------------------------------
 #
-
-EXPORT_PYTHON_MODULES = \
-
-
-
-EXPORT_BINS = \
+# export
 
 
 
-export:: export-binaries release-binaries export-python-modules 
-
+export:: export-python-modules
 
 # version
 # $Id$
