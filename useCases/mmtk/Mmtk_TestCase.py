@@ -36,13 +36,13 @@ class MmtkMd_TestCase(unittest.TestCase):
         """do argon"""
         argonConfiguration = file('argon.conf')
         lx, ly, lz = map(string.atof, string.split(argonConfiguration.readline()))
-        self.sample = Sample()
-        uc=UnitCell()
-        uc.i.a=str(lx)+' 0.0 0.0'
-        uc.i.b='0.0 '+str(ly)+' 0.0'
-        uc.i.c='0.0 0.0 '+str(lz)
-        unitCellBuilder=UnitCellBuilder()
-        unitCellBuilder.i.unitCell=uc
+        self.material = Structure()
+        uc = UnitCell()
+        uc.i.a = str(lx)+' 0.0 0.0'
+        uc.i.b = '0.0 '+str(ly)+' 0.0'
+        uc.i.c = '0.0 0.0 '+str(lz)
+        unitCellBuilder = UnitCellBuilder()
+        unitCellBuilder.i.unitCell = uc
         atoms = ''
         while 1:
             line = argonConfiguration.readline()
@@ -70,7 +70,7 @@ class MmtkMd_TestCase(unittest.TestCase):
         
     def testMmtkNVT(self):
         lennard = LennardJonesForcefield()
-        self.sample.i.temperature=200.0
+        self.sample.i.temperature = 200.0
         md = Mmtk()
         md.i.sample = self.sample
         md.i.runType = 'md'
@@ -82,8 +82,8 @@ class MmtkMd_TestCase(unittest.TestCase):
         md.integrate()
         
     def testMmtkNPT(self):
-        self.sample.i.temperature=300.0
-        self.sample.i.pressure=1.0
+        self.sample.i.temperature = 300.0
+        self.sample.i.pressure = 1.0
         lennard = LennardJonesForcefield()
         md = Mmtk()
         md.i.sample = self.sample

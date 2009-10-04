@@ -38,8 +38,8 @@ This class maps the API to MMTK commands and executes them."""
         barostatParameter = inv.float('Barostat Parameter', default = 0.005)
         barostatParameter.meta['tip'] = '''barostat parameter to keep fluctuations relatively small'''
         
-        ensemble= inv.str('Thermodynamic Ensemble', default = 'nve') 
-        ensemble.validator=inv.choice(["nve", "nvt", "npt"])
+        ensemble = inv.str('Thermodynamic Ensemble', default = 'nve') 
+        ensemble.validator = inv.choice(["nve", "nvt", "npt"])
         ensemble.meta['tip'] = 'thermodynamic ensemble (nve, nvt, npt, ...)'
         
         equilibrationTime = inv.float('Equilibration Time (ps)', default = 0.0)
@@ -70,7 +70,7 @@ fluctuations relatively small'''
 
         trajectoryType = inv.str('Trajectory Type', default='xyz')
         trajectoryType.meta['tip'] = 'type of trajectory output'  
-        trajectoryType.validator=inv.choice(['xyz', 'history', 'xyz and history'])
+        trajectoryType.validator = inv.choice(['xyz', 'history', 'xyz and history'])
 
     def __init__(self, name='mmtk'):
         MolDynamics.__init__(self, name, 'mdEngine')
