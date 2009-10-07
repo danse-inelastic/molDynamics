@@ -4,13 +4,11 @@
 #
 #                               Brandon Keith
 #                      California Institute of Technology
-#              (C) 2005 All Rights Reserved  All Rights Reserved
+#              (C) 2009 All Rights Reserved  All Rights Reserved
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from pyre.applications.Script import Script
-#from molDynamics.mmtk.Mmtk import Mmtk
-#from molDynamics.gulp.Gulp import Gulp
 
 class MdApp(Script):
     '''Driver for the md engines in DANSE.'''
