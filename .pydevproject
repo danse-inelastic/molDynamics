@@ -8,8 +8,6 @@
   
   
   <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
-<path>/home/jbk/DANSE/pyregui/trunk</path>
-<path>/home/jbk/DANSE/db</path>
 <path>/home/jbk/DANSE/inelastic/crystal</path>
 </pydev_pathproperty>
   
