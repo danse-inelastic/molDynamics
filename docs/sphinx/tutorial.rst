@@ -1,9 +1,9 @@
 Science Tutorial: Switching computational engines
 =================================================
 
-.. index:: 
+.. .. index:: 
 
-Let us demonstrate how to switch computational engines
+Let us demonstrate how to switch computational engines::
 
 	class MdApp(Script):
 	    '''Driver for the md engines in DANSE.'''
