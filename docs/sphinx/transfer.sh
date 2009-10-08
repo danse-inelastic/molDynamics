@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-scp -r _build/html/ jbrkeith@login.cacr.caltech.edu:.
+scp -r _build/html/ jbrkeith@login.cacr.caltech.edu:molDynamics
