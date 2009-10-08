@@ -13,8 +13,9 @@
 
 # list of inputs:
 inputs = {
-'mdEngine':'mmtk'
-'mdEngine.sample.          
+'engine':'mmtk'
+'engine.sample.temp':300.0
+'engine.          
           }
 f = file('runMd.sh')
 f.write(')

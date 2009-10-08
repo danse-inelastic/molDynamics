@@ -265,7 +265,7 @@ class class_diagram(nodes.General, nodes.Element):
 
 class ClassDiagram(Directive):
     """
-    Run when the inheritance_diagram directive is first encountered.
+    Run when the class_diagram directive is first encountered.
     """
     has_content = False
     required_arguments = 1

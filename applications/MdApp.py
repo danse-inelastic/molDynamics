@@ -14,18 +14,21 @@ class MdApp(Script):
     '''Driver for the md engines in DANSE.'''
     class Inventory(Script.Inventory):
         import pyre.inventory as inv 
-        mdEngine = inv.facility('mdEngine', default='gulp')
-        mdEngine.meta['known_plugins'] = ['gulp','mmtk']
+        engine = inv.facility('engine', default='gulp')
+        engine.meta['known_plugins'] = ['gulp','mmtk']
         #mdEngine = inv.facility('Molecular Dynamics Engine', default=Gulp())
         #mdEngine = inv.facility('Molecular Dynamics Engine', default=Mmtk())
-        mdEngine.meta['tip'] = 'which md engine to use'
+        engine.meta['tip'] = 'which md engine to use'
 
     def __init__(self):
         Script.__init__(self, 'MdApp')
         self.i = self.inventory
         
+    def _configure(self):
+        self.engine = self.i.engine
+        
     def main(self, *args, **kwds):
-        self.i.mdEngine.execute()
+        self.engine.execute()
 
 if __name__=='__main__':
     app=MdApp()
