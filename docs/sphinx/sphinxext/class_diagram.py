@@ -108,14 +108,14 @@ class ClassDiagramGraph(object):
                 else:
                     raise InheritanceException(
                         'Could not import class %r specified for '
-                        'inheritance diagram' % base)
+                        'class diagram' % base)
             try:
                 module = __import__(path)
                 todoc = getattr(sys.modules[path], base)
             except (ImportError, AttributeError):
                 raise InheritanceException(
                     'Could not import class or module %r specified for '
-                    'inheritance diagram' % (path + '.' + base))
+                    'class diagram' % (path + '.' + base))
 
         # If a class, just return it
         if inspect.isclass(todoc):
@@ -276,7 +276,7 @@ class ClassDiagram(Directive):
     }
 
     def run(self):
-        node = inheritance_diagram()
+        node = class_diagram()
         node.document = self.state.document
         env = self.state.document.settings.env
         class_names = self.arguments[0].split()
@@ -361,6 +361,6 @@ def setup(app):
         html=(html_visit_class_diagram, None),
         text=(skip, None))
     app.add_directive('class-diagram', ClassDiagram)
-    app.add_config_value('classdiagram_graph_attrs', {}, False),
-    app.add_config_value('classdiagram_node_attrs', {}, False),
-    app.add_config_value('classdiagram_edge_attrs', {}, False),
+    app.add_config_value('inheritance_graph_attrs', {}, False),
+    app.add_config_value('inheritance_node_attrs', {}, False),
+    app.add_config_value('inheritance_edge_attrs', {}, False),
