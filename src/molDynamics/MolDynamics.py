@@ -49,15 +49,6 @@ class MolDynamics(Component):
 output files to get data as dataobjects which can be returned below'''
         raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
 
-    def getFinalConfiguration(self):
-        raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
-    
-    def getTrajectoryFile(self):
-        raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
-    
-    def getMaterialProperties(self):
-        raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
-
 
 # version
 __id__ = "$Id$"

@@ -268,15 +268,6 @@ fluctuations relatively small'''
             self.integrate()
         elif self.i.runType=='restart md':
             self.restart()
-        
-    def getFinalConfiguration(self):
-        raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
-    
-    def getTrajectoryFile(self):
-        raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
-    
-    def getMaterialProperties(self):
-        raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
 
     def printWarnings(self):
         if self.i.sampleFrequency > self.i.timeStep:
