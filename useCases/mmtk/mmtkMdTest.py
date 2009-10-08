@@ -11,6 +11,41 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 
+# list of inputs:
+inputs = {
+'mdEngine':'mmtk'
+'mdEngine.sample.          
+          }
+f = file('runMd.sh')
+f.write(')
+
+for key,val in inputs.iteritems():
+    appCommand+' --'+key+'='+val
+import os
+os.system(appCommand)
+
+
+md.i.sample = self.sample
+md.i.runType = 'md'
+md.i.forcefields = lennard
+md.i.ensemble = 'nve'
+md.i.timestep = 0.5
+md.i.equilibrationTime = 0.005
+md.i.productionTime = 0.4
+md.integrate()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def main():
 
