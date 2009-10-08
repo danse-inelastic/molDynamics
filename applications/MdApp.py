@@ -16,8 +16,6 @@ class MdApp(Script):
         import pyre.inventory as inv 
         engine = inv.facility('engine', default='gulp')
         engine.meta['known_plugins'] = ['gulp','mmtk']
-        #mdEngine = inv.facility('Molecular Dynamics Engine', default=Gulp())
-        #mdEngine = inv.facility('Molecular Dynamics Engine', default=Mmtk())
         engine.meta['tip'] = 'which md engine to use'
 
     def __init__(self):
