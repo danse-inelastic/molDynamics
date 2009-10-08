@@ -170,6 +170,12 @@ class ClassDiagramGraph(object):
             return fullname
         name_parts = fullname.split('.')
         return '.'.join(name_parts[-parts:])
+    
+    def member_names(self, cls):
+        """
+        Given a class object, returns all the methods of the class, including inner 
+        classes.
+        """
 
     def get_all_class_names(self):
         """
