@@ -20,7 +20,7 @@ class MolDynamics(Component):
     
     class Inventory(Component.Inventory):
         import pyre.inventory as inv  
-        sample = inv.facility('Sample',default = Sample())
+        sample = inv.facility('sample',default = Sample())
         sample.meta['importance'] = 10
         sample.meta['tip'] = 'piece of material being measured/simulated'
 
