@@ -1,9 +1,9 @@
+.. index:: swap-md-engines
+
 Science Tutorial: Switching computational engines
 =================================================
 
-.. .. index:: 
-
-Let us demonstrate how to switch computational engines::
+Let us demonstrate how to switch computational engines.  First, we us MdApp, a simple pyre application with two engines in its inventory::
 
 	class MdApp(Script):
 	    '''Driver for the md engines in DANSE.'''
@@ -23,3 +23,5 @@ Let us demonstrate how to switch computational engines::
 	if __name__=='__main__':
 	    app=MdApp()
 	    app.run()
+
+In general MMTK is limited to molecules and ions described by the Amber 94 forcefield, so we choose a molecular crystal, benzene, at slightly elevate pressure (0.30 GPa).
