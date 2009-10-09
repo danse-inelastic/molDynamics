@@ -165,17 +165,35 @@ class ClassDiagramGraph(object):
         if module == '__builtin__':
             fullname = cls.__name__
         else:
-            fullname = '%s.%s' % (module, cls.__name__)
+            if hasattr(cls, 'name'):
+                fullname = '%s.%s' % (module, cls.__name__)
+            else:
+                fullname = '%s.%s' % (module, cls.__name__)
         if parts == 0:
             return fullname
         name_parts = fullname.split('.')
         return '.'.join(name_parts[-parts:])
     
-    def member_names(self, cls):
+    def generate_member_names_label(self, classes):
         """
-        Given a class object, returns all the methods of the class, including inner 
-        classes.
+        Given a list of class objects, returns a dictionary of all the methods of each class. Methods are given parentheses
+        and methods are undecorated.
         """
+        #allClassMethods = {}
+        for cls in classes:
+            methodList = [method for method in dir(object) if (callable(getattr(object, method)) and method[:2]!='__')]
+            #classMethods[self.class_name(cls)] = methodList
+            classAndMethodsLabel = {'label':self.class_name(cls) + '\n'.join(methodList)}    
+        return classAndMethodsLabel
+        
+    def get_all_inner_classes(self, classes):
+        """
+        Given a list of class objects, returns a dictionary of all inner classes matched to dictionaries of their 
+        members.  Methods are given parentheses and methods are undecorated.
+        """
+        
+        pass
+        
 
     def get_all_class_names(self):
         """
@@ -230,10 +248,13 @@ class ClassDiagramGraph(object):
             g_attrs.update(env.config.inheritance_graph_attrs)
             n_attrs.update(env.config.inheritance_node_attrs)
             e_attrs.update(env.config.inheritance_edge_attrs)
+            if True: #env.print_methods:
+                n_attrs.update(self.generate_member_names_label(self.all_classes))
 
         res = []
         res.append('digraph %s {\n' % name)
         res.append(self._format_graph_attrs(g_attrs))
+        
 
         for cls in self.all_classes:
             if not self.show_builtins and cls in __builtins__.values():
@@ -370,3 +391,5 @@ def setup(app):
     app.add_config_value('inheritance_graph_attrs', {}, False),
     app.add_config_value('inheritance_node_attrs', {}, False),
     app.add_config_value('inheritance_edge_attrs', {}, False),
+    app.add_config_value('print_methods', False, False)
+    app.add_config_value('print_inner_classes', False, False)
