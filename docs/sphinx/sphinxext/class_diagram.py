@@ -165,10 +165,10 @@ class ClassDiagramGraph(object):
         if module == '__builtin__':
             fullname = cls.__name__
         else:
-            if hasattr(cls, 'name'):
-                fullname = '%s.%s' % (module, cls.__name__)
-            else:
-                fullname = '%s.%s' % (module, cls.__name__)
+#            if hasattr(cls, 'name'):
+#                fullname = '%s.%s' % (module, cls.__name__)
+#            else:
+            fullname = '%s.%s' % (module, cls.__name__)
         if parts == 0:
             return fullname
         name_parts = fullname.split('.')
@@ -177,19 +177,19 @@ class ClassDiagramGraph(object):
     def generate_member_names_label(self, classes):
         """
         Given a list of class objects, returns a dictionary of all the methods of each class. Methods are given parentheses
-        and methods are undecorated.
+        and attributes are undecorated.
         """
         #allClassMethods = {}
         for cls in classes:
             methodList = [method for method in dir(object) if (callable(getattr(object, method)) and method[:2]!='__')]
             #classMethods[self.class_name(cls)] = methodList
-            classAndMethodsLabel = {'label':self.class_name(cls) + '\n'.join(methodList)}    
+            classAndMethodsLabel = {'label':('"'+(self.class_name(cls) + '\n'.join(methodList))+'"')}    
         return classAndMethodsLabel
         
     def get_all_inner_classes(self, classes):
         """
         Given a list of class objects, returns a dictionary of all inner classes matched to dictionaries of their 
-        members.  Methods are given parentheses and methods are undecorated.
+        members.  Methods are given parentheses and attributes are undecorated.
         """
         
         pass
@@ -209,14 +209,15 @@ class ClassDiagramGraph(object):
     default_node_attrs = {
         'shape': 'box',
         'fontsize': 10,
-        'height': 0.25,
-        'fontname': 'Vera Sans, DejaVu Sans, Liberation Sans, '
-                    'Arial, Helvetica, sans',
+        #'height': 0.25,
+        #'fontname': 'Vera Sans, DejaVu Sans, Liberation Sans, '
+        #            'Arial, Helvetica, sans',
         'style': '"setlinewidth(0.5)"',
     }
     default_edge_attrs = {
         'arrowsize': 0.5,
         'style': '"setlinewidth(0.5)"',
+        'dir':'back'
     }
 
     def _format_node_attrs(self, attrs):
@@ -280,7 +281,11 @@ class ClassDiagramGraph(object):
                            (base_name, name,
                             self._format_node_attrs(e_attrs)))
         res.append('}\n')
-        return ''.join(res)
+        ans = ''.join(res)
+        f = open('test.dot','w')
+        f.write(ans)
+        f.close()
+        return ans
 
 
 class class_diagram(nodes.General, nodes.Element):
