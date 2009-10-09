@@ -14,5 +14,5 @@ Let us demonstrate how to switch computational engines.  First, we us MdApp.py, 
 In general MMTK is limited to molecules and ions described by the Amber 94 forcefield, so we choose a molecular crystal, benzene, at slightly elevated pressure (0.30 GPa).  After storing this in the database
 
 
-Running the code is very simple::
+Running the code is very simple:
 
