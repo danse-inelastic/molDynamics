@@ -13,12 +13,20 @@
 
 # list of inputs:
 inputs = {
-'engine':'mmtk'
-'engine.sample.temp':300.0
-'engine.          
+'engine':'mmtk',
+'engine.sampleBuilder.temp':300.0,
+'engine.sampleBuilder.atoms':[],
+'engine.sampleBuilder.atomPositions':[],
+'engine.sampleBuilder.lattice':(7.243, 9.310, 6.756, 90.0, 90.0, 90.0),
+'engine.runType':'md',
+'engine.forcefields':,
+'engine.ensemble':'nve',
+'engine.timestep':0.5,
+'engine.equilibriumTime':0.005,
+'engine.productionTime':0.4,   
           }
-f = file('runMd.sh')
-f.write(')
+#f = file('runMd.sh')
+#f.write(')
 
 for key,val in inputs.iteritems():
     appCommand+' --'+key+'='+val
