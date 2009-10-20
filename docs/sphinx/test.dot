@@ -1,15 +1,15 @@
 digraph classdiagramb312093a7a {
 rankdir=LR;
 size="8.0, 12.0";
-  "Configurable" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.parsing.locators.Traceable.Traceable"];
-  "Traceable" -> "Configurable" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
-  "Component" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.parsing.locators.Traceable.Traceable"];
-  "Configurable" -> "Component" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
-  "Gulp" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.parsing.locators.Traceable.Traceable"];
-  "MolDynamics" -> "Gulp" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
-  "Mmtk" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.parsing.locators.Traceable.Traceable"];
-  "MolDynamics" -> "Mmtk" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
-  "MolDynamics" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.parsing.locators.Traceable.Traceable"];
+  "MolDynamics" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.components.Component.Component"];
   "Component" -> "MolDynamics" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
-  "Traceable" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.parsing.locators.Traceable.Traceable"];
+  "Traceable" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.components.Component.Component"];
+  "Mmtk" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.components.Component.Component"];
+  "MolDynamics" -> "Mmtk" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
+  "Configurable" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.components.Component.Component"];
+  "Traceable" -> "Configurable" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
+  "Gulp" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.components.Component.Component"];
+  "MolDynamics" -> "Gulp" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
+  "Component" [shape=box,fontsize=10,style="setlinewidth(0.5)",label="pyre.components.Component.Component"];
+  "Configurable" -> "Component" [arrowsize=0.5,style="setlinewidth(0.5)",dir=back];
 }
