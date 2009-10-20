@@ -10,7 +10,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PROJECT = molDynamics
+PROJECT = memd
 PACKAGE = gulp
 
 BUILD_DIRS = \

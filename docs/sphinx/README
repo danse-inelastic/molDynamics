@@ -1,5 +1,18 @@
 here is how to use the diagram generator:
 
+
+The command pyreverse generates the diagrams in all formats that graphviz/dot
+knows, or in VCG :
+
+The following command shows what dot knows:
+
+
+$ dot -Txxx
+Format: "xxx" not recognized. Use one of: canon cmap cmapx cmapx_np dia dot
+eps fig gd gd2 gif hpgl imap imap_np ismap jpe jpeg jpg mif mp pcl pdf pic
+plain plain-ext png ps ps2 svg svgz tk vml vmlz vrml vtx wbmp xdot xlib
+
+
 $ pyreverse -o png -p Pyreverse pylint/pyreverse/
 [...]
 creating diagram packages_Pyreverse.png
