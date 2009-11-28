@@ -36,6 +36,7 @@ all: export
 EXPORT_PYTHON_MODULES = \
     __init__.py \
     DosPlottingUtils.py \
+    GulpFwdModel.py \
     OutputParser.py \
     OutputParserThroughFileWrite.py \
     Phonons.py \
