@@ -4,29 +4,14 @@ def guid():
     _id += 1
     return str(_id)
 
-#get motion from trajectory
+#Create settings
 ###########################
-base = 'graphiteShort'
+from memd.gulp.GulpSettings import GulpSettings
+gulpSettings = GulpSettings(runtype='md')
+gulpSettings.runtype='phonons'
 
-rawTraject = base+'.his'
-
-ncFile = base+'.nc'
-
-cmd = 'postProcessGulp.py --historyFile='+rawTraject+' --ncFile='+ncFile
-#temp sub for job submission
-import os
-os.system(cmd)
-
-import os
-curDir = os.path.abspath('.')
-ncFilePath = os.path.join(curDir,ncFile)
-from vsat.Motion import Motion
-motion = Motion(ncFilePath)
-
-#insert Motion in db
+#Store settings in db
 ####################
-# needs to be a function that takes no argument and returns a unique ID every time called
-#guid = 'graphiteShort' 
 
 from dsaw.db import connect
 #db = connect(db ='postgres://linjiao:4OdACm#@localhost/vnfa2b')
@@ -34,17 +19,12 @@ db = connect(db ='postgres:///test')
 db.autocommit(True)
 from dsaw.model.visitors.OrmManager import OrmManager
 orm = OrmManager(db, guid)
-orm.save(motion)
+orm.save(gulpSettings)
 
 # retrieve the d.o.
 ###################
-motion2 = orm.load(Motion, id=orm(motion).id)
+gulpSettings2 = orm.load(GulpSettings, id=orm(gulpSettings).id)
+print gulpSettings2.runtype
+
 db.destroyAllTables()
 
-# use dos calculator
-########################
-from vsat.trajectory.MotionDosCalc import MotionDosCalc
-c = MotionDosCalc(motion2)
-print c.getInputFile()
-
-#plot DOS
