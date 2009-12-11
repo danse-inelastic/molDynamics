@@ -3,7 +3,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #                      California Institute of Technology
-#                        (C) 2007  All Rights Reserved
+#                        (C) 2010  All Rights Reserved
 #
 # {LicenseText}
 #
@@ -25,9 +25,9 @@ class GulpSettings:
     date = ''
     results = GulpResults()
     structure = Structure()
-    
 
-# version
-__id__ = "$Id$"
+    def __init__(self, **kwds):
+        for k, v in kwds.iteritems():
+            setattr(self, k, v)
+        return    
 
-# End of file 

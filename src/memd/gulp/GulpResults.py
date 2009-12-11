@@ -16,6 +16,10 @@ class GulpResults:
     output_filename = 'gulp.gout'
     dos_filename = 'dos.dens'
 
+    def __init__(self, **kwds):
+        for k, v in kwds.iteritems():
+            setattr(self, k, v)  
+
 
 # version
 __id__ = "$Id$"
