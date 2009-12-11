@@ -3,6 +3,7 @@
 	<name>molDynamics</name>
 	<comment></comment>
 	<projects>
+		<project>crystal</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
