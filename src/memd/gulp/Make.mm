@@ -41,6 +41,9 @@ EXPORT_PYTHON_MODULES = \
     EigenDataParser.py \
     Fit.py \
     Gulp.py \
+    GulpPotential.py \
+    GulpResults.py \
+    GulpSettings.py \
     KeywordWriter.py \
     LargeEigenDataParser.py \
     NetcdfPolarizationWrite.py \
