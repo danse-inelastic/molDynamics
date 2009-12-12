@@ -14,7 +14,7 @@ class GulpPotential:
 
     path = '../content/data/gulppotentials'
     filename = 'potential.lib'
-    elements = 'H,He'
+    elements = ['H']
     description = ''
     creator = ''
     date = ''

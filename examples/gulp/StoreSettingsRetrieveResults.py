@@ -15,7 +15,7 @@ gulpSettings.runtype='phonons'
 
 from dsaw.db import connect
 #db = connect(db ='postgres://linjiao:4OdACm#@localhost/vnfa2b')
-db = connect(db ='postgres:///test')
+db = connect(db ='postgres:///test',echo=1)
 db.autocommit(True)
 from dsaw.model.visitors.OrmManager import OrmManager
 orm = OrmManager(db, guid)

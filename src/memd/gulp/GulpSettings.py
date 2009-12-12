@@ -17,7 +17,7 @@ class GulpSettings:
     #input
     structure = Structure()
     runtype = 'md'
-    dos_projections = [0.]
+    dos_projections = [0]
     potential = GulpPotential()
     description = ''
     inputFile = 'gulp.gin'
