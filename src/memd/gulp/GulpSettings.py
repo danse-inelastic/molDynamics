@@ -11,13 +11,13 @@
 #
 
 from GulpPotential import GulpPotential
-from matter.Structure import Structure
+from matter.orm.Structure import Structure
 
 class GulpSettings:
     #input
     structure = Structure()
     runtype = 'md'
-    dos_projections = [0]
+    dos_projections = [0.]
     potential = GulpPotential()
     description = ''
     inputFile = 'gulp.gin'
