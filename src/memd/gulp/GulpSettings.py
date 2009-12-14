@@ -11,7 +11,11 @@
 #
 
 from GulpPotential import GulpPotential
+#<<<<<<< .mine
+#from matter.orm.AtomicStructure import Structure
+#=======
 from matter.orm.Structure import Structure
+#>>>>>>> .r653
 
 class GulpSettings:
     #input
@@ -29,10 +33,8 @@ class GulpSettings:
     xyzTrajectory_filename = 'outputmovie.xyz'
     output_filename = 'gulp.gout'
     dos_filename = 'dos.dens'
-    
 
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
             setattr(self, k, v)
-        return    
 
