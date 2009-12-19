@@ -24,15 +24,18 @@ sys.path.append(os.path.abspath('sphinxext'))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 
+extensions = ['matplotlib.sphinxext.mathmpl',
+              'matplotlib.sphinxext.only_directives',
+              'matplotlib.sphinxext.plot_directive',
+              'sphinx.ext.autodoc', 
               'sphinx.ext.doctest', 
               'sphinx.ext.intersphinx', 
               'sphinx.ext.todo', 
               'sphinx.ext.coverage', 
               'sphinx.ext.pngmath', 
-              'sphinx.ext.ifconfig',
+              'sphinx.ext.ifconfig']
               #'sphinx.ext.inheritance_diagram'
-              'class_diagram']
+              #'class_diagram']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -47,7 +50,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'AtomSim'
+project = u'Memd'
 copyright = u'2009, J. Brandon Keith'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -182,7 +185,7 @@ htmlhelp_basename = 'AtomSimdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'AtomSim.tex', u'AtomSim Documentation',
+  ('index', 'Memd.tex', u'Memd Documentation',
    u'J. Brandon Keith', 'manual'),
 ]
 

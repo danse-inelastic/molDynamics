@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 ROOT_UID=0   # Root has $UID 0.
 
