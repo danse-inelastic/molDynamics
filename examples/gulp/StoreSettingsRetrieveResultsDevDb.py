@@ -20,7 +20,8 @@ from memd.gulp.GulpSettings import GulpSettings
 gulpSettings = GulpSettings(runtype='md')
 gulpSettings.runtype='phonons'
 #from matter.Structure import Structure
-from matter.orm.Structure import Structure
+#from matter.orm.Structure import Structure
+from vnfb.dom.AtomicStructure import Structure
 s = orm.load(Structure, '3W4G7NUM')
 gulpSettings.structure = s
 
