@@ -23,8 +23,8 @@ orm.save(gulpSettings)
 
 # retrieve the d.o.
 ###################
-gulpSettings2 = orm.load(GulpSettings, id=orm(gulpSettings).id)
+gulpSettings2 = orm.load(GulpSettings, id = orm(gulpSettings).id)
 print gulpSettings2.runtype
 
-db.destroyAllTables()
+#db.destroyAllTables()
 
