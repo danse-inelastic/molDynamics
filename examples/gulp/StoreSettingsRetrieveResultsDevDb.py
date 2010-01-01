@@ -14,7 +14,6 @@ db.autocommit(True)
 from dsaw.model.visitors.OrmManager import OrmManager
 orm = OrmManager(db, guid)
 
-
 #create settings
 from memd.gulp.GulpSettings import GulpSettings
 gulpSettings = GulpSettings(runtype='md')
