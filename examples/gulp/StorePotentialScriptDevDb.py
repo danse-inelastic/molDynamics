@@ -56,12 +56,7 @@ class dummy(base):
         orm = OrmManager(db, guid)
         
         from memd.gulp.GulpPotential import GulpPotential
-        #from vnfb.components import dds
-        #gulpPotential = GulpPotential()
-        #gulpPotential.potential_name = 'first'
-        #orm.save(gulpPotential)
         import os
-        
 #        ddsObj = dds()
 #        ddsObj._init()
 #        ddsObj.inventory.dataroot = os.path.abspath('.')
@@ -69,41 +64,37 @@ class dummy(base):
         #import sys
         #thisMod = sys.modules[__name__]
         #ddsObj.director = thisMod
-        
         for potentialName in os.listdir('originalPotentials'):
-            if potentialName[0]=='.': continue
-            f = open(os.path.join('originalPotentials',potentialName))
+            if potentialName[0]=='.': 
+                continue
+            f = open(os.path.join('originalPotentials', potentialName))
             librarycontent = f.read()
             f.close()
             
-            potential_filename = potentialName
             try:
-        #        gulpPotential = director.clerk.getRecordByID(GulpPotential, self.inventory.potential_name, 
-        #            associatedDataFileToVerify = self.inventory.potential_filename, director=director)
-                1/0
-                gulpPotential = orm.load(GulpPotential, id = '1')
-            except:
-                # if it doesn't exist, create a new one from this entry
-                #gulpPotential = director.clerk.newDbObject(GulpPotential, id = self.inventory.potential_name)
+                record = orm.db.query(orm(GulpPotential)).filter_by(
+                                    filename = potentialName).one()
+                gulpPotential = orm.record2object(record)
+            except Exception, err:
+                print err
+                print 'creating new potential'
                 gulpPotential = GulpPotential()
-                gulpPotential.filename = potential_filename
-                orm.save(gulpPotential)
-                #put the potential in the potentials subdirectory
-                libfile = self.dds.abspath(orm(gulpPotential), filename = potential_filename)
-                libDirectory,file = os.path.split(libfile)
-                if not os.path.exists(libDirectory):
-                    try:
-                        os.makedirs(libDirectory)
-                    except Exception, err:
-                        raise RuntimeError, "unable to create directory %r. %s: %s" % (
-                            self.path, err.__class__.__name__, err)
-                open(libfile, 'w').write(librarycontent)
-                #server = director.clerk.dereference(job.server)
-                self.dds.remember(orm(gulpPotential), files=[potential_filename])
+            gulpPotential.filename = potentialName
+            gulpPotential.potential_name = potentialName.split('.')[0]
+            orm.save(gulpPotential)
+            #put the potential in the potentials subdirectory
+            libfile = self.dds.abspath(orm(gulpPotential), filename = potentialName)
+            libDirectory,file = os.path.split(libfile)
+            if not os.path.exists(libDirectory):
+                try:
+                    os.makedirs(libDirectory)
+                except Exception, err:
+                    raise RuntimeError, "unable to create directory %r. %s: %s" % (
+                        self.path, err.__class__.__name__, err)
+            open(libfile, 'w').write(librarycontent)
+            #server = director.clerk.dereference(job.server)
+            self.dds.remember(orm(gulpPotential), files=[potentialName])
             
-            
-        
-        
         gulpPotential2 = orm.load(GulpPotential, id = orm(gulpPotential).id)
         print gulpPotential2.potential_name
         
