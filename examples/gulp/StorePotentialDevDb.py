@@ -1,8 +1,24 @@
-_id = 0
+try:
+    f = file('guid.dat')
+    _id = int(f.read())
+    f.close()
+except:
+    _id = 0
 def guid():
     global _id
     _id += 1
     return str(_id)
+
+# connect to current idd server
+#import pyre.idd
+##create an INET, STREAMing socket
+#import socket
+#s = socket.socket(
+#    socket.AF_INET, socket.SOCK_STREAM)
+##now connect to the web server on port 80 
+## - the normal http port
+#s.connect(("localhost", 80))
+#pyre.idd.session
 
 #connect to db
 from dsaw.db import connect
@@ -20,11 +36,20 @@ from vnfb.components import dds
 #gulpPotential.potential_name = 'first'
 #orm.save(gulpPotential)
 import os
+
+ddsObj = dds()
+ddsObj._init()
+ddsObj.inventory.dataroot = os.path.abspath('.')
+ddsObj._configure()
+#import sys
+#thisMod = sys.modules[__name__]
+#ddsObj.director = thisMod
+
 for potentialName in os.listdir('originalPotentials'):
     if potentialName[0]=='.': continue
     f = file(os.path.join('originalPotentials',potentialName))
     librarycontent = f.read()
-    ddsObj = dds()
+
     
     potential_filename = potentialName
     try:
@@ -58,6 +83,10 @@ for potentialName in os.listdir('originalPotentials'):
 
 gulpPotential2 = orm.load(GulpPotential, id = orm(gulpPotential).id)
 print gulpPotential2.potential_name
+
+f = file('guid.dat','w')
+f.write(_id)
+f.close()
 
 #db.destroyAllTables()
 

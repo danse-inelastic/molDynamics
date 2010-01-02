@@ -4,6 +4,11 @@
 	<comment></comment>
 	<projects>
 		<project>crystal</project>
+		<project>kernelGenerator</project>
+		<project>plotter</project>
+		<project>pyreTrunk</project>
+		<project>vimm</project>
+		<project>vnfBetaLuban</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
