@@ -100,7 +100,6 @@ class dummy(base):
                 open(libfile, 'w').write(librarycontent)
                 #server = director.clerk.dereference(job.server)
                 self.dds.remember(orm(gulpPotential), files=[potential_filename])
-                break
             
             
         

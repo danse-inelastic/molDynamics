@@ -23,9 +23,11 @@ gulpSettings.runtype='phonons'
 from vnfb.dom.AtomicStructure import Structure
 s = orm.load(Structure, '3W4G7NUM')
 gulpSettings.structure = s
-
+from memd.gulp.GulpPotential import GulpPotential
+p = orm.load(GulpPotential, '1')
+gulpSettings.potential = p
 #store settings in db
-orm.save(gulpSettings)#<------stalls on this line
+orm.save(gulpSettings)
 
 #retrieve the d.o.
 gulpSettings2 = orm.load(GulpSettings, id = orm(gulpSettings).id)
