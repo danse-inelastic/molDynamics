@@ -49,7 +49,7 @@ class dummy(base):
         f = open('devDbPass.txt')
         passwd = f.read()
         f.close()
-        db = connect(db ='postgres://vnf:'+passwd+'@vnf.caltech.edu/vnfa2b',echo=True)
+        db = connect(db ='postgres://vnf:'+passwd+'@vnf.caltech.edu/vnfa2b', echo=True)
         #db = connect(db ='postgres:///test',echo=1)
         db.autocommit(True)
         from dsaw.model.visitors.OrmManager import OrmManager
