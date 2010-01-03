@@ -64,26 +64,29 @@ class dummy(base):
         #import sys
         #thisMod = sys.modules[__name__]
         #ddsObj.director = thisMod
-        for potentialName in os.listdir('originalPotentials'):
-            if potentialName[0]=='.': 
+        for potential_filename in os.listdir('originalPotentials'):
+            if potential_filename[0]=='.': 
                 continue
-            f = open(os.path.join('originalPotentials', potentialName))
+            potential_name = potential_filename.split('.')[0]
+            f = open(os.path.join('originalPotentials', potential_filename))
             librarycontent = f.read()
             f.close()
             
             try:
+#                record = orm.db.query(orm(GulpPotential)).filter_by(
+#                                    filename = potential_filename).one()
                 record = orm.db.query(orm(GulpPotential)).filter_by(
-                                    filename = potentialName).one()
+                                potential_name = potential_name).one()
                 gulpPotential = orm.record2object(record)
             except Exception, err:
                 print err
                 print 'creating new potential'
                 gulpPotential = GulpPotential()
-            gulpPotential.filename = potentialName
-            gulpPotential.potential_name = potentialName.split('.')[0]
+            gulpPotential.filename = potential_filename
+            gulpPotential.potential_name = potential_name
             orm.save(gulpPotential)
             #put the potential in the potentials subdirectory
-            libfile = self.dds.abspath(orm(gulpPotential), filename = potentialName)
+            libfile = self.dds.abspath(orm(gulpPotential), filename = potential_filename)
             libDirectory,file = os.path.split(libfile)
             if not os.path.exists(libDirectory):
                 try:
@@ -93,7 +96,7 @@ class dummy(base):
                         self.path, err.__class__.__name__, err)
             open(libfile, 'w').write(librarycontent)
             #server = director.clerk.dereference(job.server)
-            self.dds.remember(orm(gulpPotential), files=[potentialName])
+            self.dds.remember(orm(gulpPotential), files=[potential_filename])
             
         gulpPotential2 = orm.load(GulpPotential, id = orm(gulpPotential).id)
         print gulpPotential2.potential_name
