@@ -24,7 +24,7 @@ class GulpSettings:
     description = ''
     inputFile = 'gulp.gin'
     creator = ''
-    date = ''
+    #date = ''
     #results = GulpResults()
     #results
     compressed_xyzTrajectory_filename = 'outputmovie.xyz.zip'
