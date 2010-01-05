@@ -45,10 +45,14 @@ class GulpSettings:
         inputFile = InvBase.d.str(name = 'inputFile', max_length = 80, default ="gulp.gin")
         creator = InvBase.d.str(name = 'creator', max_length = 80, default ="")
         #date = InvBase.d.str(name = 'date', max_length = 80, default ="")
+        results_state = InvBase.d.str(name='results_state', length=16, default='')
         compressed_xyzTrajectory_filename = InvBase.d.str(name = 'compressed_xyzTrajectory_filename', 
                                                                  max_length = 80, default ='outputmovie.xyz.zip')
         xyzTrajectory_filename = InvBase.d.str(name = 'xyzTrajectory_filename', max_length = 80, default ='outputmovie.xyz')
         output_filename = InvBase.d.str(name = 'output_filename', max_length = 80, default ='gulp.gout')
         dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
+        
+        
+
 
 
