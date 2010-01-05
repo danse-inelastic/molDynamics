@@ -24,7 +24,8 @@ class GulpSettings:
     description = ''
     inputFile = 'gulp.gin'
     creator = ''
-    #date = ''
+    date = ''
+    results_state = ''
     #results = GulpResults()
     #results
     compressed_xyzTrajectory_filename = 'outputmovie.xyz.zip'
@@ -44,7 +45,7 @@ class GulpSettings:
         description = InvBase.d.str(name = 'description', max_length = 80, default ="")
         inputFile = InvBase.d.str(name = 'inputFile', max_length = 80, default ="gulp.gin")
         creator = InvBase.d.str(name = 'creator', max_length = 80, default ="")
-        #date = InvBase.d.str(name = 'date', max_length = 80, default ="")
+        date = InvBase.d.date(name = 'date')
         results_state = InvBase.d.str(name='results_state', length=16, default='')
         compressed_xyzTrajectory_filename = InvBase.d.str(name = 'compressed_xyzTrajectory_filename', 
                                                                  max_length = 80, default ='outputmovie.xyz.zip')
