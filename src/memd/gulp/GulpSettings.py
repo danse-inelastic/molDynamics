@@ -24,7 +24,8 @@ class GulpSettings:
     description = ''
     inputFile = 'gulp.gin'
     creator = ''
-    date = ''
+    import time
+    date = time.ctime()
     results_state = ''
     #results = GulpResults()
     #results
