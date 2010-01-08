@@ -21,8 +21,9 @@ class GulpSettings:
     runtype = 'md'
     dos_projection = [0.0]
     potential = GulpPotential()
-    description = ''
     inputFile = 'gulp.gin'
+    
+    short_description = ''
     creator = ''
     import time
     date = time.ctime()
@@ -43,7 +44,7 @@ class GulpSettings:
         runtype = InvBase.d.str(name = 'runtype', max_length = 80, default ="md")
         dos_projection = InvBase.d.array(name='dos_projection', elementtype='float', shape=1)
         potential = InvBase.d.reference(name='potential', targettype=GulpPotential, owned=False)
-        description = InvBase.d.str(name = 'description', max_length = 80, default ="")
+        short_description = InvBase.d.str(name = 'short_description', max_length = 80, default ="")
         inputFile = InvBase.d.str(name = 'inputFile', max_length = 80, default ="gulp.gin")
         creator = InvBase.d.str(name = 'creator', max_length = 80, default ="")
         date = InvBase.d.date(name = 'date')
