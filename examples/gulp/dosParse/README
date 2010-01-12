@@ -1,0 +1,9 @@
+plans: i'm combining multiphonon with kernel generator, so all this will be together soon..
+
+
+What I learned:
+
+*Gulp does not do so well on the DOS with this classical potential
+*Everything is shifted to lower energies
+*The Gamma point spectrum is not continuous--not a surprise!  Like a lot of 
+delta functions
