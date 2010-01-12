@@ -4,8 +4,8 @@ import numpy as np
 from os import sep
 import re, sys
 #import scipy.io
-from molDynamics.gulp.E import write as writeEs
-from molDynamics.gulp.NetcdfPolarizationWrite import NetcdfPolarizationWrite
+from memd.gulp.E import write as writeEs
+#from memd.gulp.NetcdfPolarizationWrite import NetcdfPolarizationWrite
 
 # numbers: 1, 30.0, 1e-5, -99
 number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) + \
@@ -103,6 +103,48 @@ class OutputParser:
         else:
             return self.parseInitialConfiguration()     
 
+    def getEigvals(self):
+        '''finds and returns all eigenvalues in a list, along with kpts
+        
+        the eigenvalues are reshaped according to (numKpoints, numModes)
+        where numModes = 3*numAtoms
+        '''
+        import urllib
+        gulpOutput = urllib.urlopen(self.gulpOutputFile)               
+        from Phonons import Phonons
+        phonons = Phonons(kpoints = self.getKpoints())
+        eigs = []
+#        vecs = []
+        kpointIndex = 0
+        modeIndex = 0
+        while True:
+            line = gulpOutput.readline()
+            if not line: # this kicks us out when we get to the end of the file
+                break
+            if 'Frequency' in line:
+                #print frequencyLine.parseString(line)
+                #if frequencyLine.parseString(line):
+                space_re = '[ \t]+'
+                float_re = '[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
+                    eigs += map(lambda x: float(x),(line.strip().split())[1:])
+#            elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
+#                gulpOutput.readline()
+#                vecs += self.getComplexVecs(kpointIndex,modeIndex,gulpOutput)
+#                modeIndex += 3
+#                #print 'eigenDataParser wrote kpoint, mode',kpointIndex,modeIndex
+##                eigs.append(eig)
+            if modeIndex == self.numModes:
+                kpointIndex += 1
+                modeIndex = 0
+        gulpOutput.close()
+        eigs = np.array(eigs)
+        #reshape according to the number of kpoints
+        phonons.frequencies = eigs.reshape((self.numKpoints, self.numModes))
+#        vecs = np.array(vecs)
+#        phonons.modes = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
+        return phonons 
+
     def getEigsAndVecs(self):
         '''finds and returns all eigenvectors and eigenvalues in a list with 
         kpts--eventually will use a "smart algorithm" that looks at the size of the
@@ -156,8 +198,6 @@ class OutputParser:
         phonons = self.getEigsAndVecs()
         phonons.writeVibrationsFile(filename)
 
-        
-    
     def writeVecs(self,kpointIndex, modeIndex, gulpOutputFileDescriptor):
         mode1,mode2,mode3 = self.getVecs(kpointIndex, modeIndex, gulpOutputFileDescriptor)
         self.polWrite.writeVec(mode1)
@@ -412,6 +452,8 @@ class OutputParser:
         return len(kpoints), kpoints
                  
     def getKpoints(self):
+        if not hasattr(self, 'kpoints'):
+            self.parseKpoints()
         return self.kpoints
     
     def parseNumAtoms(self):
