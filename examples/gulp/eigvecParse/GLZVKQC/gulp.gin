@@ -1,0 +1,13 @@
+phonon eigenvectors noksymmetry 
+vectors
+3.61 0.0 0.0
+0.0 3.61 0.0
+0.0 0.0 3.61 
+supercell 2 2 2
+fractional 4
+Cu 0.0 0.0 0.0 
+Cu 0.5 0.5 0.0 
+Cu 0.5 0.0 0.5 
+Cu 0.0 0.5 0.5 
+library suttonchen
+shrink 2 2 2

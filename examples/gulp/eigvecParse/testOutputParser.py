@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-gulpFile = "gulp.out"
+gulpFile = "GLZVKQC/gulp.gout"
 
-from kernelGenerator.gulp.OutputParser import OutputParser
+from memd.gulp.output.OutputParser import OutputParser
 o = OutputParser(gulpFile,'phonons')
 phonons = o.getEigsAndVecs()
-
 print phonons.frequencies
 print phonons.modes
+kpts = o.getKpoints()
+print kpts

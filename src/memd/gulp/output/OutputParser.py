@@ -434,8 +434,8 @@ class OutputParser:
             if not line: # this kicks us out when we get to the end of the file
                 sys.stderr.write('no kpoints in this output file ')
                 sys.exit(2)
-            if 'Number of k points for this configuration' in line:
-                break
+            if 'Number of k points for this configuration' in line: break
+            if 'Brillouin zone sampling points' in line: break
             #updated for taking into account calculatoin type "phonon"
         previousLineBlank=False
         while True:
