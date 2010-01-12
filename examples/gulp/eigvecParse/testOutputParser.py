@@ -4,8 +4,8 @@ gulpFile = "GLZVKQC/gulp.gout"
 
 from memd.gulp.output.OutputParser import OutputParser
 o = OutputParser(gulpFile,'phonons')
-phonons = o.getEigsAndVecs()
-print phonons.frequencies
-print phonons.modes
+vibs = o.getEigsAndVecs()
+print vibs.eigVals
+print vibs.eigVecs
 kpts = o.getKpoints()
 print kpts

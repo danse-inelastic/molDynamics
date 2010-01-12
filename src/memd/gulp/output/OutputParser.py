@@ -111,8 +111,8 @@ class OutputParser:
         '''
         import urllib
         gulpOutput = urllib.urlopen(self.gulpOutputFile)               
-        from Phonons import Phonons
-        phonons = Phonons(kpoints = self.getKpoints())
+        from vsat.Vibrations import Vibrations
+        vibs = Vibrations()
         eigs = []
 #        vecs = []
         kpointIndex = 0
@@ -146,10 +146,10 @@ class OutputParser:
                 kpointIndex += 1
                 modeIndex = 0
         gulpOutput.close()
-        phonons.frequencies = np.array(eigs)
+        vibs.eigVals = np.array(eigs)
 #        vecs = np.array(vecs)
 #        phonons.modes = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
-        return phonons 
+        return vibs
 
     def getEigsAndVecs(self):
         '''finds and returns all eigenvectors and eigenvalues in a list with 
@@ -163,8 +163,8 @@ class OutputParser:
         '''
         import urllib
         gulpOutput = urllib.urlopen(self.gulpOutputFile)               
-        from Phonons import Phonons
-        phonons = Phonons(kpoints=self.getKpoints())
+        from vsat.Vibrations import Vibrations
+        vibs = Vibrations()
         eigs = []
         vecs = []
         kpointIndex = 0
@@ -192,10 +192,10 @@ class OutputParser:
         gulpOutput.close()
         eigs = np.array(eigs)
         #reshape according to the number of kpoints
-        phonons.frequencies = eigs.reshape((self.numKpoints, self.numModes))
+        vibs.eigVals = eigs.reshape((self.numKpoints, self.numModes))
         vecs = np.array(vecs)
-        phonons.modes = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
-        return phonons 
+        vibs.eigVecs = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
+        return vibs 
         
 #    def getPhononModes(self, scaleDisplacementsByEigenvalues = True):
 #        eigsNVecs = self.getEigsAndVecs()
