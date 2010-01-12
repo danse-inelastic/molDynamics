@@ -121,13 +121,21 @@ class OutputParser:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
                 break
-            if 'Frequency' in line:
+            if 'Frequencies' in line:
+                kpointEigs=[]
+                gulpOutput.readline()
+                # now keep parsing until get blankline
+                eigvals = gulpOutput.readline().split()
+                while len(eigvals)>0:
+                    kpointEigs += map(float, eigvals)
+                    eigvals = gulpOutput.readline().split()
+                eigs.append(kpointEigs)
                 #print frequencyLine.parseString(line)
                 #if frequencyLine.parseString(line):
-                space_re = '[ \t]+'
-                float_re = '[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
-                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
-                    eigs += map(lambda x: float(x),(line.strip().split())[1:])
+#                space_re = '[ \t]+'
+#                float_re = '[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+#                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
+#                    eigs += map(lambda x: float(x),(line.strip().split())[1:])
 #            elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
 #                gulpOutput.readline()
 #                vecs += self.getComplexVecs(kpointIndex,modeIndex,gulpOutput)
@@ -138,9 +146,7 @@ class OutputParser:
                 kpointIndex += 1
                 modeIndex = 0
         gulpOutput.close()
-        eigs = np.array(eigs)
-        #reshape according to the number of kpoints
-        phonons.frequencies = eigs.reshape((self.numKpoints, self.numModes))
+        phonons.frequencies = np.array(eigs)
 #        vecs = np.array(vecs)
 #        phonons.modes = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
         return phonons 
