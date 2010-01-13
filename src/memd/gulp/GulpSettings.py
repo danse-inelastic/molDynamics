@@ -56,6 +56,23 @@ class GulpSettings:
         output_filename = InvBase.d.str(name = 'output_filename', max_length = 80, default ='gulp.gout')
         dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
         
+    def getOutputFiles(self):
+        #based on runtypes 
+        outputFiles = {"optimization":[self.output_filename], 
+            "fit":[self.output_filename],
+            "phonons":[self.output_filename, self.dos_filename], 
+            "free energy calc/optimize":[self.output_filename],
+            "molecular dynamics":[self.output_filename, self.xyzTrajectory_filename], 
+            "monte carlo":[self.output_filename],
+            "energetics and material properties":[self.output_filename],
+            "surface calc/optimize":[self.output_filename],
+            "transition state":[self.output_filename],
+            "structure prediction":[self.output_filename]}
+        # add the output file to every list
+#        augmentedOutputFiles={}
+#        for key,val in outputFiles.iteritems():
+#            augmentedOutputFiles[key] = val+[self.output_filename]
+        return outputFiles[self.runtype]
         
 
 
