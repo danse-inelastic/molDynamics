@@ -44,6 +44,7 @@ class PostProcessGulp(Script):
         self.ncFile = self.inventory.ncFile
         self.gulpOutputFile = self.inventory.gulpOutputFile
         self.vibrationsFile = self.inventory.vibrationsFile
+        self.phononsFile = self.inventory.phononsFile
         
     def main(self, *args, **kwds):
         if self.inventory.convertHistoryFile:
@@ -52,10 +53,12 @@ class PostProcessGulp(Script):
             c.setNetcdfFile(self.ncFile)
             c.convert()
         if self.inventory.convertHistoryFile:
-            c = ConvertFromGulpDLPOLY()
-            c.setHistoryFileName(self.historyFile)
-            c.setNetcdfFile(self.ncFile)
-            c.convert()
+            from memd.gulp.output.OutputParser import OutputParser
+            o = OutputParser(self.phononsFile, 'phonons')
+            vibs = o.getEigsAndVecs()
+            #print vibs.eigVals
+            #print vibs.eigVecs
+            
 #        if self.inventory.createPhononAnimation:
 #            o = OutputParser(gulpOutputFile=self.gulpOutputFile)
 #            o.outputVibrationsFile(self.vibrationFilename)

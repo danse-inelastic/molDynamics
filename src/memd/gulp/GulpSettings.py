@@ -30,10 +30,9 @@ class GulpSettings:
 #    results_state = ''
     #results = GulpResults()
     #results
-    compressed_xyzTrajectory_filename = 'outputmovie.xyz.zip'
-    xyzTrajectory_filename = 'outputmovie.xyz'
+    trajectories = []
     output_filename = 'gulp.gout'
-    dos_filename = 'dos.dens'
+    dos_filename = ''
 
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
@@ -50,24 +49,27 @@ class GulpSettings:
         creator = InvBase.d.str(name = 'creator', max_length = 80)
 #        date = InvBase.d.date(name = 'date')
 #        results_state = InvBase.d.str(name='results_state', length=16, default='')
-        compressed_xyzTrajectory_filename = InvBase.d.str(name = 'compressed_xyzTrajectory_filename', 
-                                                                 max_length = 80, default ='outputmovie.xyz.zip')
-        xyzTrajectory_filename = InvBase.d.str(name = 'xyzTrajectory_filename', max_length = 80, default ='outputmovie.xyz')
+        trajectories = InvBase.d.array(name = 'trajectories', elementtype='str')
         output_filename = InvBase.d.str(name = 'output_filename', max_length = 80, default ='gulp.gout')
         dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
         
     def getOutputFiles(self):
+        
+        compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
+        base = [self.output_filename]
+        mdout = base + compressedTrajectories
+        #dosout = base + 
         #based on runtypes 
-        outputFiles = {"optimization":[self.output_filename], 
-            "fit":[self.output_filename],
-            "phonons":[self.output_filename, self.dos_filename], 
-            "free energy calc/optimize":[self.output_filename],
-            "molecular dynamics":[self.output_filename, self.xyzTrajectory_filename], 
-            "monte carlo":[self.output_filename],
-            "energetics and material properties":[self.output_filename],
-            "surface calc/optimize":[self.output_filename],
-            "transition state":[self.output_filename],
-            "structure prediction":[self.output_filename]}
+        outputFiles = {"optimization":base, 
+            "fit":base,
+            "phonons":(base + [self.dos_filename,'phonons.pkl']), 
+            "free energy calc/optimize":base,
+            "molecular dynamics":mdout, 
+            "monte carlo":base,
+            "energetics and material properties":base,
+            "surface calc/optimize":base,
+            "transition state":base,
+            "structure prediction":base}
         # add the output file to every list
 #        augmentedOutputFiles={}
 #        for key,val in outputFiles.iteritems():

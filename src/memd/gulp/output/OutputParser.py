@@ -3,6 +3,7 @@ import pickle
 import numpy as np
 from os import sep
 import re, sys
+import urllib
 #import scipy.io
 from memd.gulp.E import write as writeEs
 #from memd.gulp.NetcdfPolarizationWrite import NetcdfPolarizationWrite
@@ -70,6 +71,14 @@ class OutputParser:
 #                                numAtoms=self.numAtoms, numks=self.numKpoints)
 #        self.polWrite=NetcdfPolarizationWrite(filename=polarizationsFilename, 
 #                                numks=self.numKpoints, numAtoms=self.numAtoms)
+
+#    def _getGulpOutput(self):
+#        if !self.gulpOutput:
+#            
+#            return urllib.urlopen(self.gulpOutputFile)
+#        else
+#            
+#    gulpOutput = property(_getGulpOutput())
         
     def parseInitialConfiguration(self):
         '''gets the initial configuration from gulp's output file
@@ -77,7 +86,7 @@ class OutputParser:
         The reason one would want to get the configuration from the output
         file instead of from the database is because in gulp the original
         configuration is frequently altered, such as when creating a supercell.'''
-        import urllib
+        
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
         self.initialConfiguration=[]
         while True:
@@ -101,7 +110,23 @@ class OutputParser:
         if self.initialConfiguration:
             return self.initialConfiguration
         else:
-            return self.parseInitialConfiguration()     
+            return self.parseInitialConfiguration()    
+        
+        
+    def _initializePhonons(self):
+        from vsat.Phonons import Phonons
+        phonons = Phonons()
+        phonons.kptList = self.getKpoints()
+        return phonons
+    
+    def _reshapeEigenData(self, eigVals=None, eigVecs=None):
+        #since kpoints will be in the same order as the eigs/vecs, we 
+        #simply get corresponding eigs/vecs
+        self.getKpoints()
+        if eigVals:
+            
+        
+         
 
     def getEigvals(self):
         '''finds and returns all eigenvalues in a list, along with kpts
@@ -109,10 +134,8 @@ class OutputParser:
         the eigenvalues are reshaped according to (numKpoints, numModes)
         where numModes = 3*numAtoms
         '''
-        import urllib
         gulpOutput = urllib.urlopen(self.gulpOutputFile)               
-        from vsat.Vibrations import Vibrations
-        vibs = Vibrations()
+        phonons = self._initializePhonons()
         eigs = []
 #        vecs = []
         kpointIndex = 0
@@ -130,26 +153,13 @@ class OutputParser:
                     kpointEigs += map(float, eigvals)
                     eigvals = gulpOutput.readline().split()
                 eigs.append(kpointEigs)
-                #print frequencyLine.parseString(line)
-                #if frequencyLine.parseString(line):
-#                space_re = '[ \t]+'
-#                float_re = '[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
-#                if re.search('Frequency' + space_re + float_re + space_re + float_re + space_re + float_re, line):
-#                    eigs += map(lambda x: float(x),(line.strip().split())[1:])
-#            elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
-#                gulpOutput.readline()
-#                vecs += self.getComplexVecs(kpointIndex,modeIndex,gulpOutput)
-#                modeIndex += 3
-#                #print 'eigenDataParser wrote kpoint, mode',kpointIndex,modeIndex
-##                eigs.append(eig)
             if modeIndex == self.numModes:
                 kpointIndex += 1
                 modeIndex = 0
         gulpOutput.close()
-        vibs.eigVals = np.array(eigs)
-#        vecs = np.array(vecs)
-#        phonons.modes = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
-        return vibs
+        phonons.eigVals = np.array(eigs)
+        phonons.
+        return phonons
 
     def getEigsAndVecs(self):
         '''finds and returns all eigenvectors and eigenvalues in a list with 
@@ -161,10 +171,10 @@ class OutputParser:
         
         where numModes = 3*numAtoms
         '''
-        import urllib
-        gulpOutput = urllib.urlopen(self.gulpOutputFile)               
-        from vsat.Vibrations import Vibrations
-        vibs = Vibrations()
+        
+        gulpOutput = urllib.urlopen(self.gulpOutputFile)  
+        phonons = self._initializePhonons()             
+
         eigs = []
         vecs = []
         kpointIndex = 0
@@ -192,10 +202,10 @@ class OutputParser:
         gulpOutput.close()
         eigs = np.array(eigs)
         #reshape according to the number of kpoints
-        vibs.eigVals = eigs.reshape((self.numKpoints, self.numModes))
+        phonons.eigVals = eigs.reshape((self.numKpoints, self.numModes))
         vecs = np.array(vecs)
-        vibs.eigVecs = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
-        return vibs 
+        phonons.eigVecs = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
+        return phonons 
         
 #    def getPhononModes(self, scaleDisplacementsByEigenvalues = True):
 #        eigsNVecs = self.getEigsAndVecs()
@@ -275,7 +285,7 @@ class OutputParser:
         
     def getGammaPtEigenvaluesAndEigenvectors(self):
         '''returns eigenvalues and vectors when kpt is 0,0,0'''
-        import urllib
+        
         gulpOutput = urllib.urlopen(self.gulpOutputFile)               
         self.eigs=[]
         self.vecs=[]
@@ -314,7 +324,7 @@ class OutputParser:
 
     def getGammaPtEigenvalues(self):
         '''returns eigenvalues when kpt is 0,0,0'''
-        import urllib
+        
         import string
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
         self.eigs=[]
@@ -352,7 +362,7 @@ class OutputParser:
         
     def parseEigenvaluesEigenvectorsOneByOne(self):
         '''gets eigenvalues and vectors one by one and writes them to file--good for BIG eigenvectors'''
-        import urllib
+        
         gulpOutput = urllib.urlopen(self.gulpOutputFile)               
         while True:
             line = gulpOutput.readline()
@@ -424,8 +434,7 @@ class OutputParser:
             vecs += [mode1,mode2,mode3,mode4,mode5,mode6]
         return vecs
         
-    def parseKpoints(self):
-        import urllib
+    def _parseKpoints(self):   
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
         brillouinZonePart=''
         #first look for Brillouin zone sampling part of output file:
@@ -446,24 +455,29 @@ class OutputParser:
                 else: previousLineBlank=True;continue
             else: previousLineBlank=False
         gulpOutput.close()
-        
         #now get the kpoints:
         #kpointLines = OneOrMore(Group(Suppress(integer) + number + number + number + Suppress(number)))
         kpointLines = Group(integer + number + number + number + number)
-        kpoints = []
+        self._kpoints = []
         dataSource = kpointLines.scanString(brillouinZonePart)
         for rawData, dataStart, dataEnd in dataSource:
             data = rawData.asList()[0]
-            kpoints.append(data[1:4])
-        return len(kpoints), kpoints
+            self._kpoints.append(data[1:4])
+        self.numKpoints = len(self._kpoints)
                  
-    def getKpoints(self):
-        if not hasattr(self, 'kpoints'):
-            self.parseKpoints()
-        return self.kpoints
+    def _getKpoints(self):
+        if not hasattr(self, '_kpoints'):
+            self._parseKpoints()
+        return self._kpoints
+    kpoints = property(_getKpoints)
+    
+    def _getNumKpoints(self):
+        if not hasattr(self, '_numKpoints'):
+            self._parseKpoints()
+        return self._kpoints
+    numKpoints = property(_getNumKpoints)
     
     def parseNumAtoms(self):
-        import urllib
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
         while True:
             line = gulpOutput.readline()
@@ -473,11 +487,37 @@ class OutputParser:
             if 'Total number atoms/shells =' in line:
                 break
         return int(line.split()[4])
+    
+    def _getLattice(self):
+        if hasattr(self, '_lattice'):
+            return self._lattice
+        else:
+            
+            gulpOutput = urllib.urlopen(self.gulpOutputFile)
+            while True:
+                line = gulpOutput.readline()
+                if not line: # this kicks us out when we get to the end of the file
+                    break
+                if 'Cartesian lattice vectors (Angstroms) :' in line:
+                    break
+            gulpOutput.readline()
+            a = map(float, gulpOutput.readline().split())
+            b = map(float, gulpOutput.readline().split())
+            c = map(float, gulpOutput.readline().split())
+            return [a, b, c]
+    lattice = property(_getLattice)
+    
+    def _getReciprocalLattice(self):
+        from matter.Lattice import Lattice
+        lattice = Lattice(base = self.lattice)
+        return lattice.recbase
+    
+    
 
         
 #    def parseEigenvalues(self):
 #        '''gets eigenvalues and writes them to file'''
-#        import urllib
+#        
 #        gulpOutput = urllib.urlopen(self.gulpOutputFile)
 #        self.eigs=[]
 #        kpointIndex=0
