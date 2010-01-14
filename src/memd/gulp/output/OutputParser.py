@@ -80,7 +80,7 @@ class OutputParser:
 #            
 #    gulpOutput = property(_getGulpOutput())
         
-    def parseInitialConfiguration(self):
+    def _parseInitialConfiguration(self):
         '''gets the initial configuration from gulp's output file
         
         The reason one would want to get the configuration from the output
@@ -88,7 +88,7 @@ class OutputParser:
         configuration is frequently altered, such as when creating a supercell.'''
         
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
-        self.initialConfiguration=[]
+        self._initialConfiguration=[]
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
@@ -103,14 +103,13 @@ class OutputParser:
             if modeIndex==self.numModes:
                 kpointIndex+=1
                 modeIndex=0  
-        return self.initialConfiguration 
-                
-    def getInitialConfiguration(self):
+               
+    @property 
+    def initialConfiguration(self):
         '''retrieve the initial configuration'''
-        if self.initialConfiguration:
-            return self.initialConfiguration
-        else:
-            return self.parseInitialConfiguration()    
+        if not hasattr(self, '_initialConfiguration'):
+            self.parseInitialConfiguration()
+        return self._initialConfiguration
         
         
     def _initializePhonons(self):
@@ -120,13 +119,22 @@ class OutputParser:
         return phonons
     
     def _reshapeEigenData(self, eigVals=None, eigVecs=None):
-        #since kpoints will be in the same order as the eigs/vecs, we 
-        #simply get corresponding eigs/vecs
-        self.getKpoints()
-        if eigVals:
-            
-        
-         
+        '''since kpoints will be in the same order as the eigs/vecs, we 
+        simply get corresponding eigs/vecs
+
+        attention: this only works for gulp mesh, which 
+        appears to be in lexicographic order.
+        Thus we can do a naive resort with the z axis on the innermost
+        index and changing the fastest.
+        '''
+        eigVals = np.array(eigVals)
+        eigVecs = np.array(eigVecs)
+        #reshape in k mesh
+        mx,my,mz = self.kpointMesh
+        eigVals.reshape((mx, my, mz, self.numModes))
+        #reshape in groups of k, number of modes, and polarization vector per atom
+        eigVecs.reshape((self.numKpoints, self.numModes, self.numAtoms, 3))
+        return eigVals, eigVecs
 
     def getEigvals(self):
         '''finds and returns all eigenvalues in a list, along with kpts
@@ -171,10 +179,8 @@ class OutputParser:
         
         where numModes = 3*numAtoms
         '''
-        
         gulpOutput = urllib.urlopen(self.gulpOutputFile)  
         phonons = self._initializePhonons()             
-
         eigs = []
         vecs = []
         kpointIndex = 0
@@ -192,7 +198,7 @@ class OutputParser:
                     eigs += map(lambda x: float(x),(line.strip().split())[1:])
             elif 'Real    Imaginary   Real    Imaginary   Real    Imaginary' in line:
                 gulpOutput.readline()
-                vecs += self.getComplexVecs(kpointIndex,modeIndex,gulpOutput)
+                vecs += self._getComplexVecs(kpointIndex,modeIndex,gulpOutput)
                 modeIndex += 3
                 #print 'eigenDataParser wrote kpoint, mode',kpointIndex,modeIndex
 #                eigs.append(eig)
@@ -200,11 +206,8 @@ class OutputParser:
                 kpointIndex += 1
                 modeIndex = 0
         gulpOutput.close()
-        eigs = np.array(eigs)
         #reshape according to the number of kpoints
-        phonons.eigVals = eigs.reshape((self.numKpoints, self.numModes))
-        vecs = np.array(vecs)
-        phonons.eigVecs = vecs.reshape((self.numKpoints, self.numModes, self.numModes))
+        phonons.eigVals,phonons.eigVecs =self.reshapeEigenData(eigs,vecs)
         return phonons 
         
 #    def getPhononModes(self, scaleDisplacementsByEigenvalues = True):
@@ -242,7 +245,7 @@ class OutputParser:
 #        mode3 = mode3.reshape(self.numAtoms,3,2)
         return [mode1,mode2,mode3]
     
-    def getComplexVecs(self, kpointIndex, modeIndex, gulpOutput):
+    def _getComplexVecs(self, kpointIndex, modeIndex, gulpOutput):
         mode1=np.zeros((self.numAtoms*3),dtype=complex)
         mode2=np.zeros((self.numAtoms*3),dtype=complex)
         mode3=np.zeros((self.numAtoms*3),dtype=complex)
@@ -255,9 +258,9 @@ class OutputParser:
                 break
             vals = (line.split())[2:]
             #print vals
-            operand1 = self.assignOperand(vals[1])
-            operand3 = self.assignOperand(vals[3])
-            operand5 = self.assignOperand(vals[5])
+            operand1 = self._assignOperand(vals[1])
+            operand3 = self._assignOperand(vals[3])
+            operand5 = self._assignOperand(vals[5])
             #print vals, operand1
             mode1[i] = complex(vals[0]+operand1+vals[1]+'j')
             mode2[i] = complex(vals[2]+operand3+vals[3]+'j')
@@ -269,12 +272,12 @@ class OutputParser:
         return [mode1, mode2, mode3]
         
     def writeComplexVecs(self, kpointIndex, modeIndex, gulpOutputFileDescriptor):
-        mode1,mode2,mode3 = self.getComplexVecs(kpointIndex, modeIndex, gulpOutputFileDescriptor)
+        mode1,mode2,mode3 = self._getComplexVecs(kpointIndex, modeIndex, gulpOutputFileDescriptor)
         self.polWrite.writeVec(kpointIndex, modeIndex, mode1)
         self.polWrite.writeVec(kpointIndex, modeIndex+1, mode2)
         self.polWrite.writeVec(kpointIndex, modeIndex+2, mode3)
         
-    def assignOperand(self, num):
+    def _assignOperand(self, num):
         if num[0] in '0123456789':
             return '+'
         elif num[0]=='-':
@@ -285,7 +288,6 @@ class OutputParser:
         
     def getGammaPtEigenvaluesAndEigenvectors(self):
         '''returns eigenvalues and vectors when kpt is 0,0,0'''
-        
         gulpOutput = urllib.urlopen(self.gulpOutputFile)               
         self.eigs=[]
         self.vecs=[]
@@ -324,7 +326,6 @@ class OutputParser:
 
     def getGammaPtEigenvalues(self):
         '''returns eigenvalues when kpt is 0,0,0'''
-        
         import string
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
         self.eigs=[]
@@ -435,47 +436,67 @@ class OutputParser:
         return vecs
         
     def _parseKpoints(self):   
+        """this function is necessary in output parser
+         in order to know the specific
+        kpoints used
+        """
+        def _getSpecificKpoints(gulpOutput):
+            previousLineBlank=False
+            while True:
+                line = gulpOutput.readline()
+                brillouinZonePart+=line
+                if line=='\n': 
+                    if previousLineBlank==True: break
+                    else: previousLineBlank=True;continue
+                else: previousLineBlank=False
+            gulpOutput.close()
+            #now get the kpoints:
+            #kpointLines = OneOrMore(Group(Suppress(integer) + number + number + number + Suppress(number)))
+            kpointLines = Group(integer + number + number + number + number)
+            self._kpoints = []
+            dataSource = kpointLines.scanString(brillouinZonePart)
+            for rawData, dataStart, dataEnd in dataSource:
+                data = rawData.asList()[0]
+                self._kpoints.append(data[1:4])
+            self.numKpoints = len(self._kpoints)
+        def _getKpointMesh(line):
+            self._kpointMesh = map(int, (line.split())[3:])
+            
+        #look through file:
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
         brillouinZonePart=''
-        #first look for Brillouin zone sampling part of output file:
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
                 sys.stderr.write('no kpoints in this output file ')
                 sys.exit(2)
-            if 'Number of k points for this configuration' in line: break
-            if 'Brillouin zone sampling points' in line: break
-            #updated for taking into account calculatoin type "phonon"
-        previousLineBlank=False
-        while True:
-            line = gulpOutput.readline()
-            brillouinZonePart+=line
-            if line=='\n': 
-                if previousLineBlank==True: break
-                else: previousLineBlank=True;continue
-            else: previousLineBlank=False
-        gulpOutput.close()
-        #now get the kpoints:
-        #kpointLines = OneOrMore(Group(Suppress(integer) + number + number + number + Suppress(number)))
-        kpointLines = Group(integer + number + number + number + number)
-        self._kpoints = []
-        dataSource = kpointLines.scanString(brillouinZonePart)
-        for rawData, dataStart, dataEnd in dataSource:
-            data = rawData.asList()[0]
-            self._kpoints.append(data[1:4])
-        self.numKpoints = len(self._kpoints)
-                 
-    def _getKpoints(self):
+            if 'Number of k points for this configuration' in line: 
+                _getSpecificKpoints(gulpOutput)
+                break
+            if 'Brillouin zone sampling points' in line:
+                _getSpecificKpoints(gulpOutput)
+                break
+            if 'Shrinking factors =' in line:
+                _getKpointMesh()
+                break
+
+    @property
+    def kpoints(self):
         if not hasattr(self, '_kpoints'):
             self._parseKpoints()
         return self._kpoints
-    kpoints = property(_getKpoints)
     
-    def _getNumKpoints(self):
+    @property
+    def numKpoints(self):
         if not hasattr(self, '_numKpoints'):
             self._parseKpoints()
-        return self._kpoints
-    numKpoints = property(_getNumKpoints)
+        return self._numKpoints
+    
+    @property
+    def kpointMesh(self):
+        if not hasattr(self, '_kpointMesh'):
+            self._parseKpoints()
+        return self._kpointMesh
     
     def parseNumAtoms(self):
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
@@ -508,9 +529,13 @@ class OutputParser:
     lattice = property(_getLattice)
     
     def _getReciprocalLattice(self):
-        from matter.Lattice import Lattice
-        lattice = Lattice(base = self.lattice)
-        return lattice.recbase
+        if hasattr(self, '_lattice'):
+            return self._lattice
+        else:
+            from matter.Lattice import Lattice
+            lattice = Lattice(base = self.lattice)
+            return lattice.recbase
+    reciprocal_lattice = property(_getReciprocalLattice)
     
     
 
