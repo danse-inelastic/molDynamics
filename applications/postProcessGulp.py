@@ -28,7 +28,6 @@ class PostProcessGulp(Script):
         extractPhonons = inv.bool('extractPhonons', default=False)
         #params
         gulpOutputFile = inv.str('gulpOutputFile', default='gulp.gout')
-        phononsFile = inv.str('phononsFile', default='phonons.pkl')
         #task
         createPhononAnimation = inv.bool('createPhononAnimation', default=False)
         #params
@@ -43,7 +42,6 @@ class PostProcessGulp(Script):
         self.ncFile = self.inventory.ncFile
         self.gulpOutputFile = self.inventory.gulpOutputFile
         self.vibrationsFile = self.inventory.vibrationsFile
-        self.phononsFile = self.inventory.phononsFile
         
     def main(self, *args, **kwds):
         if self.inventory.convertHistoryFile:
@@ -55,7 +53,8 @@ class PostProcessGulp(Script):
             from memd.gulp.output.OutputParser import OutputParser
             o = OutputParser(self.gulpOutputFile, runtype = 'phonons')
             #pickle it
-            o.pickleEigsAndVecs(self.phononsFile)
+            phonons = o.getEigsAndVecs()
+            phonons.write()
 #        if self.inventory.createPhononAnimation:
 #            o = OutputParser(gulpOutputFile=self.gulpOutputFile)
 #            o.outputVibrationsFile(self.vibrationFilename)
