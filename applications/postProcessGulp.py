@@ -18,19 +18,19 @@ class PostProcessGulp(Script):
     class Inventory(Script.Inventory):
         import pyre.inventory as inv 
         #task
-        convertHistoryFile = inv.bool('convertHistoryFile',default=True)
+        convertHistoryFile = inv.bool('convertHistoryFile', default=False)
         #params
         historyFile = inv.str('historyFile', default='.')
         historyFile.meta['tip'] = 'history file to translate'
         ncFile = inv.str('ncFile', default='ncFile')
         ncFile.meta['tip'] = 'new nc file to write'
         #task
-        extractPhonons = inv.bool('extractPhonons',default=False)
+        extractPhonons = inv.bool('extractPhonons', default=False)
         #params
         gulpOutputFile = inv.str('gulpOutputFile', default='gulp.gout')
         phononsFile = inv.str('phononsFile', default='phonons.pkl')
         #task
-        createPhononAnimation = inv.bool('createPhononAnimation',default=False)
+        createPhononAnimation = inv.bool('createPhononAnimation', default=False)
         #params
         gulpOutputFile = inv.str('gulpOutputFile', default='gulp.gout')
         vibrationsFile = inv.str('vibrationsFile', default='vibrations.xyz')
@@ -52,13 +52,11 @@ class PostProcessGulp(Script):
             c.setHistoryFileName(self.historyFile)
             c.setNetcdfFile(self.ncFile)
             c.convert()
-        if self.inventory.convertHistoryFile:
+        if self.inventory.extractPhonons:
             from memd.gulp.output.OutputParser import OutputParser
-            o = OutputParser(self.phononsFile, 'phonons')
-            vibs = o.getEigsAndVecs()
-            #print vibs.eigVals
-            #print vibs.eigVecs
-            
+            o = OutputParser(self.gulpOutputFile, runtype = 'phonons')
+            #pickle it
+            o.pickleEigsAndVecs(self.phononsFile)
 #        if self.inventory.createPhononAnimation:
 #            o = OutputParser(gulpOutputFile=self.gulpOutputFile)
 #            o.outputVibrationsFile(self.vibrationFilename)

@@ -58,13 +58,11 @@ class OutputParser:
         self.gulpOutputFile = gulpOutputFile
         self.EsFilename = EsFilename
         #temp=file(inventory.sample.i.atomicStructure.i.xyzFile.i.inputFile)
-        self.numAtoms = self.parseNumAtoms()
 #        self.numAtoms=1116#int(temp.readline())
         self.runtype = runtype
 
         if 'phonons' in runtype:
             self.numModes = 3*self.numAtoms
-            self.numKpoints, self.kpoints = self.parseKpoints()
         elif 'molecular dynamics' in runtype:
             pass
 #        self.pWrite=PolarizationWrite(filename=polarizationsFilename, 
@@ -115,7 +113,8 @@ class OutputParser:
     def _initializePhonons(self):
         from vsat.Phonons import Phonons
         phonons = Phonons()
-        phonons.kptList = self.getKpoints()
+        phonons.kptList = self.kpoints
+        phonons.nAtoms = self.numAtoms
         return phonons
     
     def _reshapeEigenData(self, eigVals=None, eigVecs=None):
@@ -127,13 +126,15 @@ class OutputParser:
         Thus we can do a naive resort with the z axis on the innermost
         index and changing the fastest.
         '''
-        eigVals = np.array(eigVals)
-        eigVecs = np.array(eigVecs)
-        #reshape in k mesh
-        mx,my,mz = self.kpointMesh
-        eigVals.reshape((mx, my, mz, self.numModes))
-        #reshape in groups of k, number of modes, and polarization vector per atom
-        eigVecs.reshape((self.numKpoints, self.numModes, self.numAtoms, 3))
+        if eigVals:
+            eigVals = np.array(eigVals)
+            #reshape in k mesh
+            mx,my,mz = self.kpointMesh
+            eigVals.reshape((mx, my, mz, self.numModes))
+        if eigVecs:
+            eigVecs = np.array(eigVecs)
+            #reshape in groups of k, number of modes, and polarization vector per atom
+            eigVecs.reshape((self.numKpoints, self.numModes, self.numAtoms, 3))
         return eigVals, eigVecs
 
     def getEigvals(self):
@@ -145,7 +146,6 @@ class OutputParser:
         gulpOutput = urllib.urlopen(self.gulpOutputFile)               
         phonons = self._initializePhonons()
         eigs = []
-#        vecs = []
         kpointIndex = 0
         modeIndex = 0
         while True:
@@ -165,9 +165,13 @@ class OutputParser:
                 kpointIndex += 1
                 modeIndex = 0
         gulpOutput.close()
-        phonons.eigVals = np.array(eigs)
-        phonons.
-        return phonons
+        phonons.eigVals,phonons.eigVecs =self._reshapeEigenData(eigs)
+        return phonons 
+    
+    def pickleEigsAndVecs(self, name):
+        phonons = self.getEigsAndVecs()
+        f = file(name,'w')
+        pickle.dump(phonons,f)
 
     def getEigsAndVecs(self):
         '''finds and returns all eigenvectors and eigenvalues in a list with 
@@ -206,8 +210,8 @@ class OutputParser:
                 kpointIndex += 1
                 modeIndex = 0
         gulpOutput.close()
-        #reshape according to the number of kpoints
-        phonons.eigVals,phonons.eigVecs =self.reshapeEigenData(eigs,vecs)
+        #reshape 
+        phonons.eigVals,phonons.eigVecs =self._reshapeEigenData(eigs,vecs)
         return phonons 
         
 #    def getPhononModes(self, scaleDisplacementsByEigenvalues = True):
@@ -218,12 +222,12 @@ class OutputParser:
         phonons.writeVibrationsFile(filename)
 
     def writeVecs(self,kpointIndex, modeIndex, gulpOutputFileDescriptor):
-        mode1,mode2,mode3 = self.getVecs(kpointIndex, modeIndex, gulpOutputFileDescriptor)
+        mode1,mode2,mode3 = self._getVecs(kpointIndex, modeIndex, gulpOutputFileDescriptor)
         self.polWrite.writeVec(mode1)
         self.polWrite.writeVec(mode2)
         self.polWrite.writeVec(mode3)
 
-    def getVecs(self, kpointIndex, modeIndex, gulpOutputFileDescriptor):
+    def _getVecs(self, kpointIndex, modeIndex, gulpOutputFileDescriptor):
         mode1 = np.zeros((self.numModes,2))
         mode2 = np.zeros((self.numModes,2))
         mode3 = np.zeros((self.numModes,2))
@@ -441,6 +445,7 @@ class OutputParser:
         kpoints used
         """
         def _getSpecificKpoints(gulpOutput):
+            brillouinZonePart=''
             previousLineBlank=False
             while True:
                 line = gulpOutput.readline()
@@ -459,26 +464,26 @@ class OutputParser:
                 data = rawData.asList()[0]
                 self._kpoints.append(data[1:4])
             self.numKpoints = len(self._kpoints)
+            
         def _getKpointMesh(line):
             self._kpointMesh = map(int, (line.split())[3:])
             
         #look through file:
         gulpOutput = urllib.urlopen(self.gulpOutputFile)
-        brillouinZonePart=''
         while True:
             line = gulpOutput.readline()
             if not line: # this kicks us out when we get to the end of the file
                 sys.stderr.write('no kpoints in this output file ')
                 sys.exit(2)
+            if 'Shrinking factors =' in line:
+                _getKpointMesh(line)
             if 'Number of k points for this configuration' in line: 
                 _getSpecificKpoints(gulpOutput)
                 break
             if 'Brillouin zone sampling points' in line:
                 _getSpecificKpoints(gulpOutput)
                 break
-            if 'Shrinking factors =' in line:
-                _getKpointMesh()
-                break
+
 
     @property
     def kpoints(self):
@@ -498,16 +503,19 @@ class OutputParser:
             self._parseKpoints()
         return self._kpointMesh
     
-    def parseNumAtoms(self):
-        gulpOutput = urllib.urlopen(self.gulpOutputFile)
-        while True:
-            line = gulpOutput.readline()
-            if not line: # this kicks us out when we get to the end of the file
-                sys.stderr.write('no kpoints in this output file')
-                sys.exit(2)
-            if 'Total number atoms/shells =' in line:
-                break
-        return int(line.split()[4])
+    @property
+    def numAtoms(self):
+        if not hasattr(self, '_numAtoms'):
+            gulpOutput = urllib.urlopen(self.gulpOutputFile)
+            while True:
+                line = gulpOutput.readline()
+                if not line: # this kicks us out when we get to the end of the file
+                    sys.stderr.write('no kpoints in this output file')
+                    sys.exit(2)
+                if 'Total number atoms/shells =' in line:
+                    break
+            self._numAtoms = int(line.split()[4])
+        return self._numAtoms
     
     def _getLattice(self):
         if hasattr(self, '_lattice'):
@@ -537,9 +545,6 @@ class OutputParser:
             return lattice.recbase
     reciprocal_lattice = property(_getReciprocalLattice)
     
-    
-
-        
 #    def parseEigenvalues(self):
 #        '''gets eigenvalues and writes them to file'''
 #        
