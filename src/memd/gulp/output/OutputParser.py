@@ -134,11 +134,11 @@ class OutputParser:
             eigVals = np.array(eigVals)
             #reshape in k mesh
             mx,my,mz = self.kpointMesh
-            eigVals.reshape((mx, my, mz, self.numModes))
+            eigVals = eigVals.reshape((mx, my, mz, self.numModes))
         if eigVecs:
             eigVecs = np.array(eigVecs)
             #reshape in groups of k, number of modes, and polarization vector per atom
-            eigVecs.reshape((self.numKpoints, self.numModes, self.numAtoms, 3))
+            eigVecs = eigVecs.reshape((self.numKpoints, self.numModes, self.numAtoms, 3))
         return eigVals, eigVecs
 
     def getEigvals(self):
