@@ -114,6 +114,10 @@ class OutputParser:
         from vsat.Phonons import Phonons
         phonons = Phonons()
         phonons.kptList = self.kpoints
+        rl = self.reciprocal_lattice
+        m = self.kpointMesh
+        Qaxes = [(rl[0], m[0]), (rl[1], m[1]), (rl[2], m[2])]
+        phonons.Qaxes = Qaxes
         phonons.nAtoms = self.numAtoms
         return phonons
     
@@ -165,13 +169,13 @@ class OutputParser:
                 kpointIndex += 1
                 modeIndex = 0
         gulpOutput.close()
-        phonons.eigVals,phonons.eigVecs =self._reshapeEigenData(eigs)
+        phonons.energies,phonons.polarizations =self._reshapeEigenData(eigs)
         return phonons 
     
     def pickleEigsAndVecs(self, name):
         phonons = self.getEigsAndVecs()
         f = file(name,'w')
-        pickle.dump(phonons,f)
+        pickle.dump(phonons,f,0)
 
     def getEigsAndVecs(self):
         '''finds and returns all eigenvectors and eigenvalues in a list with 
@@ -211,7 +215,7 @@ class OutputParser:
                 modeIndex = 0
         gulpOutput.close()
         #reshape 
-        phonons.eigVals,phonons.eigVecs =self._reshapeEigenData(eigs,vecs)
+        phonons.energies,phonons.polarizations =self._reshapeEigenData(eigs,vecs)
         return phonons 
         
 #    def getPhononModes(self, scaleDisplacementsByEigenvalues = True):

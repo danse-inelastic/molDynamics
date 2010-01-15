@@ -37,7 +37,6 @@ class PostProcessGulp(Script):
 
     def __init__(self):
         Script.__init__(self, 'PostProcessGulp')
-        #self.i = self.inventory
         
     def _configure(self):
         self.historyFile = self.inventory.historyFile
