@@ -25,7 +25,7 @@ class PostProcessGulp(Script):
         ncFile = inv.str('ncFile', default='ncFile')
         ncFile.meta['tip'] = 'new nc file to write'
         #task
-        extractPhonons = inv.bool('extractPhonons', default=False)
+        serializePhononArrays = inv.bool('serializePhononArrays', default=False)
         #params
         gulpOutputFile = inv.str('gulpOutputFile', default='gulp.gout')
         #task
@@ -49,7 +49,7 @@ class PostProcessGulp(Script):
             c.setHistoryFileName(self.historyFile)
             c.setNetcdfFile(self.ncFile)
             c.convert()
-        if self.inventory.extractPhonons:
+        if self.inventory.serializePhononArrays:
             from memd.gulp.output.OutputParser import OutputParser
             o = OutputParser(self.gulpOutputFile, runtype = 'phonons')
             #pickle it
