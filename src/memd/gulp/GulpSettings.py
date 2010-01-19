@@ -32,7 +32,7 @@ class GulpSettings:
     #results
     trajectories = []
     output_filename = 'gulp.gout'
-    dos_filename = ''
+    dos_filename = 'dos.dens' #don't need to make this user settable
 
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
@@ -72,12 +72,13 @@ class GulpSettings:
     def getOutputFiles(self):
         compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
         base = [self.output_filename]
-        mdout = base + compressedTrajectories
+        mdout = base+compressedTrajectories
+        phononsout = base+[self.dos_filename,'polarizations.pkl','energies.pkl']
         #dosout = base + 
         #based on runtypes 
         outputFiles = {"optimization":base, 
             "fit":base,
-            "phonons":(base+[self.dos_filename,'polarizations.pkl','energies.pkl']), 
+            "phonons":phononsout, 
             "free energy calc/optimize":base,
             "molecular dynamics":mdout, 
             "monte carlo":base,
