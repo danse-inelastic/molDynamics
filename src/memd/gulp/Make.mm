@@ -15,7 +15,9 @@ PACKAGE = gulp
 
 BUILD_DIRS = \
 	forcefields \
+	output \
 	potentials \
+
 
 
 	
