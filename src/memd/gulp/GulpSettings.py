@@ -53,6 +53,30 @@ class GulpSettings:
         output_filename = InvBase.d.str(name = 'output_filename', max_length = 80, default ='gulp.gout')
         dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
         
+    def getDOAndOutputFile(self):
+        
+        compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
+        base = [self.output_filename]
+        mdout = base + compressedTrajectories
+        #dosout = base + 
+        #based on runtypes 
+        outputFiles = {"optimization":{'matter.orm.Structure':None}, 
+            "fit":base,
+            "phonons":{'matter.orm.PhononDOS':self.dos_filename, 
+                       'matter.orm.PhononDOS':self.dos_filename}, 
+            "free energy calc/optimize":{'matter.orm.Structure':None},
+            "molecular dynamics":{'vast.Motion':self.trajectories}, 
+            "monte carlo":{'vsat.PhaseSpaceSample':self.trajectories},
+            "energetics and material properties":None,
+            "surface calc/optimize":{'matter.orm.Structure':None},
+            "transition state":None,
+            "structure prediction":{'matter.orm.Structure':None}}
+        # add the output file to every list
+#        augmentedOutputFiles={}
+#        for key,val in outputFiles.iteritems():
+#            augmentedOutputFiles[key] = val+[self.output_filename]
+        return outputFiles[self.runtype]
+        
     def getOutputFiles(self):
         
         compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
@@ -75,7 +99,6 @@ class GulpSettings:
 #        for key,val in outputFiles.iteritems():
 #            augmentedOutputFiles[key] = val+[self.output_filename]
         return outputFiles[self.runtype]
-        
 
 
 
