@@ -45,7 +45,6 @@ class GulpSettings:
         potential = InvBase.d.reference(name='potential', targettype=GulpPotential, owned=False)
         short_description = InvBase.d.str(name = 'short_description', max_length = 80)
         inputFile = InvBase.d.str(name = 'inputFile', max_length = 80, default ="gulp.gin")
-        
         creator = InvBase.d.str(name = 'creator', max_length = 80)
 #        date = InvBase.d.date(name = 'date')
 #        results_state = InvBase.d.str(name='results_state', length=16, default='')
@@ -54,31 +53,23 @@ class GulpSettings:
         dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
         
     def getDOAndOutputFile(self):
-        
         compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
-        base = [self.output_filename]
-        mdout = base + compressedTrajectories
-        #dosout = base + 
         #based on runtypes 
         outputFiles = {"optimization":{'matter.orm.Structure':None}, 
-            "fit":base,
-            "phonons":{'matter.orm.PhononDOS':self.dos_filename, 
-                       'matter.orm.PhononDOS':self.dos_filename}, 
+            "fit":{'memd.gulp.GulpPotential':None},
+            "phonons":{'vsat.PhononDOS':self.dos_filename, 
+                'vsat.Phonons':['polarizations.pkl', 'energies.pkl']}, 
             "free energy calc/optimize":{'matter.orm.Structure':None},
-            "molecular dynamics":{'vast.Motion':self.trajectories}, 
-            "monte carlo":{'vsat.PhaseSpaceSample':self.trajectories},
+            "molecular dynamics":{'vast.Motion':compressedTrajectories}, 
+            "monte carlo":{'vsat.PhaseSpaceSample':compressedTrajectories,
+                'matter.orm.Structure':None},
             "energetics and material properties":None,
             "surface calc/optimize":{'matter.orm.Structure':None},
             "transition state":None,
             "structure prediction":{'matter.orm.Structure':None}}
-        # add the output file to every list
-#        augmentedOutputFiles={}
-#        for key,val in outputFiles.iteritems():
-#            augmentedOutputFiles[key] = val+[self.output_filename]
         return outputFiles[self.runtype]
         
     def getOutputFiles(self):
-        
         compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
         base = [self.output_filename]
         mdout = base + compressedTrajectories
@@ -86,7 +77,7 @@ class GulpSettings:
         #based on runtypes 
         outputFiles = {"optimization":base, 
             "fit":base,
-            "phonons":(base + [self.dos_filename,'phonons.pkl']), 
+            "phonons":(base+[self.dos_filename,'polarizations.pkl','energies.pkl']), 
             "free energy calc/optimize":base,
             "molecular dynamics":mdout, 
             "monte carlo":base,
@@ -94,10 +85,6 @@ class GulpSettings:
             "surface calc/optimize":base,
             "transition state":base,
             "structure prediction":base}
-        # add the output file to every list
-#        augmentedOutputFiles={}
-#        for key,val in outputFiles.iteritems():
-#            augmentedOutputFiles[key] = val+[self.output_filename]
         return outputFiles[self.runtype]
 
 
