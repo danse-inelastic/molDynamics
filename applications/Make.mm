@@ -40,6 +40,7 @@ all: export
 
 EXPORT_BINS = \
 	MdApp.py \
+	postProcessGulp.py \
 
 
 
