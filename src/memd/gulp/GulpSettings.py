@@ -30,7 +30,7 @@ class GulpSettings:
 #    results_state = ''
     #results = GulpResults()
     #results
-    trajectories = []
+    trajectories = ['gulp.his']
     output_filename = 'gulp.gout'
     dos_filename = 'dos.dens' #don't need to make this user settable
 
@@ -40,15 +40,15 @@ class GulpSettings:
            
     class Inventory(InvBase):
         matter = InvBase.d.reference(name='matter', targettype=Structure, owned=False)
-        runtype = InvBase.d.str(name = 'runtype', max_length = 80)
-        dos_projection = InvBase.d.array(name='dos_projection', elementtype='float', shape=1)
+        runtype = InvBase.d.str(name = 'runtype', max_length = 80, default = '')
+        dos_projection = InvBase.d.array(name='dos_projection', elementtype='float', shape=1, default=[0.0])
         potential = InvBase.d.reference(name='potential', targettype=GulpPotential, owned=False)
-        short_description = InvBase.d.str(name = 'short_description', max_length = 80)
+        short_description = InvBase.d.str(name = 'short_description', max_length = 80, default = '')
         inputFile = InvBase.d.str(name = 'inputFile', max_length = 80, default ="gulp.gin")
-        creator = InvBase.d.str(name = 'creator', max_length = 80)
+        creator = InvBase.d.str(name = 'creator', max_length = 80, default = '')
 #        date = InvBase.d.date(name = 'date')
 #        results_state = InvBase.d.str(name='results_state', length=16, default='')
-        trajectories = InvBase.d.array(name = 'trajectories', elementtype='str')
+        trajectories = InvBase.d.array(name = 'trajectories', elementtype='str', default = ['gulp.his'])
         output_filename = InvBase.d.str(name = 'output_filename', max_length = 80, default ='gulp.gout')
         dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
         
@@ -60,7 +60,7 @@ class GulpSettings:
             "phonons":{'vsat.PhononDOS':self.dos_filename, 
                 'vsat.Phonons':['polarizations.pkl', 'energies.pkl']}, 
             "free energy calc/optimize":{'matter.orm.Structure':None},
-            "molecular dynamics":{'vast.Motion':compressedTrajectories}, 
+            "molecular dynamics":{'vsat.Motion':compressedTrajectories}, 
             "monte carlo":{'vsat.PhaseSpaceSample':compressedTrajectories,
                 'matter.orm.Structure':None},
             "energetics and material properties":None,
