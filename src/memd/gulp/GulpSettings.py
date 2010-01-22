@@ -32,7 +32,7 @@ class GulpSettings:
     #results
     trajectories = ['gulp.his']
     output_filename = 'gulp.gout'
-    dos_filename = 'dos.dens' #don't need to make this user settable
+    #dos_filename = 'dos.dens' #don't need to make this user settable
 
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
@@ -50,14 +50,14 @@ class GulpSettings:
 #        results_state = InvBase.d.str(name='results_state', length=16, default='')
         trajectories = InvBase.d.array(name = 'trajectories', elementtype='str', default = ['gulp.his'])
         output_filename = InvBase.d.str(name = 'output_filename', max_length = 80, default ='gulp.gout')
-        dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
+        #dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
         
     def getDOAndOutputFile(self):
         compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
         #based on runtypes 
         outputFiles = {"optimization":{'matter.orm.Structure':None}, 
             "fit":{'memd.gulp.GulpPotential':None},
-            "phonons":{'vsat.PhononDOS':self.dos_filename, 
+            "phonons":{'vsat.PhononDOS':['dos.dens'], 
                 'vsat.Phonons':['polarizations.pkl', 'energies.pkl']}, 
             "free energy calc/optimize":{'matter.orm.Structure':None},
             "molecular dynamics":{'vsat.Motion':compressedTrajectories}, 
@@ -73,7 +73,7 @@ class GulpSettings:
         compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
         base = [self.output_filename]
         mdout = base+compressedTrajectories
-        phononsout = base+[self.dos_filename,'polarizations.pkl','energies.pkl']
+        phononsout = base+['dos.dens','polarizations.pkl','energies.pkl']
         #dosout = base + 
         #based on runtypes 
         outputFiles = {"optimization":base, 
