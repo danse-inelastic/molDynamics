@@ -30,7 +30,7 @@ class GulpSettings:
 #    results_state = ''
     #results = GulpResults()
     #results
-    trajectories = ['gulp.his']
+    trajectories = ['gulp.nc']
     output_filename = 'gulp.gout'
     #dos_filename = 'dos.dens' #don't need to make this user settable
 
@@ -48,7 +48,7 @@ class GulpSettings:
         creator = InvBase.d.str(name = 'creator', max_length = 80, default = '')
 #        date = InvBase.d.date(name = 'date')
 #        results_state = InvBase.d.str(name='results_state', length=16, default='')
-        trajectories = InvBase.d.array(name = 'trajectories', elementtype='str', default = ['gulp.his'])
+        trajectories = InvBase.d.array(name = 'trajectories', elementtype='str', default = ['gulp.nc'])
         output_filename = InvBase.d.str(name = 'output_filename', max_length = 80, default ='gulp.gout')
         #dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
         
@@ -60,8 +60,8 @@ class GulpSettings:
             "phonons":{'vsat.PhononDOS':['dos.dens'], 
                 'vsat.Phonons':['polarizations.pkl', 'energies.pkl']}, 
             "free energy calc/optimize":{'matter.orm.Structure':None},
-            "molecular dynamics":{'vsat.Motion':compressedTrajectories}, 
-            "monte carlo":{'vsat.PhaseSpaceSample':compressedTrajectories,
+            "molecular dynamics":{'vsat.Motion':self.trajectories}, 
+            "monte carlo":{'vsat.PhaseSpaceSample':self.trajectories,
                 'matter.orm.Structure':None},
             "energetics and material properties":None,
             "surface calc/optimize":{'matter.orm.Structure':None},
@@ -70,9 +70,8 @@ class GulpSettings:
         return outputFiles[self.runtype]
         
     def getOutputFiles(self):
-        compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
         base = [self.output_filename]
-        mdout = base+compressedTrajectories
+        mdout = base + list(self.trajectories)
         phononsout = base+['dos.dens','polarizations.pkl','energies.pkl']
         #dosout = base + 
         #based on runtypes 
