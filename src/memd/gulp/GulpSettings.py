@@ -53,7 +53,6 @@ class GulpSettings:
         #dos_filename = InvBase.d.str(name = 'dos_filename', max_length = 80, default ='dos.dens')
         
     def getDOAndOutputFile(self):
-        compressedTrajectories = [filename+'.zip' for filename in self.trajectories]
         #based on runtypes 
         outputFiles = {"optimization":{'matter.orm.Structure':None}, 
             "fit":{'memd.gulp.GulpPotential':None},
