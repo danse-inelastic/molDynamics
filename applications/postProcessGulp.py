@@ -10,7 +10,7 @@
 #
 from pyre.applications.Script import Script
 from vsat.trajectory.ConvertFromGulpDLPOLY import ConvertFromGulpDLPOLY
-
+import os
 
 class PostProcessGulp(Script):
     '''Various conversion and postprocessing routines for animation, 
@@ -49,6 +49,7 @@ class PostProcessGulp(Script):
             c.setHistoryFileName(self.historyFile)
             c.setNetcdfFile(self.ncFile)
             c.convert()
+            os.remove(self.historyFile)
         if self.inventory.serializePhononArrays:
             from memd.gulp.output.OutputParser import OutputParser
             o = OutputParser(self.gulpOutputFile, runtype = 'phonons')
