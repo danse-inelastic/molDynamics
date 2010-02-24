@@ -6,7 +6,7 @@
 # =================================================================
 #
 
-from molDynamics.MolDynamics import MolDynamics
+from memd.MolDynamics import MolDynamics
 import math
 import MMTK
 from MMTK import Units
@@ -79,10 +79,10 @@ fluctuations relatively small'''
         
 #    def _setDefaults(self):
 #        '''set defaults specific to mmtk'''
-#        self.i.trajectoryFilename = 'molDynamics.nc'
-#        self.i.restartFilename = 'restart.nc'
-#        self.i.sampleFrequency = self.i.timeStep*Units.fs
-#        self.i.dumpFrequency = self.i.timeStep*Units.fs
+#        self.inventory.trajectoryFilename = 'molDynamics.nc'
+#        self.inventory.restartFilename = 'restart.nc'
+#        self.inventory.sampleFrequency = self.inventory.timeStep*Units.fs
+#        self.inventory.dumpFrequency = self.inventory.timeStep*Units.fs
         
     def _norm(self,vec):
         """gives the Euclidean _norm of a list"""
@@ -119,13 +119,13 @@ fluctuations relatively small'''
         
     def _setForcefield(self):
         '''This function sets the forcefield.'''
-        self.ff=self.i.forcefield.getForcefield()
+        self.ff=self.inventory.forcefield.getForcefield()
         
     def _setInitialConditions(self):
         '''map MolDynamics unit cell stuff to MMTK's. 
         Eventually much of this will be taken by the crystal class''' 
-        atoms = self.i.sample.getAtomsAsString()
-        uc = self.i.sample.getCellVectors()
+        atoms = self.inventory.sample.getAtomsAsString()
+        uc = self.inventory.sample.getCellVectors()
         if uc==None:
             self.mmtkUniverse = MMTK.InfiniteUniverse(self.ff)
         else:
@@ -138,7 +138,7 @@ fluctuations relatively small'''
                     self.mmtkUniverse = MMTK.OrthorhombicPeriodicUniverse(
                             (a*Units.Ang, b*Units.Ang, c*Units.Ang), self.ff)
             else:
-                uc = self.i.sample.unitCell
+                uc = self.inventory.sample.unitCell
                 self.mmtkUniverse = MMTK.ParallelepipedicPeriodicUniverse(
                     ((uc[0][0]*Units.Ang, uc[0][1]*Units.Ang, uc[0][2]*Units.Ang),
                      (uc[1][0]*Units.Ang, uc[1][1]*Units.Ang, uc[1][2]*Units.Ang),
@@ -149,49 +149,49 @@ fluctuations relatively small'''
             species, x, y, z = atom.split()
             self.mmtkUniverse.addObject(MMTK.Atom(species, position = \
                 MMTK.Vector(float(x)*Units.Ang, float(y)*Units.Ang, float(z)*Units.Ang))) 
-#        elif self.i.sample.has_attribute('molecule'):
+#        elif self.inventory.sample.has_attribute('molecule'):
 #            pass
         
     def createTrajectoryAndIntegrator(self):
         '''create trajectory and integrator'''
         #initialize velocities--this has to happen after adding atoms
-        self.mmtkUniverse.initializeVelocitiesToTemperature(self.i.sample.i.temperature)
+        self.mmtkUniverse.initializeVelocitiesToTemperature(self.inventory.sample.i.temperature)
         # Create trajectory and integrator.
-        self.mmtkTrajectory = Trajectory(self.mmtkUniverse, self.i.trajectoryFilename, "w")
-        self.mmtkIntegrator = VelocityVerletIntegrator(self.mmtkUniverse, delta_t=self.i.timeStep*Units.fs)
+        self.mmtkTrajectory = Trajectory(self.mmtkUniverse, self.inventory.trajectoryFilename, "w")
+        self.mmtkIntegrator = VelocityVerletIntegrator(self.mmtkUniverse, delta_t=self.inventory.timeStep*Units.fs)
         # Periodical actions for equilibration output.
         self.equilibration_actions = [TranslationRemover(0, None, 100),
             RotationRemover(0, None, 100),
-            LogOutput(self.i.logFilename, ('time', 'energy'), 0, None)
+            LogOutput(self.inventory.logFilename, ('time', 'energy'), 0, None)
             ]  
         # Periodical actions for trajectory output and text log output.
         self.output_actions = [TrajectoryOutput(self.mmtkTrajectory,
             ('configuration', 'energy', 'thermodynamic', 'time', 'auxiliary'), 
             0, None, 20), #TODO: Fixme so the user can specify when trajectory and sample frequency happens
             #this last option makes it so none of the equilibration steps are output, consistent with Gulp
-            LogOutput(self.i.logFilename, ('time', 'energy'), 0, None, 20) #this last 0 makes it so all equilibration steps are output, consistent with Gulp
+            LogOutput(self.inventory.logFilename, ('time', 'energy'), 0, None, 20) #this last 0 makes it so all equilibration steps are output, consistent with Gulp
             ]         
     
     def createRestartTrajectoryAndIntegrator(self):
         '''initialize system from previous trajectory'''
         # Initialize system state from the restart trajectory
-        self.mmtkUniverse.setFromTrajectory(Trajectory(self.mmtkUniverse, self.i.restartFilename))
+        self.mmtkUniverse.setFromTrajectory(Trajectory(self.mmtkUniverse, self.inventory.restartFilename))
         # Create trajectory and integrator.
-        self.mmtkTrajectory = Trajectory(self.mmtkUniverse, self.i.trajectoryFilename, "a")
-        self.mmtkIntegrator = VelocityVerletIntegrator(self.mmtkUniverse, delta_t=self.i.timestep*Units.fs)
+        self.mmtkTrajectory = Trajectory(self.mmtkUniverse, self.inventory.trajectoryFilename, "a")
+        self.mmtkIntegrator = VelocityVerletIntegrator(self.mmtkUniverse, delta_t=self.inventory.timestep*Units.fs)
         # Periodical actions for equilibration output.
         self.equilibration_actions = [TranslationRemover(0, None, 100),
             RotationRemover(0, None, 100),
-            LogOutput(self.i.logFilename, ('time', 'energy'), 0, None)
+            LogOutput(self.inventory.logFilename, ('time', 'energy'), 0, None)
             ]  
         # Periodical actions for trajectory output and text log output.
         self.output_actions = [TranslationRemover(0, None, 100),
-                               TrajectoryOutput(self.mmtkTrajectory,
+            TrajectoryOutput(self.mmtkTrajectory,
             ('configuration', 'energy', 'thermodynamic', 'time', 'auxiliary'), 
             0, None, self.equilibrationSteps()), #this last option makes it so none of the equilibration steps are output, consistent with Gulp
             # Write restart data every time step.
-            RestartTrajectoryOutput(self.i.restartFilename, 1),
-            LogOutput(self.i.logFilename, ('time', 'energy'), 0, None) 
+            RestartTrajectoryOutput(self.inventory.restartFilename, 1),
+            LogOutput(self.inventory.logFilename, ('time', 'energy'), 0, None) 
             ]  
     
     def _integrateNVE(self):
@@ -204,10 +204,10 @@ fluctuations relatively small'''
         
     def _integrateNVT(self):
         # Add thermostat 
-        self.mmtkUniverse.thermostat = NoseThermostat(self.i.sample.i.temperature)
+        self.mmtkUniverse.thermostat = NoseThermostat(self.inventory.sample.i.temperature)
         # Do some equilibration steps and rescaling velocities.
-        self.mmtkIntegrator(steps = self.equilibrationSteps(), actions = [VelocityScaler(self.i.sample.i.temperature, 
-            0.1*self.i.sample.i.temperature, 0, None, 100)] + self.equilibration_actions)
+        self.mmtkIntegrator(steps = self.equilibrationSteps(), actions = [VelocityScaler(self.inventory.sample.i.temperature, 
+            0.1*self.inventory.sample.i.temperature, 0, None, 100)] + self.equilibration_actions)
         # Do some "production" steps.
         self.mmtkIntegrator(steps = self.productionSteps(),
                        actions = self.output_actions)
@@ -216,13 +216,13 @@ fluctuations relatively small'''
         
     def _integrateNPT(self):
         # Add thermostat and barostat.
-        self.mmtkUniverse.thermostat = NoseThermostat(self.i.sample.i.temperature)
-        self.mmtkUniverse.barostat = AndersenBarostat(self.i.sample.i.pressure)
+        self.mmtkUniverse.thermostat = NoseThermostat(self.inventory.sample.i.temperature)
+        self.mmtkUniverse.barostat = AndersenBarostat(self.inventory.sample.i.pressure)
         # Do some equilibration steps, rescaling velocities and resetting the
         # barostat in regular intervals.
         self.mmtkIntegrator(steps = self.equilibrationSteps(),
-            actions = [VelocityScaler(self.i.sample.i.temperature, 
-            0.1*self.i.sample.i.temperature, 0, None, 100),
+            actions = [VelocityScaler(self.inventory.sample.i.temperature, 
+            0.1*self.inventory.sample.i.temperature, 0, None, 100),
             BarostatReset(100)] + self.equilibration_actions)
         # Do some "production" steps.
         self.mmtkIntegrator(steps = self.productionSteps(),
@@ -236,11 +236,11 @@ fluctuations relatively small'''
         self._setForcefield()
         self._setInitialConditions()
         self.createTrajectoryAndIntegrator()
-        if self.i.ensemble=='nvt':
+        if self.inventory.ensemble=='nvt':
             self._integrateNVT()
-        elif self.i.ensemble=='npt':
+        elif self.inventory.ensemble=='npt':
             self._integrateNPT()
-        elif self.i.ensemble=='nve':
+        elif self.inventory.ensemble=='nve':
             self._integrateNVE()
         else:
             raise Exception, 'your ensemble is not suppported by mmtk'
@@ -252,11 +252,11 @@ fluctuations relatively small'''
         self._setForcefield()
         self._setInitialConditions()
         self.createRestartTrajectoryAndIntegrator()
-        if self.i.ensemble=='nvt':
+        if self.inventory.ensemble=='nvt':
             self._integrateNVT()
-        elif self.i.ensemble=='npt':
+        elif self.inventory.ensemble=='npt':
             self._integrateNPT()
-        elif self.i.ensemble=='nve':
+        elif self.inventory.ensemble=='nve':
             self._integrateNVE()
         else:
             raise Exception, 'your ensemble is not suppported by mmtk'
@@ -264,33 +264,33 @@ fluctuations relatively small'''
     def execute(self):
         '''writes out the files, starts the executable, and parses the output files'''
         self.printWarnings()
-        if self.i.runType=='md':
-            self.integrate()
-        elif self.i.runType=='restart md':
+        if self.inventory.runType=='md':
+            self.inventoryntegrate()
+        elif self.inventory.runType=='restart md':
             self.restart()
 
     def printWarnings(self):
-        if self.i.sampleFrequency > self.i.timeStep:
+        if self.inventory.sampleFrequency > self.inventory.timeStep:
             print '''Mmtk does not allow a different sample frequency than every timestep.
             Write frequency will be set to every timestep.''' 
-        if self.i.dumpFrequency > self.i.timeStep:
+        if self.inventory.dumpFrequency > self.inventory.timeStep:
             print '''Mmtk does not allow a different dump frequency than every timestep.
             Dump frequency will be set to every timestep.'''
             
     def equilibrationSteps(self):
         '''Number of time steps to reach equilibration'''
-        if self.i.timeStep==0:
+        if self.inventory.timeStep==0:
             raise Exception, 'please set the time step to a nonzero value'
         else:
-            val=int(self.i.equilibrationTime/self.i.timeStep)
+            val=int(self.inventory.equilibrationTime/self.inventory.timeStep)
         return val
     
     def productionSteps(self):
         '''Number of time steps to finish production'''
-        if self.i.timeStep==0:
+        if self.inventory.timeStep==0:
             raise Exception, 'please set the time step to a nonzero value'
         else:
-            return int(self.i.productionTime/self.i.timeStep)
+            return int(self.inventory.productionTime/self.inventory.timeStep)
 
 # main
 if __name__ == '__main__':

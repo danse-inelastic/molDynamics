@@ -9,12 +9,12 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-from molDynamics.MolDynamics import MolDynamics
+from memd.MolDynamics import MolDynamics
 #from molDynamics.gulp.Coordinates import Coordinates
 from os import system, linesep
-from molDynamics.gulp.Potential import Potential
-from molDynamics.gulp.OptionWriter import OptionWriter
-from molDynamics.gulp.KeywordWriter import KeywordWriter
+from memd.gulp.Potential import Potential
+from memd.gulp.OptionWriter import OptionWriter
+from memd.gulp.KeywordWriter import KeywordWriter
 from pyregui.inventory.extensions.InputFile import InputFile
 
 class Gulp(MolDynamics):

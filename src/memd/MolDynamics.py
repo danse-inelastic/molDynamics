@@ -37,7 +37,7 @@ class MolDynamics(Component):
                         
     def __init__(self, name='MolDynamics', facility=None):
         Component.__init__(self, name, facility)
-        self.i=self.inventory
+        #self.i=self.inventory
     
 #    def _configure(self):
 #        Component._configure(self)
