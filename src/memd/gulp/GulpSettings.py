@@ -39,7 +39,8 @@ class GulpSettings:
             setattr(self, k, v)
            
     class Inventory(InvBase):
-        matter = InvBase.d.reference(name='matter', targettype=Structure, owned=False)
+        #matter = InvBase.d.reference(name='matter', targettype=Structure, owned=False)
+        matter = InvBase.d.reference(name='matter', targettype=Structure, owned=False, backref='gulpsettings')
         runtype = InvBase.d.str(name = 'runtype', max_length = 80, default = '')
         dos_projection = InvBase.d.array(name='dos_projection', elementtype='float', shape=1, default=[0.0])
         potential = InvBase.d.reference(name='potential', targettype=GulpPotential, owned=False)
