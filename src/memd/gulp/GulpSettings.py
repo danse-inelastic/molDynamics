@@ -43,7 +43,7 @@ class GulpSettings:
         matter = InvBase.d.reference(name='matter', targettype=Structure, owned=False, backref='gulpsettings')
         runtype = InvBase.d.str(name = 'runtype', max_length = 80, default = '')
         dos_projection = InvBase.d.array(name='dos_projection', elementtype='float', shape=1, default=[0.0])
-        potential = InvBase.d.reference(name='potential', targettype=GulpPotential, owned=False)
+        potential = InvBase.d.reference(name='potential', targettype=GulpPotential, owned=False, backref='gulpsettings')
         short_description = InvBase.d.str(name = 'short_description', max_length = 80, default = '')
         inputFile = InvBase.d.str(name = 'inputFile', max_length = 80, default ="gulp.gin")
         creator = InvBase.d.str(name = 'creator', max_length = 80, default = '')
