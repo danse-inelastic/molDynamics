@@ -13,6 +13,7 @@
   <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/molDynamics/src</path>
 <path>/molDynamics/applications</path>
+<path>/molDynamics/src2</path>
 </pydev_pathproperty>
   
 
