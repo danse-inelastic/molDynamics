@@ -12,20 +12,20 @@
 from memd2.MolDynamics import MolDynamics
 #from molDynamics.gulp.Coordinates import Coordinates
 from os import system, linesep
-from memd2.gulp.Potential import Potential
+from memd2.gulp.GulpPotential import GulpForcefield
 from memd2.gulp.OptionWriter import OptionWriter
 from memd2.gulp.KeywordWriter import KeywordWriter
 
 class Gulp(MolDynamics):
     """GULP MD engine for MolDynamics interface.  
-This class maps the DANSE data structures to GULP's input deck.
-"""
+    This class maps the DANSE data structures to GULP's input deck.
+    """
 
     import pd
     computeMaterialProperties = pd.bool(default = False)
     computeMaterialProperties.meta['tip'] = 'whether to print material properties'
     
-    engineExecutablePath = pd.str('Engine Executable Path', default = "")
+    engineExecutablePath = pd.str(label = 'Engine Executable Path', default = "")
     engineExecutablePath.meta['tip'] = '''path to the engine's executable'''
     
     inputFileName = pd.str(default = 'gulp.gin')
@@ -36,8 +36,8 @@ This class maps the DANSE data structures to GULP's input deck.
     runType.meta['tip'] = 'type of run'
     runType.meta['importance'] = 9
     
-    potential = pd.ref('Potential', default = Potential())
-    potential.meta['tip'] = 'overall types of potentials to use'
+    forcefield = pd.ref(default = GulpForcefield())
+    forcefield.meta['tip'] = 'overall types of potentials to use'
   
     def __init__(self, name='gulp'):
         #define visitors
@@ -71,7 +71,7 @@ This class maps the DANSE data structures to GULP's input deck.
             self.inputFileContents = \
             self.listToString(self.identifyKeywords(self.keywordWriter))+linesep+\
             self.identifyOptions(self.optionWriter)
-            f=file(self.i.inputDeckName,'w')
+            f=file(self.i.inputFileName,'w')
             f.write(self.inputFileContents)
             f.close()
             system(self.i.engineExecutablePath+' < '+self.i.inputDeckName+' > '+self.i.logFilename)
