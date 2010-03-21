@@ -15,12 +15,11 @@ class GulpForcefield:
     import pd
     path = pd.str(default='../content/data/gulppotentials')
     filename = pd.str()
-    elements = pd.strArray(default=['H'])
+    elements = pd.strArray(default = ['H'])
     description = pd.str()
     creator = pd.str()
     date = pd.date()
     potential_name = pd.str()
-    
     dispersionInRecipSpace = pd.bool(default = False)
     dispersionInRecipSpace.meta['tip'] = '''whether to calculate dispersion forces 
 partly in reciprocal space'''
@@ -30,7 +29,7 @@ assign bonding'''
     moleculeIdentification = pd.str(label = 'Try to Identify Molecules', default = "None")
     moleculeIdentification.meta['tip'] = '''identify molecules based on covalent radii 
 and deal with intramolecular coulomb interactions'''
-    moleculeIdentification.validator=pd.choice(['None','identify molecules; remove intramolecular Coulomb forces',
+    moleculeIdentification.validator = pd.choice(['None','identify molecules; remove intramolecular Coulomb forces',
                                                  'identify molecules; retain intramolecular Coulomb forces'])
     
     def __init__(self, **kwds):

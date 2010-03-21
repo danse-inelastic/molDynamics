@@ -12,7 +12,7 @@
 from memd2.MolDynamics import MolDynamics
 #from molDynamics.gulp.Coordinates import Coordinates
 from os import system, linesep
-from memd2.gulp.GulpPotential import GulpForcefield
+from memd2.gulp.GulpForcefield import GulpForcefield
 from memd2.gulp.OptionWriter import OptionWriter
 from memd2.gulp.KeywordWriter import KeywordWriter
 
