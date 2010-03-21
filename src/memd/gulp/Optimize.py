@@ -43,10 +43,6 @@ class Optimize(Visitable):
     
     def identifyOptions(self, visitor): 
         return visitor.writeOptimizeOptions(self)
-    
-#    def _configure(self):
-#        Component._configure(self)
-#        #self.sample = self.i.sample
 
 
 # version

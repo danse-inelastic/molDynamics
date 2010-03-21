@@ -54,29 +54,29 @@ class Gulp(MolDynamics):
     def identifyKeywords(self, visitor):
         keywords=[]
         keywords+=visitor.writeGeneralKeywords(self)
-        keywords+=self.i.runType.identifyKeywords(visitor)
-        keywords+=self.i.potential.identifyKeywords(visitor)
+        keywords+=self.runType.identifyKeywords(visitor)
+        keywords+=self.potential.identifyKeywords(visitor)
         return keywords
         
     def identifyOptions(self, visitor):
         options=''
         options+=visitor.writeGeneralOptions(self)
-        options+=self.i.runType.identifyOptions(visitor)
+        options+=self.runType.identifyOptions(visitor)
         #options+=self.i.potential.identifyOptions(visitor)
         return options
         
     def execute(self):
         '''writes out the files, starts the executable, and parses the output files'''
-        if self.i.runType.runTypeIdentifier!='mdRestart':
+        if self.runType.runTypeIdentifier!='mdRestart':
             self.inputFileContents = \
             self.listToString(self.identifyKeywords(self.keywordWriter))+linesep+\
             self.identifyOptions(self.optionWriter)
-            f=file(self.i.inputFileName,'w')
+            f=file(self.inputFileName,'w')
             f.write(self.inputFileContents)
             f.close()
-            system(self.i.engineExecutablePath+' < '+self.i.inputDeckName+' > '+self.i.logFilename)
+            system(self.engineExecutablePath+' < '+self.inputDeckName+' > '+self.logFilename)
         else:
-            system(self.i.engineExecutablePath+' < '+self.i.restartFilename+' >> '+self.i.logFilename)    
+            system(self.engineExecutablePath+' < '+self.restartFilename+' >> '+self.logFilename)    
         #parse the files
         #o=OutputParser(self.i.logFilename, self.i)
 

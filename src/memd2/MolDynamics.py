@@ -10,12 +10,13 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
+from matter import Structure
 
 class MolDynamics:
     '''This class serves as an API/interface for md engines.'''
     
     import pd 
-    matter = pd.ref()
+    matter = pd.ref(table = Structure)
     matter.meta['importance'] = 10
     matter.meta['tip'] = 'piece of material being measured/simulated'
 

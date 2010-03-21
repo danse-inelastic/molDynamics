@@ -12,7 +12,6 @@
 #from molDynamics.Md import Md as MdBase
 from molDynamics.gulp.Visitable import Visitable
 
-
 class Md(Visitable):#(MdBase):
     '''This class serves as an md property setter.'''
     
@@ -34,11 +33,11 @@ class Md(Visitable):#(MdBase):
     sampleFrequency.meta['tip'] = '''frequency at which sampled properties are 
 written to trajectory and log file'''
     
-    thermostatParameter = pd.float(label = 'Thermostat Parameter', default = 0.005)
+    thermostatParameter = pd.float(label = 'Thermostat Parameter', default = 0.05)
     thermostatParameter.meta['tip'] = '''thermostat parameter to keep 
 fluctuations relatively small'''
     
-    timeStep = pd.float(label = 'Time step (fs)', default = 0.5)
+    timeStep = pd.float(label = 'Time step (fs)', default = 0.001)
     timeStep.meta['tip'] = 'integration time step (ps)'
     
     trajectoryFilename = pd.str(label = 'Trajectory Filename', default='molDynamics')
@@ -57,24 +56,20 @@ fluctuations relatively small'''
     def __init__(self, name='md'):
         self.runTypeIdentifier='md'
     
-#    def _configure(self):
-#        Component._configure(self)
-#        #self.sample = self.i.sample
-    
     def equilibrationSteps(self):
         '''Number of time steps to reach equilibration'''
-        if self.i.timeStep==0:
+        if self.timeStep==0:
             raise Exception, 'please set the time step to a nonzero value'
         else:
-            val=int(self.i.equilibrationTime/self.i.timeStep)
+            val=int(self.equilibrationTime/self.timeStep)
         return val
     
     def productionSteps(self):
         '''Number of time steps to finish production'''
-        if self.i.timeStep==0:
+        if self.timeStep==0:
             raise Exception, 'please set the time step to a nonzero value'
         else:
-            return int(self.i.productionTime/self.i.timeStep)
+            return int(self.productionTime/self.timeStep)
 
     def getFinalConfiguration(self):
         raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
