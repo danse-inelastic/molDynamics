@@ -16,42 +16,54 @@ class Md(Visitable):#(MdBase):
     '''This class serves as an md property setter.'''
     
     import pd
-    barostatParameter = pd.float(label = 'Barostat Parameter', default = 0.005)
+    barostatParameter = pd.float(default = 0.005)
     barostatParameter.meta['tip'] = '''barostat parameter to keep fluctuations relatively small'''
+    barostatParameter.meta['label'] = 'Barostat Parameter'
     
-    ensemble= pd.str(label = 'Thermodynamic Ensemble', default = 'nve') 
-    ensemble.validator=pd.choice(["nve", "nvt", "npt"])
+    ensemble= pd.str(default = 'nve') 
+    #ensemble.validator=pd.choice(["nve", "nvt", "npt"])
     ensemble.meta['tip'] = 'thermodynamic ensemble (nve, nvt, npt, ...)'
+    ensemble.meta['label'] = 'Thermodynamic Ensemble'
     
-    equilibrationTime = pd.float(label = 'Equilibration Time (ps)', default = 0.0)
+    equilibrationTime = pd.float(default = 0.0)
     equilibrationTime.meta['tip'] = 'equilibration time of the simulation (ps)'
+    equilibrationTime.meta['label'] = 'Equilibration Time (ps)'
     
-    productionTime = pd.float(label = 'Production Time (ps)', default = 5.0)
+    productionTime = pd.float(default = 5.0)
     productionTime.meta['tip'] = 'production time of the simulation'
+    productionTime.meta['label'] = 'Production Time (ps)'
     
-    sampleFrequency = pd.float(label = 'Properties Calculation Frequency (fs)', default = 5.0)
+    sampleFrequency = pd.float(default = 5.0)
     sampleFrequency.meta['tip'] = '''frequency at which sampled properties are 
 written to trajectory and log file'''
+    sampleFrequency.meta['label'] = 'Properties Calculation Frequency (fs)'
     
-    thermostatParameter = pd.float(label = 'Thermostat Parameter', default = 0.05)
+    thermostatParameter = pd.float(default = 0.05)
     thermostatParameter.meta['tip'] = '''thermostat parameter to keep 
 fluctuations relatively small'''
+    thermostatParameter.meta['label'] = 'Thermostat Parameter'
     
-    timeStep = pd.float(label = 'Time step (fs)', default = 0.001)
+    timeStep = pd.float(default = 0.001)
     timeStep.meta['tip'] = 'integration time step (ps)'
+    timeStep.meta['label'] = 'Time step (fs)'
     
-    trajectoryFilename = pd.str(label = 'Trajectory Filename', default='molDynamics')
+    trajectoryFilename = pd.str(default='molDynamics')
     trajectoryFilename.meta['tip'] = 'name of trajectory file(s)'
+    trajectoryFilename.meta['label'] = 'Trajectory Filename'
 
-    restartFilename = pd.str(label = 'Restart Filename', default = 'molDynamics.res')
+    restartFilename = pd.str('molDynamics.res')
     restartFilename.meta['tip'] = '''restart file for resuming an md run or optimization'''
+    restartFilename.meta['label'] = 'Restart Filename'
     
-    dumpFrequency = pd.float(label = 'Dump Frequency (ps)', default = 0.0)
+    dumpFrequency = pd.float(default = 0.0)
     dumpFrequency.meta['tip'] = '''frequency at which a restart file is written'''
+    dumpFrequency.meta['label'] = 'Dump Frequency (ps)'
 
-    trajectoryType = pd.str(label = 'Trajectory Type', default='xyz')
+    trajectoryType = pd.str(default='xyz')
     trajectoryType.meta['tip'] = 'type of trajectory output'  
-    trajectoryType.validator = pd.choice(['xyz', 'history', 'xyz and history'])
+    trajectoryType.meta['label'] = 'Trajectory Type'
+    
+    #trajectoryType.validator = pd.choice(['xyz', 'history', 'xyz and history'])
                         
     def __init__(self, name='md'):
         self.runTypeIdentifier='md'

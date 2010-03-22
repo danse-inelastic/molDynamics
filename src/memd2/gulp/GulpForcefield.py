@@ -23,14 +23,17 @@ class GulpForcefield:
     dispersionInRecipSpace = pd.bool(default = False)
     dispersionInRecipSpace.meta['tip'] = '''whether to calculate dispersion forces 
 partly in reciprocal space'''
-    useInitialBondingOnly = pd.bool(label = 'Assign Bonding Based on Initial Geometry Only', default = False)
+    useInitialBondingOnly = pd.bool(default = False)
     useInitialBondingOnly.meta['tip'] = '''instead of reassigning bonding based on every optimization or time step, use intial geometry only to
 assign bonding'''
-    moleculeIdentification = pd.str(label = 'Try to Identify Molecules', default = "None")
+    useInitialBondingOnly.meta['label'] = 'Assign Bonding Based on Initial Geometry Only'
+
+    moleculeIdentification = pd.str(default = "None")
     moleculeIdentification.meta['tip'] = '''identify molecules based on covalent radii 
 and deal with intramolecular coulomb interactions'''
-    moleculeIdentification.validator = pd.choice(['None','identify molecules; remove intramolecular Coulomb forces',
-                                                 'identify molecules; retain intramolecular Coulomb forces'])
+    moleculeIdentification.meta['label'] = 'Try to Identify Molecules'
+    #moleculeIdentification.validator = pd.choice(['None','identify molecules; remove intramolecular Coulomb forces',
+    #                                             'identify molecules; retain intramolecular Coulomb forces'])
     
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
