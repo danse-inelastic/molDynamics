@@ -34,12 +34,12 @@ class Gulp2(MolDynamics):
     runType = pd('md')
     runType.meta['tip'] = 'type of run'
     
-    forcefield = pd.ref(table = GulpForcefield)
+    forcefield = pd(GulpForcefield)
     forcefield.meta['tip'] = 'overall types of potentials to use'
   
     def __init__(self, name='gulp'):
         #define visitors
-        self.optionWriter = OptionWriter(self.i.sample)
+        self.optionWriter = OptionWriter(self.matter)
         self.keywordWriter = KeywordWriter()
         if self.runType is 'md':
             from memd2.gulp.Md import Md
