@@ -16,26 +16,23 @@ from memd2.gulp.GulpForcefield import GulpForcefield
 from memd2.gulp.OptionWriter import OptionWriter
 from memd2.gulp.KeywordWriter import KeywordWriter
 
-class Gulp(MolDynamics):
+class Gulp2(MolDynamics):
     """GULP engine for MolDynamics interface.  
     This class maps the DANSE data structures to GULP's input deck.
     """
 
     import pd
-    computeMaterialProperties = pd.bool(default = False)
+    computeMaterialProperties = pd(False)
     computeMaterialProperties.meta['tip'] = 'whether to print material properties'
     
     engineExecutablePath = pd.str()
-    engineExecutablePath.meta['tip'] = '''path to the engine's executable'''
     engineExecutablePath.meta['label'] = 'Engine Executable Path'
     
-    inputFileName = pd.str(default = 'gulp.gin')
+    inputFileName = pd('gulp.gin')
     inputFileName.meta['tip'] = '''input file for executable'''
     
-    runType = pd.str(default = 'md')
-    #runType.meta['known_plugins'] = ['md', 'optimize', 'fit', 'phonon'] 
+    runType = pd('md')
     runType.meta['tip'] = 'type of run'
-    #runType.meta['importance'] = 9
     
     forcefield = pd.ref(table = GulpForcefield)
     forcefield.meta['tip'] = 'overall types of potentials to use'
