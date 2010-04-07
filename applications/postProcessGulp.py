@@ -56,6 +56,7 @@ class PostProcessGulp(Script):
             c.convert()
             os.remove(self.historyFile)
         if self.inventory.thinTrajectory:
+            pass
             #actually, all i need to do here is just create new time dimension and then
             #create new variables for kinetic energy, etc....but first be sure to just run normal
             #gulp at 60,80K to look for signs of vacacy diffusion (where quantum correction doesn't matter so much)
