@@ -60,7 +60,7 @@ class GulpSettings:
             "phonons":{'vsat.PhononDOS':['dos.dens'], 
                 'vsat.Phonons':['polarizations.pkl', 'energies.pkl']}, 
             "free energy calc/optimize":{'matter.orm.Structure':None},
-            "molecular dynamics":{'vsat.Motion':self.trajectories}, 
+            "molecular dynamics":{'vsat.Trajectory':self.trajectories}, 
             "monte carlo":{'vsat.PhaseSpaceSample':self.trajectories,
                 'matter.orm.Structure':None},
             "energetics and material properties":None,
