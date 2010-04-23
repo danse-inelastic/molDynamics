@@ -54,7 +54,7 @@ class PostProcessGulp(Script):
             c.setHistoryFileName(self.historyFile)
             c.setNetcdfFile(self.ncFile)
             c.convert()
-            os.remove(self.historyFile)
+            #os.remove(self.historyFile)
         if self.inventory.thinTrajectory:
             pass
             #actually, all i need to do here is just create new time dimension and then
