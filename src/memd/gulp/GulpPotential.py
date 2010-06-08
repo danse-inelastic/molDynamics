@@ -28,6 +28,11 @@ class GulpPotential:
 #    potential_name.constraints = 'PRIMARY KEY'
 #    potential_name.meta['tip'] = "the unique id"
 
+    #this is a hack until we can revise orm
+#    @classmethod
+#    def getTableName(kls):
+#        return 'gulppotential'
+
 
 # version
 __id__ = "$Id$"
