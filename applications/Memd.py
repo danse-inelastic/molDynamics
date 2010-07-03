@@ -10,7 +10,7 @@
 #
 from pyre.applications.Script import Script
 
-class MdApp(Script):
+class Memd(Script):
     '''Driver for the md engines in DANSE.'''
     class Inventory(Script.Inventory):
         import pyre.inventory as inv 
@@ -19,7 +19,7 @@ class MdApp(Script):
         engine.meta['tip'] = 'which md engine to use'
 
     def __init__(self):
-        Script.__init__(self, 'MdApp')
+        Script.__init__(self, 'Memd')
         self.i = self.inventory
         
     def _configure(self):
@@ -29,7 +29,7 @@ class MdApp(Script):
         self.engine.execute()
 
 if __name__=='__main__':
-    app=MdApp()
+    app=Memd()
     app.run()
 
 # version

@@ -1,5 +1,5 @@
-from molDynamics.gulp.forcefields.TwoAtomPotential import TwoAtomPotential
-from molDynamics.gulp.forcefields.ForcefieldVisitor import Visitable
+from memd.gulp.forcefields.TwoAtomPotential import TwoAtomPotential
+from memd.gulp.forcefields.ForcefieldVisitor import Visitable
 
 from os import linesep
 

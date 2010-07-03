@@ -12,7 +12,7 @@
 #
 from pyre.components.Component import Component
 #from molDynamics.Md import Md as MdBase
-from molDynamics.gulp.Visitable import Visitable
+from memd.gulp.Visitable import Visitable
 
 
 class Md(Component,Visitable):#(MdBase):

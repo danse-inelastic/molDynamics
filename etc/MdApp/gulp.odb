@@ -1,4 +1,0 @@
-from molDynamics.gulp.Gulp import Gulp  
-
-def mdEngine():
-	return Gulp('gulp')

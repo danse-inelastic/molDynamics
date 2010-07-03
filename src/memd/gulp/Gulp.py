@@ -10,12 +10,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from memd.MolDynamics import MolDynamics
-#from molDynamics.gulp.Coordinates import Coordinates
+#from memd.gulp.Coordinates import Coordinates
 from os import system, linesep
 from memd.gulp.Potential import Potential
 from memd.gulp.OptionWriter import OptionWriter
 from memd.gulp.KeywordWriter import KeywordWriter
-from pyregui.inventory.extensions.InputFile import InputFile
+#from pyregui.inventory.extensions.InputFile import InputFile
 
 class Gulp(MolDynamics):
     """GULP MD engine for MolDynamics interface.  
@@ -27,10 +27,10 @@ This class maps the DANSE data structures to GULP's input deck.
         computeMaterialProperties = inv.bool('Compute Material Properties', default = False)
         computeMaterialProperties.meta['tip'] = 'whether to print material properties'
         
-        engineExecutablePath = InputFile('Engine Executable Path', default = "")
+        engineExecutablePath = inv.str('Engine Executable Path', default = "")
         engineExecutablePath.meta['tip'] = '''path to the engine's executable'''
         
-        inputDeckName = inv.str('Input Filename', default = 'molDynamics.gin')
+        inputDeckName = inv.str('Input Filename', default = 'memd.gin')
         inputDeckName.meta['tip'] = '''input file for executable'''
         
         runType = inv.facility('runType', default = 'md')
@@ -38,11 +38,12 @@ This class maps the DANSE data structures to GULP's input deck.
         runType.meta['tip'] = 'type of run'
         runType.meta['importance'] = 9
         
-        potential = inv.facility('Potential', default = Potential())
+        potential = inv.facility('potential', default = Potential())
         potential.meta['tip'] = 'overall types of potentials to use'
   
     def __init__(self, name='gulp'):
-        MolDynamics.__init__(self, name, 'mdEngine')
+        MolDynamics.__init__(self, name, 'engine')
+        self.i = self.inventory
         #define visitors
         self.optionWriter = OptionWriter(self.i.sample)
         self.keywordWriter = KeywordWriter()

@@ -1,4 +1,4 @@
-from molDynamics.gulp.forcefields.OneAtomPotential import OneAtomPotential
+from memd.gulp.forcefields.OneAtomPotential import OneAtomPotential
 from os import linesep
 
 class SpringGulp(OneAtomPotential):

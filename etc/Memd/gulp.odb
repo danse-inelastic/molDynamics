@@ -1,0 +1,4 @@
+from memd.gulp.Gulp import Gulp  
+
+def engine():
+	return Gulp('gulp')

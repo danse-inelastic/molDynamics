@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE inventory>
 <inventory>
-    <component name="MdApp">
+    <component name="memd">
         <property name="engine">gulp</property>
         
         <component name="gulp">
             <property name="Engine Executable Path">/home/jbk/officialGulp3.4/Src/gulp</property>
             <property name="Log Filename">molDynamics.log</property>
-            <facility name="sample">Sample</facility>
+            <facility name="Sample">Sample</facility>
             <property name="potential">potential</property>
             <property name="runType">md</property>
             <property name="Compute Material Properties">False</property>

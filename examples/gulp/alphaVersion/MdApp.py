@@ -8,9 +8,9 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#from molDynamics.gulp.Gulp import Gulp
-#from molDynamics.mmtk.Mmtk import Mmtk
-#from molDynamics.MolDynamics import MolDynamics
+#from memd.gulp.Gulp import Gulp
+#from memd.mmtk.Mmtk import Mmtk
+#from memd.MolDynamics import MolDynamics
 from pyre.applications.Script import Script
 
 class MdApp(Script):

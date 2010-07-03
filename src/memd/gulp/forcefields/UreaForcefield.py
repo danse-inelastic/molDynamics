@@ -8,10 +8,10 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from pyre.components.Component import Component
-from molDynamics.gulp.potentials.MorseGulp import MorseGulp
-from molDynamics.gulp.potentials.LennardJonesABGulp import LennardJonesABGulp
-from molDynamics.gulp.potentials.ThreeBodyGulp import ThreeBodyGulp  
-from molDynamics.gulp.potentials.TorsionGulp import TorsionGulp 
+from memd.gulp.potentials.MorseGulp import MorseGulp
+from memd.gulp.potentials.LennardJonesABGulp import LennardJonesABGulp
+from memd.gulp.potentials.ThreeBodyGulp import ThreeBodyGulp  
+from memd.gulp.potentials.TorsionGulp import TorsionGulp 
 
 class UreaForcefield(Component):
     '''Contains the potentials for urea'''

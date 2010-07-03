@@ -9,10 +9,10 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PROJECT = molDynamics
+PROJECT = memd
 
 BUILD_DIRS = \
-    MdApp \
+	Memd \
 
 OTHER_DIRS = \
 

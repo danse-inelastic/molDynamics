@@ -1,6 +1,6 @@
 #script to optimize the crystal structure of (NH2)2CO (urea)
 from sample.Sample import Sample
-from molDynamics.gulp.forcefields.AluminaForcefield import AluminaForcefield  
+from memd.gulp.forcefields.AluminaForcefield import AluminaForcefield  
 from applications.MdApp import MdApp
 from UnitCell import UnitCell
 # set up the sample with atoms, periodicity, atomic interactions

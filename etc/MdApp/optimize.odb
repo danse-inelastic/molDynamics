@@ -1,4 +1,0 @@
-from molDynamics.gulp.Optimize import Optimize  
-
-def runType():
-    return Optimize('optimize')

@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from pyre.components.Component import Component
-from molDynamics.gulp.Visitable import Visitable
+from memd.gulp.Visitable import Visitable
 
 class Phonon(Component,Visitable):
     '''This class allows phonon calculations using traditional molecular mechanics potentials.'''

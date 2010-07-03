@@ -1,0 +1,4 @@
+from memd.mmtk.LennardJonesForcefield import LennardJonesForcefield  
+
+def forcefield():
+	return LennardJonesForcefield('lennardJones')

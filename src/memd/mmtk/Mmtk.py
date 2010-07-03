@@ -73,7 +73,7 @@ fluctuations relatively small'''
         trajectoryType.validator = inv.choice(['xyz', 'history', 'xyz and history'])
 
     def __init__(self, name='mmtk'):
-        MolDynamics.__init__(self, name, 'mdEngine')
+        MolDynamics.__init__(self, name, 'engine')
         #self._setDefaults()
         self.mmtkUniverse = None
         

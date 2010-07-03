@@ -1,0 +1,4 @@
+from memd.gulp.Optimize import Optimize  
+
+def runType():
+    return Optimize('optimize')

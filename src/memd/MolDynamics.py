@@ -12,15 +12,14 @@
 #
 from sample.Sample import Sample
 from pyre.components.Component import Component
-from pyregui.inventory.extensions.OutputDir import OutputDir
-
+#from pyregui.inventory.extensions.OutputDir import OutputDir
 
 class MolDynamics(Component):
     '''This class serves as an API/interface for md engines.'''
     
     class Inventory(Component.Inventory):
         import pyre.inventory as inv  
-        sample = inv.facility('sample',default = Sample())
+        sample = inv.facility('Sample', default = Sample())
         sample.meta['importance'] = 10
         sample.meta['tip'] = 'piece of material being measured/simulated'
 
@@ -28,7 +27,7 @@ class MolDynamics(Component):
         logFilename.meta['tip'] = 'name of log file for md run'
 
         
-        outputDir = OutputDir( 'outputDir', default = "" )
+        outputDir = inv.str( 'outputDir', default = "" )
         outputDir.meta['tip'] = 'Output directory'
 
 #        restartFilename = inv.str('Restart Filename', default = 'molDynamics.res')
@@ -39,9 +38,9 @@ class MolDynamics(Component):
         Component.__init__(self, name, facility)
         #self.i=self.inventory
     
-#    def _configure(self):
-#        Component._configure(self)
-#        #self.sample = self.i.sample
+    def _configure(self):
+        Component._configure(self)
+        #self.sample = self.i.sample
 
 
     def execute(self):

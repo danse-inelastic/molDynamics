@@ -10,7 +10,7 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-from molDynamics.gulp.Visitable import Visitable
+from memd.gulp.Visitable import Visitable
 
 class Optimize(Visitable):
     

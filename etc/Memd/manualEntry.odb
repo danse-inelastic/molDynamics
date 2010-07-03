@@ -1,0 +1,4 @@
+from memd.gulp.forcefields.ForcefieldLoader import ForcefieldLoader
+
+def forcefield():
+	return ForcefieldLoader('manualEntry')

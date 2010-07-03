@@ -13,8 +13,8 @@
 
 from crystal.UnitCell import UnitCell
 from sample.Sample import Sample
-from molDynamics.gulp.Gulp import Gulp
-from molDynamics.gulp.potentials.TwoAtomPotential import TwoAtomPotential
+from memd.gulp.Gulp import Gulp
+from memd.gulp.potentials.TwoAtomPotential import TwoAtomPotential
 from os import sep
 import unittest 
 import string

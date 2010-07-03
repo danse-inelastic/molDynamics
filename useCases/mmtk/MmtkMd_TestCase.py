@@ -14,9 +14,9 @@
 from sample.Sample import Sample
 from crystal.UnitCell import UnitCell
 from crystal.UnitCellBuilder import UnitCellBuilder
-from molDynamics.mmtk.Mmtk import Mmtk
-from molDynamics.mmtk.AmberForcefield import AmberForcefield
-from molDynamics.mmtk.LennardJonesForcefield import LennardJonesForcefield
+from memd.mmtk.Mmtk import Mmtk
+from memd.mmtk.AmberForcefield import AmberForcefield
+from memd.mmtk.LennardJonesForcefield import LennardJonesForcefield
 #from sampleCreation.supercell.Supercell import Supercell
 import unittest 
 import string

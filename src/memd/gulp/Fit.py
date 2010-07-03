@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from pyre.components.Component import Component
-from molDynamics.gulp.forcefields.InputFile import InputFile
+from memd.gulp.forcefields.InputFile import InputFile
 
 
 class Fit(Component):

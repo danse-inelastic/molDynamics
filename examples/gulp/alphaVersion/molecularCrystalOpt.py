@@ -1,8 +1,8 @@
 #script to optimize the crystal structure of (NH2)2CO (urea)
 from sample.Sample import Sample
-from molDynamics.gulp.TwoAtomPotential import TwoAtomPotential
-from molDynamics.gulp.ThreeAtomPotential import ThreeAtomPotential
-from molDynamics.gulp.FourAtomPotential import FourAtomPotential    
+from memd.gulp.TwoAtomPotential import TwoAtomPotential
+from memd.gulp.ThreeAtomPotential import ThreeAtomPotential
+from memd.gulp.FourAtomPotential import FourAtomPotential    
 from applications.MdApp import MdApp
 #from MdApp import MdApp
 import danseGlob

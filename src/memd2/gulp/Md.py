@@ -9,8 +9,8 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#from molDynamics.Md import Md as MdBase
-from molDynamics.gulp.Visitable import Visitable
+#from memd.Md import Md as MdBase
+from memd.gulp.Visitable import Visitable
 
 class Md(Visitable):#(MdBase):
     '''This class serves as an md property setter.'''

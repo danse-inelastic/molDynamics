@@ -10,7 +10,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from memd2.MolDynamics import MolDynamics
-#from molDynamics.gulp.Coordinates import Coordinates
+#from memd.gulp.Coordinates import Coordinates
 from os import system, linesep
 from memd2.gulp.GulpForcefield import GulpForcefield
 from memd2.gulp.OptionWriter import OptionWriter

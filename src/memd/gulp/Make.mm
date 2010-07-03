@@ -18,9 +18,6 @@ BUILD_DIRS = \
 	output \
 	potentials \
 
-
-
-	
 OTHER_DIRS = \
 
 RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
@@ -47,7 +44,8 @@ EXPORT_PYTHON_MODULES = \
     GulpResults.py \
     GulpSettings.py \
     KeywordWriter.py \
-    LargeEigenDataParser.py \
+    Md.py \
+    MdX.py \
     NetcdfPolarizationWrite.py \
     Optimize.py \
     OptionWriter.py \

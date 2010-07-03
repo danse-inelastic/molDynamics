@@ -8,7 +8,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from pyre.components.Component import Component
-from pyregui.inventory.extensions.InputFile import InputFile
+#from pyregui.inventory.extensions.InputFile import InputFile
 from os import linesep
 
 class InputFile(Component):
@@ -16,8 +16,7 @@ class InputFile(Component):
 sequentially: x1 x2 x3 y1 y2 y3 z1 z2 z3.  On the third, fourth, etc. lines input the atoms: Zn 0.0 0.5'''
     class Inventory(Component.Inventory):
         import pyre.inventory as inv
-        inputFile = InputFile( 'inputFile', default = "" )
-        inputFile.meta['tip'] = 'xyz file containing unit cell and atom positions'
+        inputFile = inv.str( 'inputFile', default = "" )
 #        fireballBasisSetPath = inv.str('Fireball Basis Set Path', default = None)
 #        fireballBasisSetPath.meta['tip'] = 'directory containing Fdata'
 

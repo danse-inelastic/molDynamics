@@ -1148,7 +1148,7 @@ C core C core C core 25.226 120.0  1.6  1.6  3.0
 torsion intra
 C core C core C core C core 0.46135 -2  1.6  1.6  1.6  0.0  
 ensemble nvt 0.05
-temperature 70
+temperature 70.0
 equilibration 0.0 ps
 production 1.0 ps
 timestep 1.0 fs

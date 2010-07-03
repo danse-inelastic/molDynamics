@@ -1,4 +1,4 @@
-from molDynamics.Md import Md  
+from memd.gulp.Md import Md  
 
 def runType():
     return Md('md')

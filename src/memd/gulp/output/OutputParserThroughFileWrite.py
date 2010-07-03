@@ -4,8 +4,8 @@ import numpy as np
 from os import sep
 import re, sys
 #import scipy.io
-from molDynamics.gulp.E import write as writeEs
-from molDynamics.gulp.NetcdfPolarizationWrite import NetcdfPolarizationWrite
+from memd.gulp.E import write as writeEs
+from memd.gulp.NetcdfPolarizationWrite import NetcdfPolarizationWrite
 
 # numbers: 1, 30.0, 1e-5, -99
 number = Combine( Optional('-') + ( '0' | Word('123456789',nums) ) + \

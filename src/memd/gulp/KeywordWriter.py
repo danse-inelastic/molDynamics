@@ -1,5 +1,5 @@
 
-from molDynamics.gulp.Visitor import Visitor
+from memd.gulp.Visitor import Visitor
 
 
 class KeywordWriter(Visitor):

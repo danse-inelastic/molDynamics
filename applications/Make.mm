@@ -10,8 +10,8 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PROJECT = molDynamics
-PACKAGE = molDynamics
+PROJECT = memd
+PACKAGE = memd
 
 PROJ_TIDY += *.log *.pyc
 PROJ_CLEAN =
@@ -36,10 +36,10 @@ all: export
 
 #EXPORT_PYTHON_MODULES = \
 #	__init__.py \
-#	MdApp.py \
+#	memd.py \
 
 EXPORT_BINS = \
-	MdApp.py \
+	Memd.py \
 	postProcessGulp.py \
 
 

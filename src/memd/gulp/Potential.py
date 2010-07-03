@@ -12,7 +12,7 @@
 #
 from pyre.components.Component import Component
 #from molDynamics.gulp.forcefields.ForcefieldLoader import ForcefieldLoader
-from molDynamics.gulp.forcefields.InputFile import InputFile
+from memd.gulp.forcefields.InputFile import InputFile
 
 class Potential(Component):
     '''This class serves as an API/interface for gulp potential construction.'''
@@ -23,8 +23,8 @@ class Potential(Component):
         dispersionInRecipSpace.meta['tip'] = '''whether to calculate dispersion forces 
 partly in reciprocal space'''
         useInitialBondingOnly = inv.bool('Assign Bonding Based on Initial Geometry Only', default = False)
-        useInitialBondingOnly.meta['tip'] = '''instead of reassigning bonding based on every optimization or time step, use intial geometry only to
-assign bonding'''
+        useInitialBondingOnly.meta['tip'] = '''instead of reassigning 
+        bonding based on every optimization or time step, use intial geometry only to assign bonding'''
         forcefield = inv.facility('forcefield', default=InputFile('gulpLibrary'))
         forcefield.meta['tip'] = 'a class containing forcefield types'
         #forcefield.meta['known_plugins'] = ['gulpLibrary','manualEntry']
