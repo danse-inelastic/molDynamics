@@ -1147,3 +1147,5 @@ three cosine intra
 C core C core C core 25.226 120.0  1.6  1.6  3.0   
 torsion intra
 C core C core C core C core 0.46135 -2  1.6  1.6  1.6  0.0  
+output movie xyz molDynamics.xyz
+dump molDynamics.res

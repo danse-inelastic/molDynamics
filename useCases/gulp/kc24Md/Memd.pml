@@ -20,7 +20,7 @@
                 <property name="Temperature or Initial Energy (K)">70</property>
 
                 <component name="xyzFile">
-                    <property name="inputFile">/home/jbk/DANSE/MolDyn/molDynamics/useCases/gulp/kc24Md/kc24Relaxed.xyz</property>
+                    <property name="inputFile">/home/jbk/workspace/molDynamics/useCases/gulp/kc24Md/kc24Relaxed.xyz</property>
                 </component>
 
             </component>
