@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE inventory>
 <inventory>
-    <component name="memd">
+    <component name="Memd">
         <property name="engine">gulp</property>
         
         <component name="gulp">
             <property name="Engine Executable Path">/home/jbk/officialGulp3.4/Src/gulp</property>
             <property name="Log Filename">molDynamics.log</property>
             <facility name="Sample">Sample</facility>
-            <property name="potential">potential</property>
+            <property name="Potential">potential</property>
             <property name="runType">md</property>
             <property name="Compute Material Properties">False</property>
-            <property name="outputDir">/home/jbk/DANSE/MolDyn/molDynamics/useCases/gulp/kc24Md</property>
+            <property name="outputDir">/home/jbk/workspace/molDynamics/useCases/gulp/kc24Md</property>
             <property name="Input Filename">kc24-70K.gin</property>
 
             <component name="Sample">

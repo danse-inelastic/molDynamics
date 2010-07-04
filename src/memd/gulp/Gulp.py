@@ -38,7 +38,7 @@ This class maps the DANSE data structures to GULP's input deck.
         runType.meta['tip'] = 'type of run'
         runType.meta['importance'] = 9
         
-        potential = inv.facility('potential', default = Potential())
+        potential = inv.facility('Potential', default = Potential())
         potential.meta['tip'] = 'overall types of potentials to use'
   
     def __init__(self, name='gulp'):
