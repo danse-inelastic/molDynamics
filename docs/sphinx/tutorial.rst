@@ -15,28 +15,28 @@ Running the code is simple::
 
 	memd.py --engine=gulp --gulp.runType=md ...
 
-where each options is given as key value pairs.  Inputs may also be made from an xml file, called a pml file in pyre lingo.  Two examples of this are given below.
+where each options is given as key value pairs.  Inputs may also be made from an xml file, called a pml file in pyre lingo.  Examples are given below.
 
 Configuring memd for atomic structure optimization
 ---------------------------------------------------
 
 To optimize the coordinates of an atomic structure one may try the following set of configurations:
 
-.. literalinclude:: ../../useCases/gulp/kc24Phonons/memd.pml
+.. literalinclude:: ../../useCases/gulp/kc24Optimize/Memd.pml
 
 Configuring memd for lattice dynamics
 ------------------------------------------
 
 To configure memd for a lattice dynamics calculation for potassium intercalated graphite, use the following set of configurations:
 
-.. literalinclude:: ../../useCases/gulp/kc24Phonons/memd.pml
+.. literalinclude:: ../../useCases/gulp/kc24Phonons/Memd.pml
 
 Configuring memd for md using Gulp engine
 -----------------------------------------------
 
 To configure a memd run for potassium intercalated graphite, for example, one may use the following set of configurations:
 
-.. literalinclude:: ../../useCases/gulp/kc24Md/memd.pml
+.. literalinclude:: ../../useCases/gulp/kc24Md/Memd.pml
 
 Configuring memd for md using Mmtk engine
 ------------------------------------------
@@ -49,14 +49,8 @@ To configure a memd run for potassium intercalated graphite, one performs the fo
 
 .. index:: swap-md-engines
 
-
-
-Storing settings to a DB:
-----------------------------
-
-
-Creating dataobjects from results
-------------------------------------------
+Creating dataobjects from results and storing them in a db
+-----------------------------------------------------------
 
 Memd produces a variety of dynamical information about a system.  It uses the Vsat data objects to encapsulate this information so it can be stored in a db or serialized for later retrieval.  Creating these data objects is simple:
 
