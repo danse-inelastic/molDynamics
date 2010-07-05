@@ -31,45 +31,19 @@ To configure memd for a lattice dynamics calculation for potassium intercalated 
 
 .. literalinclude:: ../../useCases/gulp/kc24Phonons/Memd.pml
 
-Configuring memd for md using Gulp engine
+Configuring memd for md using the Gulp engine
 -----------------------------------------------
 
 To configure a memd run for potassium intercalated graphite, for example, one may use the following set of configurations:
 
 .. literalinclude:: ../../useCases/gulp/kc24Md/Memd.pml
 
-Configuring memd for md using Mmtk engine
+Configuring memd for md using the Mmtk engine
 ------------------------------------------
 
-In general MMTK is limited to molecules and ions described by the Amber 94 forcefield, so we choose a molecular crystal, benzene, at slightly elevated pressure (0.30 GPa). 
+In general MMTK is limited to molecules and ions described by the Amber 94 forcefield.  However, it can also do simple lennard jones materials.  This example shows a simulation of Argon using such a potential:: 
 
-To configure a memd run for potassium intercalated graphite, one performs the following steps::
-
-.. literalinclude:: ../../useCases/mmtk/kc24Md/memdMd.py
-
-.. index:: swap-md-engines
-
-Creating dataobjects from results and storing them in a db
------------------------------------------------------------
-
-Memd produces a variety of dynamical information about a system.  It uses the Vsat data objects to encapsulate this information so it can be stored in a db or serialized for later retrieval.  Creating these data objects is simple:
-
-Getting Phonon objects from memd:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. _getMotion:
-
-Getting Trajectory objects from memd:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To get a Trajectory data object from an memd output file:
-
-Gulp engine:
-"""""""""""""
-
-.. literalinclude:: examples/CreateMotionDo.py
+.. literalinclude:: ../../useCases/mmtk/Memd.pml
 
 
-Mmtk engine:
-"""""""""""""
 
