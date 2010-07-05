@@ -124,13 +124,13 @@ fluctuations relatively small'''
     def _setInitialConditions(self):
         '''map MolDynamics unit cell stuff to MMTK's. 
         Eventually much of this will be taken by the crystal class''' 
-        atoms = self.inventory.sample.getAtomsAsString()
+        atoms = self.inventory.sample.getAtomsAsStrings()
         uc = self.inventory.sample.getCellVectors()
         if uc==None:
             self.mmtkUniverse = MMTK.InfiniteUniverse(self.ff)
         else:
-            ucList=uc.tolist()
-            (a,b,c,al,be,ga)=self._vecsToParams(ucList)
+            #ucList=uc.tolist()
+            (a,b,c,al,be,ga)=self._vecsToParams(uc)
             if self.appEqual(al, 90.0) and self.appEqual(be, 90.0) and self.appEqual(ga, 90.0):
                 if a==b and b==c:
                     self.mmtkUniverse = MMTK.CubicPeriodicUniverse(a*Units.Ang, self.ff)
@@ -144,8 +144,7 @@ fluctuations relatively small'''
                      (uc[1][0]*Units.Ang, uc[1][1]*Units.Ang, uc[1][2]*Units.Ang),
                      (uc[2][0]*Units.Ang, uc[2][1]*Units.Ang, uc[2][2]*Units.Ang)), self.ff)
         #add objects to mmtkUniverse
-        atomsOnly = atoms.split(linesep)[:-1]
-        for atom in atomsOnly:
+        for atom in atoms:
             species, x, y, z = atom.split()
             self.mmtkUniverse.addObject(MMTK.Atom(species, position = \
                 MMTK.Vector(float(x)*Units.Ang, float(y)*Units.Ang, float(z)*Units.Ang))) 
@@ -265,9 +264,9 @@ fluctuations relatively small'''
         '''writes out the files, starts the executable, and parses the output files'''
         self.printWarnings()
         if self.inventory.runType=='md':
-            self.inventoryntegrate()
+            self.integrate()
         elif self.inventory.runType=='restart md':
-            self.restart()
+            self.restartIntegrate()
 
     def printWarnings(self):
         if self.inventory.sampleFrequency > self.inventory.timeStep:

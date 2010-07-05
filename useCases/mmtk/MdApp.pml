@@ -1,24 +1,9 @@
 <?xml version="1.0"?>
-<!--
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-!
-!
-! [u'[u\'[u\\\'[u\\\\\\\'[u"[\\\\\\\\\\\\\\\'{LicenseText}\\\\\\\\\\\\\\\']"]\\\\\\\']\\\']\']']
-!
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--->
-
 <!DOCTYPE inventory>
-
 <inventory>
 
-    <component name="MdApp">
-        <property name="typos">strict</property>
-        <property name="help-persistence">False</property>
-        <property name="help">False</property>
-        <property name="help-properties">False</property>
-        <property name="help-components">False</property>
-        <property name="mdEngine">mmtk</property>
+    <component name="Memd">
+        <property name="engine">mmtk</property>
 
         <component name="mmtk">
             <property name="Trajectory Filename">molDynamics.nc</property>
