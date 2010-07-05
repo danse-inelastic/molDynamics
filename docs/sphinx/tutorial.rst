@@ -6,16 +6,16 @@ Tutorial
 Running memd
 --------------
 
-As memd is a pyre application, it engines are facilities that can be set at runtime.  The internal code for memd as a pyre application is called memd.py.  One may see its simple structure and two engines in its inventory:
+As memd is a pyre application, it engines are facilities that can be set at runtime.  The internal code for memd as a pyre application is called Memd.py.  One may see its simple structure and two engines in its inventory:
 
-.. literalinclude:: ../../applications/memd.py
+.. literalinclude:: ../../applications/Memd.py
    :lines: 11-33
 
 Running the code is simple::
 
 	memd.py --engine=gulp --gulp.runType=md ...
 
-where each options is given as key value pairs.  Inputs may also be made from an xml file, called a pml file in pyre lingo.  Examples are given below.
+where each option is given as key value pairs.  Settings may also be input using an xml file, called a pml file in pyre lingo, or using a UI framework that can introspect pyre components and create widgets automatically, such as `luban <http://docs.danse.us/pyre/luban/sphinx/index.html>`_. Examples of pml files for major workflows are given below.
 
 Configuring memd for atomic structure optimization
 ---------------------------------------------------
