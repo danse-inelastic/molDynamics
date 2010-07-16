@@ -39,9 +39,9 @@ To configure a memd run for potassium intercalated graphite, for example, one ma
 .. literalinclude:: ../../useCases/gulp/kc24Md/Memd.pml
 
 Configuring memd for md using the Mmtk engine
-------------------------------------------
+-----------------------------------------------
 
-In general MMTK is limited to molecules and ions described by the Amber 94 forcefield.  However, it can also do simple lennard jones materials.  This example shows a simulation of Argon using such a potential:: 
+In general MMTK is limited to molecules and ions described by the Amber 94 forcefield.  However, it can also do simple lennard jones materials.  This example shows a simulation of Argon using such a potential:
 
 .. literalinclude:: ../../useCases/mmtk/Memd.pml
 
