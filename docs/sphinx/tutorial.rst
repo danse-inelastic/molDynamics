@@ -13,7 +13,7 @@ As memd is a pyre application, it engines are facilities that can be set at runt
 
 Running the code is simple::
 
-	memd.py --engine=gulp --gulp.runType=md ...
+	memd.py --engine=gulp --engine.runType=md ...
 
 where each option is given as key value pairs.  Settings may also be input using an xml file, called a pml file in pyre lingo, or using a UI framework that can introspect pyre components and create widgets automatically, such as `luban <http://docs.danse.us/pyre/luban/sphinx/index.html>`_. Examples of pml files for major workflows are given below.
 

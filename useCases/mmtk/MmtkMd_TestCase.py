@@ -12,8 +12,9 @@
 #
 
 from sample.Sample import Sample
-from crystal.UnitCell import UnitCell
-from crystal.UnitCellBuilder import UnitCellBuilder
+#from crystal.UnitCell import UnitCell
+#from crystal.UnitCellBuilder import UnitCellBuilder
+from matter import Structure, Lattice, Atom
 from memd.mmtk.Mmtk import Mmtk
 from memd.mmtk.AmberForcefield import AmberForcefield
 from memd.mmtk.LennardJonesForcefield import LennardJonesForcefield
