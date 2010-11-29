@@ -1,0 +1,18 @@
+phonon eigenvectors gradient conp
+vectors
+2.1269583916945813 -1.2280000000000002 0.0
+0.0 2.456 0.0
+0.0 0.0 10.044 
+supercell 2 2 2
+fractional 6
+C 0.0 0.0 0.0 0.0 
+C 0.333333 0.666667 0.0 0.0 
+C 0.0 0.0 0.333333 0.0 
+C 0.666667 0.333333 0.333333 0.0 
+C 0.333333 0.666667 0.666667 0.0 
+C 0.666667 0.333333 0.666667 0.0 
+library axiallySymmetricNWS
+cutd 4.0
+temperature 300
+output phonon dos.dens
+shrink 10 10 10

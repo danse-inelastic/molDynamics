@@ -1,0 +1,10 @@
+#
+# Axially Symmetric model of Nicklow, Wakabyashi and Smith
+# Daniel Roach: this version is currently set up to a fourth nearest neighbour interaction limit,
+# but we are currently fitting a much more extensive model to data collected at ISIS
+#
+harmonic 
+C C 22.594 0.63952 0.0 0.0 1.8
+C C  8.301 3.42180 0.0 1.8 2.6
+C C -0.231 24.95086 0.0 2.6 3.1
+C C  0.362 2.94862 0.0 3.1 3.5
