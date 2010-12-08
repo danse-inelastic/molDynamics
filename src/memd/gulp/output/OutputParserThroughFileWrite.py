@@ -1,5 +1,4 @@
 from pyparsing import *
-import pickle
 import numpy as np
 from os import sep
 import re, sys
