@@ -7,7 +7,7 @@ o = OutputParser(gulpOutputFile, runtype = 'phonons')
 phonons = o.getEigsAndVecs()
 print phonons.energies[0,0,0]
 #pickle it
-phonons.write(['energies.pkl','polarizations.pkl'])
+phonons.write(['energies.idf','polarizations.idf'])
 
 phonons.energies=None
 phonons.polarizations=None
@@ -15,10 +15,3 @@ phonons.read()
 print 'restored'
 print phonons.energies[0,0,0]
 print phonons.polarizations[0]
-
-#or
-print 'pickle load'
-
-import numpy
-energies = numpy.load('energies.pkl')
-print energies[0]

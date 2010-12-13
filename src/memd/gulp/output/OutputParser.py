@@ -134,6 +134,8 @@ class OutputParser:
             eigVals = np.array(eigVals)
             #reshape in k mesh
             mx,my,mz = self.kpointMesh
+            print mx,my,mz, self.numModes
+            print eigVals.shape
             eigVals = eigVals.reshape((mx, my, mz, self.numModes))
         if eigVecs:
             eigVecs = np.array(eigVecs)
