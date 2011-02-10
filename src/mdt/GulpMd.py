@@ -33,7 +33,8 @@ class GulpMd(Gulp):
 try:
     class Inventory(Gulp.Inventory):
         ensemble = Gulp.Inventory.d.str(name = 'ensemble', default = 'nvt')
-        ensemble.label = 'Thermodynamic Ensemble (nve, nvt, npt)'
+        ensemble.label = 'Thermodynamic Ensemble'
+        ensemble.validator = Gulp.Inventory.v.choice(['nve', 'nvt', 'npt'])
         thermostat_parameter = Gulp.Inventory.d.str(name = 'thermostat_parameter', default = 'None')
         thermostat_parameter.label = 'Parameter for Thermostat'
         thermostat_parameter.help = 'only fill in if you chose the nvt or npt ensembles'

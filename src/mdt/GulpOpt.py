@@ -17,6 +17,8 @@ class GulpOpt(Gulp):
     optimize_coordinates = True
     optimize_cell = False
     constraint = 'constant volume'
+    trajectoryfile = 'gulp.his'
+    restartfile = 'gulp.res'
     
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
@@ -31,11 +33,11 @@ try:
         optimize_cell.label = 'Optimize the Cell'
         constraint = Gulp.Inventory.d.str(name = 'constraint', default = 'constant volume')
         constraint.label = 'constant volume'
-        constraint.validator = 
+        constraint.validator = Gulp.Inventory.v.choice(['None', 'constant volume', 'constant pressure'])
+        trajectoryfile = Gulp.Inventory.d.str(name = 'trajectoryfile', default = 'gulp.his')
+        trajectoryfile.label = 'Trajectory Filename'
         restartfile = Gulp.Inventory.d.str(name = 'restartfile', default = 'gulp.res')
         restartfile.label = 'Restart Filename'
-        dump_frequency = Gulp.Inventory.d.float(name = 'dump_frequency', default = 5.0)
-        dump_frequency.label = 'Time Interval Between Writing a Restart File'
-    GulpMd.Inventory = Inventory
+    GulpOpt.Inventory = Inventory
 except:
     pass

@@ -42,6 +42,8 @@ try:
         forcefield_name.label = 'Name of Forcefield'
         identify_molecules = InvBase.d.str(name = 'identify_molecules', default = 'identify molecules; retain intramolecular Coulomb forces')
         identify_molecules.label = 'How to Identify Molecules and Calculate Coloumb Forces'
+        identify_molecules.validator = InvBase.v.choice(['None','identify molecules; remove intramolecular Coulomb forces',
+                                                     'identify molecules; retain intramolecular Coulomb forces'])
         assign_bonds_from_initial_geometry = InvBase.d.bool(name = 'assign_bonds_from_initial_geometry ', default = False)
         assign_bonds_from_initial_geometry.label = 'Assign Bonds from Initial Geometry Only?'
         calc_dispersion_in_recip_space = InvBase.d.bool(name = 'calc_dispersion_in_recip_space', default = False)
