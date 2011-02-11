@@ -29,7 +29,9 @@ class GulpMd(Gulp):
         for k, v in kwds.iteritems():
             setattr(self, k, v)
         super(GulpMd, self).__init__()
-    
+        
+    def customizeLubanObjectDrawer(self, drawer):
+        drawer.sequence = ['properties']    
 try:
     class Inventory(Gulp.Inventory):
         ensemble = Gulp.Inventory.d.str(name = 'ensemble', default = 'nvt')

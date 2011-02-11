@@ -24,7 +24,9 @@ class GulpPhonons(Gulp):
         for k, v in kwds.iteritems():
             setattr(self, k, v)
         super(GulpPhonons, self).__init__()
-    
+        
+    def customizeLubanObjectDrawer(self, drawer):
+        drawer.sequence = ['properties']    
 try:
     class Inventory(Gulp.Inventory):
         kpoint_mesh = Gulp.Inventory.d.array(name='kpoint_mesh', elementtype='int',

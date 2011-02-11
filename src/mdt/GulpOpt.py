@@ -24,7 +24,10 @@ class GulpOpt(Gulp):
         for k, v in kwds.iteritems():
             setattr(self, k, v)
         super(GulpOpt, self).__init__()
-    
+        
+    def customizeLubanObjectDrawer(self, drawer):
+        drawer.sequence = ['properties']
+        #drawer.mold.sequence = ['trajectory','','']
 try:
     class Inventory(Gulp.Inventory):
         optimize_coordinates = Gulp.Inventory.d.bool(name = 'optimize_coordinates', default = True)

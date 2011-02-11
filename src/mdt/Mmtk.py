@@ -32,7 +32,9 @@ class Mmtk(object):
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
             setattr(self, k, v)
-    
+        
+    def customizeLubanObjectDrawer(self, drawer):
+        drawer.sequence = ['properties']
 try:
     from dsaw.model.Inventory import Inventory as InvBase
     from matter.orm.Structure import Structure
