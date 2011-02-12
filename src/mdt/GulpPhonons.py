@@ -14,11 +14,10 @@ from mdt.Gulp import Gulp
 class GulpPhonons(Gulp):
     '''Gulp phonon calculation'''
     
-    optimize_coordinates = True
-    optimize_cell = False
-    constraint = 'constant volume'
-    trajectoryfile = 'gulp.his'
-    restartfile = 'gulp.res'
+    kpoint_mesh = [0, 0, 0]
+    dosdispersionfile = "gulp.phonons"
+    broaden_dos = False
+    project_dos = ''
     
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
