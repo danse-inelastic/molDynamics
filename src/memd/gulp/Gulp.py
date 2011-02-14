@@ -19,8 +19,8 @@ from memd.gulp.KeywordWriter import KeywordWriter
 
 class Gulp(MolDynamics):
     """GULP MD engine for MolDynamics interface.  
-This class maps the DANSE data structures to GULP's input deck.
-"""
+    This class maps the DANSE data structures to GULP's input deck.
+    """
 
     class Inventory(MolDynamics.Inventory):
         import pyre.inventory as inv

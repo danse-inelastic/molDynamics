@@ -2,7 +2,6 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-#                               Michael A.G. Aivazis
 #                        California Institute of Technology
 #                        (C) 1998-2005 All Rights Reserved
 #
@@ -39,6 +38,7 @@ all: export
 #	memd.py \
 
 EXPORT_BINS = \
+	memd.py \
 	Memd.py \
 	postProcessGulp.py \
 
