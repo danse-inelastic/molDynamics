@@ -18,20 +18,20 @@ class Optimize(Component,Visitable):
     
     class Inventory(Component.Inventory):
         import pyre.inventory as inv
-        constraints = inv.str('Constraints', default = 'None')
+        constraints = inv.str('constraints', default = 'None')
         constraints.meta['tip'] = '''constraints on the cell'''
         constraints.validator = inv.choice(['None', 'constant volume', 'constant pressure'])
         
-        optimizeCell = inv.bool('Optimize Cell', default = False)
+        optimizeCell = inv.bool('optimizeCell', default = False)
         optimizeCell.meta['tip'] = 'whether to optimize the unit cell'
         
-        optimizeCoordinates = inv.bool('Optimize Coordinates', default = False)
+        optimizeCoordinates = inv.bool('optimizeCoordinates', default = False)
         optimizeCoordinates.meta['tip'] = 'whether to optimize the coordinate positions'
         
-        trajectoryFilename = inv.str('Trajectory Filename', default='molDynamics')
+        trajectoryFilename = inv.str('trajectoryFilename', default='molDynamics')
         trajectoryFilename.meta['tip'] = 'name of trajectory file(s)'
 
-        restartFilename = inv.str('Restart Filename', default = 'molDynamics.res')
+        restartFilename = inv.str('restartFilename', default = 'molDynamics.res')
         restartFilename.meta['tip'] = '''restart file for resuming an md run or optimization'''
                         
     def __init__(self, name='optimize'):

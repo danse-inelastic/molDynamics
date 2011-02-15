@@ -19,16 +19,16 @@ class Potential(Component):
     
     class Inventory(Component.Inventory):
         import pyre.inventory as inv  
-        dispersionInRecipSpace = inv.bool('Calculate Dispersion in Reciprocal Space', default = False)
+        dispersionInRecipSpace = inv.bool('dispersionInRecipSpace', default = False)
         dispersionInRecipSpace.meta['tip'] = '''whether to calculate dispersion forces 
 partly in reciprocal space'''
-        useInitialBondingOnly = inv.bool('Assign Bonding Based on Initial Geometry Only', default = False)
+        useInitialBondingOnly = inv.bool('useInitialBondingOnly', default = False)
         useInitialBondingOnly.meta['tip'] = '''instead of reassigning 
         bonding based on every optimization or time step, use intial geometry only to assign bonding'''
         forcefield = inv.facility('forcefield', default=InputFile('gulpLibrary'))
         forcefield.meta['tip'] = 'a class containing forcefield types'
         #forcefield.meta['known_plugins'] = ['gulpLibrary','manualEntry']
-        moleculeIdentification = inv.str('Try to Identify Molecules', default = 'None')
+        moleculeIdentification = inv.str('moleculeIdentification', default = 'None')
         moleculeIdentification.meta['tip'] = '''identify molecules based on covalent radii 
 and deal with intramolecular coulomb interactions'''
         moleculeIdentification.validator=inv.choice(['None','identify molecules; remove intramolecular Coulomb forces',

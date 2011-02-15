@@ -26,17 +26,17 @@
             </component>
 
             <component name="md">
-                <property name="Trajectory Filename">kc24-70K</property>
-                <property name="Equilibration Time (ps)">0.0</property>
-                <property name="Thermodynamic Ensemble">nvt</property>
-                <property name="Properties Calculation Frequency (fs)">5.0</property>
-                <property name="Time step (fs)">1.0</property>
-                <property name="Trajectory Type">xyz and history</property>
-                <property name="Barostat Parameter">0.005</property>
-                <property name="Production Time (ps)">1.0</property>
-                <property name="Thermostat Parameter">0.05</property>
-                <property name="Restart Filename">molDynamics.res</property>
-                <property name="Dump Frequency (ps)">0.25</property>
+                <property name="trajectoryFilename">kc24-70K</property>
+                <property name="equilibrationTime (ps)">0.0</property>
+                <property name="ensemble">nvt</property>
+                <property name="propCalcInterval">5.0</property>
+                <property name="timeStep">1.0</property>
+                <property name="trajectoryType">xyz and history</property>
+                <property name="barostatParameter">0.005</property>
+                <property name="productionTime">1.0</property>
+                <property name="thermostatParameter">0.05</property>
+                <property name="restartFilename">molDynamics.res</property>
+                <property name="dumpInterval">0.25</property>
             </component>
 
             <component name="potential">

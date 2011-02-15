@@ -18,19 +18,19 @@ class Phonon(Component,Visitable):
     
     class Inventory(Component.Inventory):
         import pyre.inventory as inv  
-        kpointMesh = inv.str('Monkhorst Pack mesh', default = "")
+        kpointMesh = inv.str('kpointMesh', default = "")
         kpointMesh.meta['tip'] = '''integer triplet representing Monkhorst Pack mesh 
 for integrating the Brillouin zone (i.e. 2 4 4)'''
         
-        dosAndDispersionFilename = inv.str('Filename for DOS Output', default = "")
+        dosAndDispersionFilename = inv.str('dosAndDispersionFilename', default = "")
         dosAndDispersionFilename.meta['tip'] = '''filename for DOS and/or dispersion output files'''
 
 #        engineExecutablePath = InputFile('Engine Executable Path', default = ".")
 #        engineExecutablePath.meta['tip'] = '''path to the engine's executable'''
-        broadenDos = inv.bool('Broaden the DOS', default = False)
+        broadenDos = inv.bool('broadenDos', default = False)
         broadenDos.meta['tip'] = '''broaden the density of states'''
         
-        projectDos = inv.str('Project the DOS onto certain species', default = '')
+        projectDos = inv.str('projectDos', default = '')
         projectDos.meta['tip'] = '''species names separated by spaces (i.e. H Li)'''        
 
                         

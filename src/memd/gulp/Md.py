@@ -20,40 +20,40 @@ class Md(Component,Visitable):#(MdBase):
     
     class Inventory(Component.Inventory):
         import pyre.inventory as inv  
-        barostatParameter = inv.float('Barostat Parameter', default = 0.005)
+        barostatParameter = inv.float('barostatParameter', default = 0.005)
         barostatParameter.meta['tip'] = '''barostat parameter to keep fluctuations relatively small'''
         
-        ensemble= inv.str('Thermodynamic Ensemble', default = 'nve') 
+        ensemble= inv.str('ensemble', default = 'nve') 
         ensemble.validator=inv.choice(["nve", "nvt", "npt"])
         ensemble.meta['tip'] = 'thermodynamic ensemble (nve, nvt, npt, ...)'
         
-        equilibrationTime = inv.float('Equilibration Time (ps)', default = 0.0)
+        equilibrationTime = inv.float('equilibrationTime', default = 0.0)
         equilibrationTime.meta['tip'] = 'equilibration time of the simulation (ps)'
         
-        productionTime = inv.float('Production Time (ps)', default = 5.0)
+        productionTime = inv.float('productionTime', default = 5.0)
         productionTime.meta['tip'] = 'production time of the simulation'
         
-        sampleFrequency = inv.float('Properties Calculation Frequency (fs)', default = 5.0)
-        sampleFrequency.meta['tip'] = '''frequency at which sampled properties are 
+        propCalcInterval = inv.float('propCalcInterval', default = 5.0)
+        propCalcInterval.meta['tip'] = '''frequency at which sampled properties are 
 written to trajectory and log file'''
         
-        thermostatParameter = inv.float('Thermostat Parameter', default = 0.005)
+        thermostatParameter = inv.float('thermostatParameter', default = 0.005)
         thermostatParameter.meta['tip'] = '''thermostat parameter to keep 
 fluctuations relatively small'''
         
-        timeStep = inv.float('Time step (fs)', default = 0.5)
+        timeStep = inv.float('timeStep', default = 0.5)
         timeStep.meta['tip'] = 'integration time step (ps)'
         
-        trajectoryFilename = inv.str('Trajectory Filename', default='molDynamics')
+        trajectoryFilename = inv.str('trajectoryFilename', default='molDynamics')
         trajectoryFilename.meta['tip'] = 'name of trajectory file(s)'
 
-        restartFilename = inv.str('Restart Filename', default = 'molDynamics.res')
+        restartFilename = inv.str('restartFilename', default = 'molDynamics.res')
         restartFilename.meta['tip'] = '''restart file for resuming an md run or optimization'''
         
-        dumpFrequency = inv.float('Dump Frequency (ps)', default = 0.0)
-        dumpFrequency.meta['tip'] = '''frequency at which a restart file is written'''
+        dumpInterval = inv.float('dumpInterval', default = 0.0)
+        dumpInterval.meta['tip'] = '''interval at which a restart file is written'''
 
-        trajectoryType = inv.str('Trajectory Type', default='xyz')
+        trajectoryType = inv.str('trajectoryType', default='xyz')
         trajectoryType.meta['tip'] = 'type of trajectory output'  
         trajectoryType.validator=inv.choice(['xyz', 'history', 'xyz and history'])
                         

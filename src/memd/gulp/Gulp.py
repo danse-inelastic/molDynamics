@@ -24,13 +24,13 @@ class Gulp(MolDynamics):
 
     class Inventory(MolDynamics.Inventory):
         import pyre.inventory as inv
-        computeMaterialProperties = inv.bool('Compute Material Properties', default = False)
+        computeMaterialProperties = inv.bool('computeMaterialProperties', default = False)
         computeMaterialProperties.meta['tip'] = 'whether to print material properties'
         
-        engineExecutablePath = inv.str('Engine Executable Path', default = "")
+        engineExecutablePath = inv.str('engineExecutablePath', default = "")
         engineExecutablePath.meta['tip'] = '''path to the engine's executable'''
         
-        inputDeckName = inv.str('Input Filename', default = 'memd.gin')
+        inputDeckName = inv.str('inputDeckName', default = 'memd.gin')
         inputDeckName.meta['tip'] = '''input file for executable'''
         
         runType = inv.facility('runType', default = 'md')
@@ -38,7 +38,7 @@ class Gulp(MolDynamics):
         runType.meta['tip'] = 'type of run'
         runType.meta['importance'] = 9
         
-        potential = inv.facility('Potential', default = Potential())
+        potential = inv.facility('potential', default = Potential())
         potential.meta['tip'] = 'overall types of potentials to use'
   
     def __init__(self, name='gulp'):
