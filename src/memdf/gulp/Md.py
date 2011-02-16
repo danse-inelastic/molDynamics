@@ -1,7 +1,5 @@
-from Visitable import Visitable
-
-
-class Md(Visitable):#(MdBase):
+from memdf.gulp.Gulp import Gulp
+class Md(Gulp):
     '''This class serves as an md property setter.'''
     
     ensemble = 'nvt'
@@ -20,6 +18,7 @@ class Md(Visitable):#(MdBase):
 #    trajectoryType.validator=inv.choice(['xyz', 'history', 'xyz and history'])
                         
     def __init__(self, **kwds):
+        Gulp.__init__(self, **kwds)
         for k, v in kwds.iteritems():
             setattr(self, k, v)  
         self.runTypeIdentifier='md'
@@ -48,17 +47,14 @@ class Md(Visitable):#(MdBase):
     def getMaterialProperties(self):
         raise NotImplementedError("class %r must override 'execute'" % self.__class__.__name__)
     
-    def identifyOptions( self, visitor): 
-        return visitor.writeMdOptions(self)
+    def writeKeywords(self, visitor): 
+        keywords=[]
+        keywords+=visitor.writeMdKeywords(self)
+        keywords+=visitor.writeGulpKeywords(self)
+        return keywords
     
-    def identifyKeywords( self, visitor): 
-        return visitor.writeMdKeywords(self)
-
-
-
-# version
-__id__ = "$Id$"
-
-# Generated automatically by PythonMill on Mon Apr 16 12:44:30 2007
-
-# End of file 
+    def writeOptions(self, visitor):
+        options=''
+        options+=visitor.writeGulpOptions(self)
+        options+=visitor.writeMdOptions(self)
+        return options

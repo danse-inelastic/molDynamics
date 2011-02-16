@@ -1,6 +1,5 @@
-from memd.gulp.Visitable import Visitable
-
-class Optimize(Visitable):
+from memdf.gulp.Gulp import Gulp
+class Optimize(Gulp):
     '''This class serves as an API/interface for md engines.'''
     constraints = 'None'
     #['None', 'constant_volume', 'constant_pressure'
@@ -10,15 +9,22 @@ class Optimize(Visitable):
     restartFilename = 'molDynamics.res'
                         
     def __init__(self, **kwds):
+        Gulp.__init__(self, **kwds)
         for k, v in kwds.iteritems():
             setattr(self, k, v)  
         self.runTypeIdentifier='optimize'
         
-    def identifySettings(self, visitor): 
+    def identifySettings(self, visitor):     
         return visitor.writeOptimizeSettings(self)
     
-    def identifyKeywords(self, visitor): 
-        return visitor.writeOptimizeKeywords(self)
+    def writeKeywords(self, visitor): 
+        keywords=[]
+        keywords+=visitor.writeOptimizeKeywords(self)
+        keywords+=visitor.writeGulpKeywords(self)
+        return keywords
     
-    def identifyOptions(self, visitor): 
-        return visitor.writeOptimizeOptions(self)
+    def writeOptions(self, visitor):
+        options=''
+        options+=visitor.writeGulpOptions(self)
+        options+=visitor.writeOptimizeOptions(self)
+        return options

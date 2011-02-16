@@ -39,14 +39,23 @@ class Memd(object):
         for k, v in kwds.iteritems():
             setattr(self, k, v)  
         
-    def writeInputfile(self):
+    def writeInputFile(self):
+        settings={}
+        d = dir(self)
+        #publicFunctions = ['writeInputFile','Inventory','customizeLubanObjectDrawer']
+        for key in d:
+            if key[0]=='_':# or key in publicFunctions:
+                pass
+            else:
+                settings[key] = getattr(self, key)
         if self.engine=='gulp':
             from gulp.Gulp import Gulp
-            e=Gulp()
+            e=Gulp(kwds=settings)
+            e.writeInputfile()
         elif self.engine=='mmmtk':
             from mmtk.Mmtk import Mmtk
             e=Mmtk()
-        e.execute()
+        
 
 if __name__=='__main__':
     app=Memd()
