@@ -20,7 +20,7 @@ class Optimize(Component,Visitable):
         import pyre.inventory as inv
         constraints = inv.str('constraints', default = 'None')
         constraints.meta['tip'] = '''constraints on the cell'''
-        constraints.validator = inv.choice(['None', 'constant volume', 'constant pressure'])
+        constraints.validator = inv.choice(['None', 'constant_volume', 'constant_pressure'])
         
         optimizeCell = inv.bool('optimizeCell', default = False)
         optimizeCell.meta['tip'] = 'whether to optimize the unit cell'
