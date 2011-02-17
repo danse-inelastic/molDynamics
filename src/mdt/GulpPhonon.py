@@ -11,7 +11,7 @@
 #
 from mdt.Gulp import Gulp
 
-class GulpPhonons(Gulp):
+class GulpPhonon(Gulp):
     '''Gulp phonon calculation'''
     
     kpoint_mesh = [0, 0, 0]
@@ -22,7 +22,7 @@ class GulpPhonons(Gulp):
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
             setattr(self, k, v)
-        super(GulpPhonons, self).__init__()
+        super(GulpPhonon, self).__init__()
         
     def customizeLubanObjectDrawer(self, drawer):
         drawer.sequence = ['properties']    
