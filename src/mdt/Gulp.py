@@ -30,16 +30,18 @@ class Gulp(object):
 try:
     from dsaw.model.Inventory import Inventory as InvBase
     from matter.orm.Structure import Structure
+    from memd.gulp.GulpPotential import GulpPotential
     class Inventory(InvBase):
         matter = InvBase.d.reference(name='matter', targettype=Structure, owned=False)
-        matter.label = 'Logfile' 
+        matter.label = 'Structure' 
         temperature = InvBase.d.float(name = 'temperature', default = 300.0)
         temperature.label = 'Temperature or Initial Energy (K)' 
         pressure = InvBase.d.float(name = 'pressure', default = 0.0)
         pressure.label = 'Pressure (GPa)' 
-        
-        forcefield_name = InvBase.d.str(name = 'forcefield_name', default = 'None')  
-        forcefield_name.label = 'Name of Forcefield'
+#        forcefield_name = InvBase.d.str(name = 'forcefield_name', default = 'None')  
+#        forcefield_name.label = 'Name of Forcefield'
+        forcefield = InvBase.d.reference(name='forcefield', targettype=GulpPotential, owned=False)
+        forcefield.label = 'Name of Forcefield'
         identify_molecules = InvBase.d.str(name = 'identify_molecules', default = 'identify molecules; retain intramolecular Coulomb forces')
         identify_molecules.label = 'How to Identify Molecules and Calculate Coloumb Forces'
         identify_molecules.validator = InvBase.v.choice(['None','identify molecules; remove intramolecular Coulomb forces',

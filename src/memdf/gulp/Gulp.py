@@ -46,10 +46,12 @@ class Gulp(MolDynamics):
             st+=i+' '
         return st
 
-    def writeInputfile(self):
-        self.inputFileContents = \
-        self.listToString(self.writeKeywords(self.keywordWriter))+linesep+\
+    def getInputfile(self):
+        return self.listToString(self.writeKeywords(self.keywordWriter))+linesep+\
         self.writeOptions(self.optionWriter)
+        
+    def writeInputfile(self):
+        self.inputFileContents = self.getInputfile()
         f=file(self.inputDeckName,'w')
         f.write(self.inputFileContents)
         f.close()
