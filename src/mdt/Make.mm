@@ -10,14 +10,13 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+PROJECT = mdt
 
 #--------------------------------------------------------------------------
 #
 
-
 BUILD_DIRS = \
-	mdt \
-	memd \
+
 
 OTHER_DIRS = \
 
@@ -34,9 +33,15 @@ all: export
 #
 # export
 
+EXPORT_PYTHON_MODULES = \
+	Gulp.py \
+	GulpMd.py \
+	GulpOpt.py \
+	GulpPhonon.py \
+	__init__.py \
 
 
-export:: export-python-modules
+export:: export-package-python-modules
 
 # version
 # $Id$
