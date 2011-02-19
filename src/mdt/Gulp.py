@@ -2,8 +2,9 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
+#                         J Brandon Keith, Jiao Lin
 #                      California Institute of Technology
-#              (C) 2007 All Rights Reserved  All Rights Reserved
+#                      (C) 2006-2011 All Rights Reserved  
 #
 # {LicenseText}
 #
@@ -16,7 +17,8 @@ class Gulp(object):
     matter = None
     temperature = 300.0
     pressure = 0.0
-    forcefield_name='None'
+    # forcefield_name='None'
+    forcefield = None
     identify_molecules = 'identify molecules; retain intramolecular Coulomb forces'
     assign_bonds_from_initial_geometry = False
     calc_dispersion_in_recip_space = False
@@ -43,10 +45,10 @@ try:
         forcefield = InvBase.d.reference(name='forcefield', targettype=GulpPotential, owned=False)
         forcefield.label = 'Name of Forcefield'
         identify_molecules = InvBase.d.str(name = 'identify_molecules', default = 'identify molecules; retain intramolecular Coulomb forces')
-        identify_molecules.label = 'How to Identify Molecules and Calculate Coloumb Forces'
+        identify_molecules.label = 'How to Identify Molecules and Calculate Coulomb Forces'
         identify_molecules.validator = InvBase.v.choice(['None','identify molecules; remove intramolecular Coulomb forces',
                                                      'identify molecules; retain intramolecular Coulomb forces'])
-        assign_bonds_from_initial_geometry = InvBase.d.bool(name = 'assign_bonds_from_initial_geometry ', default = False)
+        assign_bonds_from_initial_geometry = InvBase.d.bool(name = 'assign_bonds_from_initial_geometry', default = False)
         assign_bonds_from_initial_geometry.label = 'Assign Bonds from Initial Geometry Only?'
         calc_dispersion_in_recip_space = InvBase.d.bool(name = 'calc_dispersion_in_recip_space', default = False)
         calc_dispersion_in_recip_space.label = 'Calculate Dispersion in Reciprocal Space?'
