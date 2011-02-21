@@ -2,13 +2,16 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
+#                         J Brandon Keith, Jiao Lin
 #                      California Institute of Technology
-#              (C) 2007 All Rights Reserved  All Rights Reserved
+#                      (C) 2006-2011 All Rights Reserved  
 #
 # {LicenseText}
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
+
+
 from mdt.Gulp import Gulp
 
 class GulpMd(Gulp):
@@ -31,33 +34,24 @@ class GulpMd(Gulp):
         super(GulpMd, self).__init__()
         
     def customizeLubanObjectDrawer(self, drawer):
-        drawer.sequence = ['properties']    
-try:
-    class Inventory(Gulp.Inventory):
-        ensemble = Gulp.Inventory.d.str(name = 'ensemble', default = 'nvt')
-        ensemble.label = 'Thermodynamic Ensemble'
-        ensemble.validator = Gulp.Inventory.v.choice(['nve', 'nvt', 'npt'])
-        thermostat_parameter = Gulp.Inventory.d.str(name = 'thermostat_parameter', default = 'None')
-        thermostat_parameter.label = 'Parameter for Thermostat'
-        thermostat_parameter.help = 'only fill in if you chose the nvt or npt ensembles'
-        barostat_parameter = Gulp.Inventory.d.str(name = 'barostat_parameter', default = 'None')
-        barostat_parameter.label = 'Parameter for Barostat'
-        barostat_parameter.help = 'only fill in if you chose the npt ensemble'
-        timestep = Gulp.Inventory.d.float(name = 'timestep', default = 0.002)
-        timestep.label = 'Timestep (ps)'
-        equilibration_time = Gulp.Inventory.d.float(name = 'equilibration_time', default = 0.0)
-        equilibration_time.label = 'Equilibration Time (ps)'
-        production_time = Gulp.Inventory.d.float(name = 'production_time', default = 0.0)
-        production_time.label = 'Production Time (ps)'
-        
-        properties_calculation_interval = Gulp.Inventory.d.float(name = 'properties_calculation_interval', default = 1.0)
-        properties_calculation_interval.label = 'Time interval between material property calculation (ps)'
-        trajectoryfile = Gulp.Inventory.d.str(name = 'trajectoryfile', default = 'gulp.his')
-        trajectoryfile.label = 'Trajectory Filename'
-        restartfile = Gulp.Inventory.d.str(name = 'restartfile', default = 'gulp.res')
-        restartfile.label = 'Restart Filename'
-        dump_frequency = Gulp.Inventory.d.float(name = 'dump_frequency', default = 5.0)
-        dump_frequency.label = 'Time Interval Between Writing a Restart File'
-    GulpMd.Inventory = Inventory
-except:
-    pass
+        drawer.sequence = ['properties', 'forcefield']
+        drawer.mold.sequence = [
+            'ensemble',
+            'thermostat_parameter',
+            'barostat_parameter',
+            'timestep',
+            'equilibration_time',
+            'production_time',
+            'properties_calculation_interval',
+            'temperature', 'pressure', 
+            'identify_molecules',
+            'assign_bonds_from_initial_geometry',
+            'calc_dispersion_in_recip_space',
+            'trajectoryfile',
+            'restartfile',
+            'logfile',
+            'inputfile',
+            ]
+        return
+
+
