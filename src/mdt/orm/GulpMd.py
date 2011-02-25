@@ -41,5 +41,5 @@ class Inventory(Gulp.Inventory):
     # restartfile.label = 'Restart Filename'
 
     dump_restart_file_interval = Gulp.Inventory.d.float(name = 'dump_restart_file_interval', default = 5.0)
-    dump_restart_file_interval.label = 'Time Interval Between Writing a Restart File. unit: ps'
+    dump_restart_file_interval.label = 'Time Interval Between Writing a Restart File (ps)'
 GulpMd.Inventory = Inventory
