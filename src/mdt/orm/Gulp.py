@@ -35,8 +35,16 @@ class Inventory(InvBase):
     assign_bonds_from_initial_geometry.label = 'Assign Bonds from Initial Geometry Only?'
     calc_dispersion_in_recip_space = InvBase.d.bool(name = 'calc_dispersion_in_recip_space', default = False)
     calc_dispersion_in_recip_space.label = 'Calculate Dispersion in Reciprocal Space?'
-    
-    logfile = InvBase.d.str(name = 'logfile', default = 'gulp.log')
-    logfile.label = 'Logfile'    
-    inputfile = InvBase.d.str(name = 'inputfile', default = 'gulp.gin')
+
+    # XXX: not really necessary to have filenames in the db. 
+    # XXX: it is not "essential" information required for simulation.
+    # XXX: the original reason of having them is to allow users to assign different names
+    # XXX: to avoid name confliction. but the db record id is the identifier that should
+    # XXX: be good enough. And it could be cleaner to keep simulations at different
+    # XXX: subdirs. Even if it is needed to have files in one flat directory,
+    # XXX: it would be no problem to have a script to do the renaming.
+    # logfile = InvBase.d.str(name = 'logfile', default = 'gulp.log')
+    # logfile.label = 'Logfile'    
+    # inputfile = InvBase.d.str(name = 'inputfile', default = 'gulp.gin')
+
 Gulp.Inventory = Inventory

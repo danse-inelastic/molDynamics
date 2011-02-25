@@ -33,10 +33,13 @@ class Inventory(Gulp.Inventory):
 
     properties_calculation_interval = Gulp.Inventory.d.float(name = 'properties_calculation_interval', default = 1.0)
     properties_calculation_interval.label = 'Time interval between material property calculation (ps)'
-    trajectoryfile = Gulp.Inventory.d.str(name = 'trajectoryfile', default = 'gulp.his')
-    trajectoryfile.label = 'Trajectory Filename'
-    restartfile = Gulp.Inventory.d.str(name = 'restartfile', default = 'gulp.res')
-    restartfile.label = 'Restart Filename'
-    dump_frequency = Gulp.Inventory.d.float(name = 'dump_frequency', default = 5.0)
-    dump_frequency.label = 'Time Interval Between Writing a Restart File'
+
+    # XXX: see Gulp.py 
+    # trajectoryfile = Gulp.Inventory.d.str(name = 'trajectoryfile', default = 'gulp.his')
+    # trajectoryfile.label = 'Trajectory Filename'
+    # restartfile = Gulp.Inventory.d.str(name = 'restartfile', default = 'gulp.res')
+    # restartfile.label = 'Restart Filename'
+
+    dump_restart_file_interval = Gulp.Inventory.d.float(name = 'dump_restart_file_interval', default = 5.0)
+    dump_restart_file_interval.label = 'Time Interval Between Writing a Restart File. unit: ps'
 GulpMd.Inventory = Inventory

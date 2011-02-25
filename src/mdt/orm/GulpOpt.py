@@ -22,8 +22,12 @@ class Inventory(Gulp.Inventory):
     constraint = Gulp.Inventory.d.str(name = 'constraint', default = 'constant volume')
     constraint.label = 'Constraint'
     constraint.validator = Gulp.Inventory.v.choice(['None', 'constant volume', 'constant pressure'])
-    trajectoryfile = Gulp.Inventory.d.str(name = 'trajectoryfile', default = 'gulp.his')
-    trajectoryfile.label = 'Trajectory Filename'
-    restartfile = Gulp.Inventory.d.str(name = 'restartfile', default = 'gulp.res')
-    restartfile.label = 'Restart Filename'
+
+    # XXX: see Gulp.py
+    # trajectoryfile = Gulp.Inventory.d.str(name = 'trajectoryfile', default = 'gulp.his')
+    # trajectoryfile.label = 'Trajectory Filename'
+    # restartfile = Gulp.Inventory.d.str(name = 'restartfile', default = 'gulp.res')
+    # restartfile.label = 'Restart Filename'
+
+
 GulpOpt.Inventory = Inventory
