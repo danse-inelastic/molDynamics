@@ -17,6 +17,7 @@ from Gulp import Gulp
 class Inventory(Gulp.Inventory):
     ensemble = Gulp.Inventory.d.str(name = 'ensemble', default = 'nvt')
     ensemble.label = 'Thermodynamic Ensemble'
+    ensemble.help = 'nve = constant particle number, volume, and energy; nvt = constant number, volume, and temperature; npt = constant number, pressure, and temperature'
     ensemble.validator = Gulp.Inventory.v.choice(['nve', 'nvt', 'npt'])
     thermostat_parameter = Gulp.Inventory.d.str(name = 'thermostat_parameter', default = 'None')
     thermostat_parameter.label = 'Parameter for Thermostat'
