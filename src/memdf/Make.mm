@@ -11,12 +11,24 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = memdf
-PACKAGE = mmtk
+
+#--------------------------------------------------------------------------
+#
+
+BUILD_DIRS = \
+	gulp \
+	mmtk \
+	native \
+
+OTHER_DIRS = \
+
+RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
 
 #--------------------------------------------------------------------------
 #
 
 all: export
+	BLD_ACTION="all" $(MM) recurse
 
 
 #--------------------------------------------------------------------------
@@ -24,11 +36,15 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
-    __init__.py \
-    AmberForcefiled.py \
-    GeneralForcefield.py \
-    LennardJonesForcefield.py \
-    Mmtk.py \
+	__init__.py \
+	Memd.py \
+	MolDynamics.py \
+	Sample.py \
+	SnapshotGenerator.py \
+	TrajectoryAction.py \
+	TrajectoryGenerator.py \
+	Trajectory.py \
+	TrajectorySet.py \
 
 
 export:: export-package-python-modules

@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = memdf
-PACKAGE = mmtk
+PACKAGE = gulp
 
 #--------------------------------------------------------------------------
 #
@@ -24,11 +24,27 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
-    __init__.py \
-    AmberForcefiled.py \
-    GeneralForcefield.py \
-    LennardJonesForcefield.py \
-    Mmtk.py \
+	AtomLoader.py \
+	Coordinates.py \
+	E.py \
+	Fit.py \
+	GulpPotential.py \
+	Gulp.py \
+	GulpResults.py \
+	GulpSettings.py \
+	__init__.py \
+	KeywordWriter.py \
+	Md.py \
+	MdX.py \
+	NetcdfPolarizationWrite.py \
+	Optimize.py \
+	OptionWriter.py \
+	Phonon.py \
+	PolarizationWrite.py \
+	Potential.py \
+	TrajectoryType.py \
+	Visitable.py \
+	Visitor.py \
 
 
 export:: export-package-python-modules

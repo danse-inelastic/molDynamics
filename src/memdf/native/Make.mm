@@ -11,7 +11,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = memdf
-PACKAGE = mmtk
+PACKAGE = native
 
 #--------------------------------------------------------------------------
 #
@@ -24,11 +24,13 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
-    __init__.py \
-    AmberForcefiled.py \
-    GeneralForcefield.py \
-    LennardJonesForcefield.py \
-    Mmtk.py \
+	__init__.py \
+	Langevin.py \
+	MDLogger.py \
+	MolDynBase.py \
+	NPT.py \
+	velocitydistribution.py \
+	VelocityVerlet.py \
 
 
 export:: export-package-python-modules
