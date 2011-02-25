@@ -26,32 +26,10 @@ class GulpMd(Gulp):
     properties_calculation_interval = 1.0
     trajectoryfile = 'gulp.his'
     restartfile = 'gulp.res'
-    dump_frequency = 1.0
+    dump_restart_file_interval = 1.0
     
     def __init__(self, **kwds):
         for k, v in kwds.iteritems():
             setattr(self, k, v)
         super(GulpMd, self).__init__()
         
-    def customizeLubanObjectDrawer(self, drawer):
-        drawer.sequence = ['properties', 'forcefield']
-        drawer.mold.sequence = [
-            'ensemble',
-            'thermostat_parameter',
-            'barostat_parameter',
-            'timestep',
-            'equilibration_time',
-            'production_time',
-            'properties_calculation_interval',
-            'temperature', 'pressure', 
-            'identify_molecules',
-            'assign_bonds_from_initial_geometry',
-            'calc_dispersion_in_recip_space',
-            'trajectoryfile',
-            'restartfile',
-            'logfile',
-            'inputfile',
-            ]
-        return
-
-

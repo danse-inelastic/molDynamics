@@ -28,20 +28,3 @@ class GulpOpt(Gulp):
             setattr(self, k, v)
         super(GulpOpt, self).__init__()
         
-    def customizeLubanObjectDrawer(self, drawer):
-        drawer.sequence = ['properties', 'forcefield']
-        drawer.mold.sequence = [
-            'optimize_coordinates',
-            'optimize_cell',
-            'constraint',
-            'temperature', 'pressure', 
-            'identify_molecules',
-            'assign_bonds_from_initial_geometry',
-            'calc_dispersion_in_recip_space',
-            'trajectoryfile',
-            'restartfile',
-            'logfile',
-            'inputfile',
-            ]
-        return
-

@@ -31,3 +31,19 @@ class Inventory(Gulp.Inventory):
 
 
 GulpOpt.Inventory = Inventory
+
+
+
+def customizeLubanObjectDrawer(self, drawer):
+    drawer.sequence = ['properties', 'forcefield']
+    drawer.mold.sequence = [
+        'optimize_coordinates',
+        'optimize_cell',
+        'constraint',
+        'temperature', 'pressure', 
+        'identify_molecules',
+        'assign_bonds_from_initial_geometry',
+        'calc_dispersion_in_recip_space',
+        ]
+    return
+GulpOpt.customizeLubanObjectDrawer = customizeLubanObjectDrawer

@@ -32,3 +32,18 @@ class Inventory(Gulp.Inventory):
     project_dos.label = 'Project the DOS onto Species'
     project_dos.help = '''species names separated by spaces (i.e. H Li)'''   
 GulpPhonon.Inventory = Inventory
+
+
+def customizeLubanObjectDrawer(self, drawer):
+    drawer.sequence = ['properties', 'forcefield']
+    drawer.mold.sequence = [
+        'kpoint_mesh',
+        'broaden_dos',
+        'project_dos',
+        'temperature', 'pressure', 
+        'identify_molecules',
+        'assign_bonds_from_initial_geometry',
+        'calc_dispersion_in_recip_space',
+        ]
+    return
+GulpPhonon.customizeLubanObjectDrawer = customizeLubanObjectDrawer

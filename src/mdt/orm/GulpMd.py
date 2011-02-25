@@ -43,3 +43,24 @@ class Inventory(Gulp.Inventory):
     dump_restart_file_interval = Gulp.Inventory.d.float(name = 'dump_restart_file_interval', default = 5.0)
     dump_restart_file_interval.label = 'Time Interval Between Writing a Restart File (ps)'
 GulpMd.Inventory = Inventory
+
+
+
+def customizeLubanObjectDrawer(self, drawer):
+    drawer.sequence = ['properties', 'forcefield']
+    drawer.mold.sequence = [
+        'ensemble',
+        'thermostat_parameter',
+        'barostat_parameter',
+        'timestep',
+        'equilibration_time',
+        'production_time',
+        'properties_calculation_interval',
+        'dump_restart_file_interval',
+        'temperature', 'pressure', 
+        'identify_molecules',
+        'assign_bonds_from_initial_geometry',
+        'calc_dispersion_in_recip_space',
+        ]
+    return
+GulpMd.customizeLubanObjectDrawer = customizeLubanObjectDrawer

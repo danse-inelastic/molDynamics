@@ -25,19 +25,3 @@ class GulpPhonon(Gulp):
         super(GulpPhonon, self).__init__()
         
         
-    def customizeLubanObjectDrawer(self, drawer):
-        drawer.sequence = ['properties', 'forcefield']
-        drawer.mold.sequence = [
-            'kpoint_mesh',
-            'broaden_dos',
-            'project_dos',
-            'temperature', 'pressure', 
-            'identify_molecules',
-            'assign_bonds_from_initial_geometry',
-            'calc_dispersion_in_recip_space',
-            'logfile',
-            'inputfile',
-            'dosdispersionfile',
-            ]
-        return
-
