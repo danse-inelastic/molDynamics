@@ -131,7 +131,8 @@ class OutputParser:
         index and changing the fastest.
         '''
         if eigVals:
-            eigVals = np.array(eigVals)
+            #convert to meV
+            eigVals = np.array(eigVals)*self.hbarTimesC
             #reshape in k mesh
             mx,my,mz = self.kpointMesh
             print mx,my,mz, self.numModes
@@ -184,10 +185,10 @@ class OutputParser:
         kpts--eventually will use a "smart algorithm" that looks at the size of the
         output file and gauges whether or not to write them to file or return them
         
-        the eigenvalues are reshaped according numKpoints, numModes
-        the eigenvecs are reshaped according to numKpoints, numModes, numModes
+        The eigenvalues are reshaped according numKpoints, numModes where numModes = 3*numAtoms.
+        The eigenvecs are reshaped according to numKpoints, numModes, numModes.
+        Energies are converted from cm^-1 to meV.
         
-        where numModes = 3*numAtoms
         '''
         gulpOutput = urllib.urlopen(self.gulpOutputFile)  
         phonons = self._initializePhonons()             
