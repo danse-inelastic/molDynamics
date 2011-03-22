@@ -8,12 +8,12 @@ class Optimize(Gulp):
     trajectoryFilename = 'molDynamics'
     restartFilename = 'molDynamics.res'
                         
-    def __init__(self, **kwds):
-        Gulp.__init__(self, **kwds)
+    def __init__(self, maverickObj=None,**kwds):
+        Gulp.__init__(self, maverickObj, **kwds)
         for k, v in kwds.iteritems():
             setattr(self, k, v)  
         self.runTypeIdentifier='optimize'
-        
+            
     def identifySettings(self, visitor):     
         return visitor.writeOptimizeSettings(self)
     

@@ -1,14 +1,4 @@
- #!/usr/bin/env python
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#                      California Institute of Technology
-#              (C) 2005 All Rights Reserved  All Rights Reserved
-#
-# {LicenseText}
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
+import os
 from memdf.MolDynamics import MolDynamics
 #from memd.gulp.Coordinates import Coordinates
 from os import system, linesep
@@ -31,13 +21,14 @@ class Gulp(MolDynamics):
     forcefield = ''
     moleculeIdentification = 'None'
     
-    def __init__(self, **kwds):
+    def __init__(self, maverickObj=None, **kwds):
         MolDynamics.__init__(self)
         for k, v in kwds.iteritems():
             setattr(self, k, v)  
         #define visitors
         self.optionWriter = OptionWriter()
         self.keywordWriter = KeywordWriter()
+        #if maverickObj:
   
     def listToString(self,list):
         '''give the keyword string representation of the keyword list'''
@@ -50,9 +41,9 @@ class Gulp(MolDynamics):
         return self.listToString(self.writeKeywords(self.keywordWriter))+linesep+\
         self.writeOptions(self.optionWriter)
         
-    def writeInputfile(self):
+    def writeInputfile(self,directory):
         self.inputFileContents = self.getInputfile()
-        f=file(self.inputDeckName,'w')
+        f=file(os.path.join(directory, self.inputDeckName),'w')
         f.write(self.inputFileContents)
         f.close()
         
