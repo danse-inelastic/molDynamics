@@ -38,6 +38,8 @@ eigsAndVecs = OneOrMore(eigAndVec)
 
 class OutputParser:
     
+    invCmToMeV=1/8.06554445 #from http://physics.nist.gov/Pubs/AtSpec/node01.html
+    #note the above gives a different answer than below
     hbarTimesC=6.58211899e-16*1e3*29.978*1e9#hbar eV*s * 1 meV/eV * c cm/s = hbarTimesC meV*cm
     parsingEigenvalues=False
     
@@ -132,17 +134,17 @@ class OutputParser:
         '''
         if eigVals:
             #convert to meV
-            eigVals = np.array(eigVals)*self.hbarTimesC
+            eigValsP = np.array(eigVals)*self.invCmToMeV
             #reshape in k mesh
             mx,my,mz = self.kpointMesh
-            print mx,my,mz, self.numModes
-            print eigVals.shape
-            eigVals = eigVals.reshape((mx, my, mz, self.numModes))
+            #print mx,my,mz, self.numModes
+            #print eigValsP.shape
+            eigValsP = eigValsP.reshape((mx, my, mz, self.numModes))
         if eigVecs:
             eigVecs = np.array(eigVecs)
             #reshape in groups of k, number of modes, and polarization vector per atom
             eigVecs = eigVecs.reshape((self.numKpoints, self.numModes, self.numAtoms, 3))
-        return eigVals, eigVecs
+        return eigValsP, eigVecs
 
     def getEigvals(self):
         '''finds and returns all eigenvalues in a list, along with kpts
