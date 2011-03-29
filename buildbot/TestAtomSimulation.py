@@ -12,7 +12,7 @@ tests_dir = os.path.dirname(os.path.abspath(thisfile))
 
 sys.path.insert(0,os.path.abspath('..'))# this should put the source code first on the path
 
-parnasisTest=False
+engineTest=False
 lim=100
 
 class TestAtomSimulation(unittest.TestCase):
@@ -21,21 +21,15 @@ class TestAtomSimulation(unittest.TestCase):
     """
 
     def setUp(self):
-        from vsat.Trajectory import Trajectory
-        ncFilePath = '5MF6SB7Q/gulp.nc'
-        self.traj = Trajectory(filename=ncFilePath)
-        self.traj.loadNetcdfTrajectory()
+        pass
         
-    def testEisfApi(self):
-        """test EISF"""
-        from vsat.trajectory.EisfCalc import EisfCalc
-        eisfc = EisfCalc()
-        eisfc.trajectory = self.traj
-        eisfc.q_range = [0,2]
-        eisfc.q_resolution = 0.1
-        eisfc.time_steps_sampled = (0, 165, 1) 
-        eisfc.selected_atoms = {'Au': 'All'}
-        eisfc.writeInputFile()
+    def testOptimizeApi(self):
+        from memd.gulp.Optimize import Optimize
+        m = Optimize()
+        m.xyzFile='structure.xyz'
+        m.forcefield='axiallySymmetricNWS.lib'
+        m.inputDeckName = 'mOpt.gin'
+        m.writeInputfile(tests_dir)
         correctInput="""#
 # parnasis data
 # Created by: jbk
@@ -54,24 +48,21 @@ q_directions = [True, True, True]
 type = 'eisf' 
 output_files = {'eisf': 'EISF_gulp.plot'}"""
         # this tests input file
-        inputContents=file('eisf.inp').read().strip()
+        inputContents=file('mOpt.gin').read().strip()
         #print correctInput[lim:]
         #print inputContents[lim:]
         assert correctInput[lim:]==inputContents[lim:]
         # this tests whether parnasis runs with this input file
-        if parnasisTest:
-            from parnasis.ParnasisApp import ParnasisApp
-            p = ParnasisApp()
-            p.singleRun('eisf.inp')
+        if engineTestTest:
+            os.system('gulp < mdOpt.gin > mdOpt.gout')
 
-    def testMdDosApi(self):
-        """test MdDos"""
-        from vsat.trajectory.MdDosCalc import MdDosCalc
-        mdc = MdDosCalc()
-        mdc.trajectory = self.traj
-        mdc.time_steps_sampled = (0, 165, 1) 
-        mdc.selected_atoms = {'Au': 'All'}
-        mdc.writeInputFile()
+    def testPhononApi(self):
+        from memd.gulp.Phonon import Phonon
+        m = Phonon()
+        m.xyzFile='structure.xyz'
+        m.forcefield='axiallySymmetricNWS.lib'
+        m.inputDeckName = 'mPhon.gin'
+        m.writeInputfile(tests_dir)
         correctInput="""#
 # parnasis data
 # Created by: jbk
@@ -87,22 +78,19 @@ smoothing_type = 'hanning'
 type = 'mddos' 
 output_files = {'dos': 'DOS_gulp.plot'}"""
         # this tests input file
-        inputContents=file('mddos.inp').read().strip()
+        inputContents=file('mPhon.gin').read().strip()
         assert correctInput[lim:]==inputContents[lim:] 
         # this tests whether parnasis runs with this input file
-        if parnasisTest:
-            from parnasis.ParnasisApp import ParnasisApp
-            p = ParnasisApp()
-            p.singleRun('mddos.inp')
+        if engineTest:
+            os.system('gulp < mPhon.gin > mPhon.gout')
             
-    def testMsdDiffusionApi(self):
-        """test MsdDiffusion"""
-        from vsat.trajectory.MsdDiffusionCalc import MsdDiffusionCalc
-        msdc = MsdDiffusionCalc()
-        msdc.trajectory = self.traj
-        msdc.time_steps_sampled = (0, 165, 1) 
-        msdc.selected_atoms = {'Au': 'All'}
-        msdc.writeInputFile()
+    def testMdApi(self):
+        from memd.gulp.Md import Md
+        m = Md()
+        m.xyzFile='structure.xyz'
+        m.forcefield='axiallySymmetricNWS.lib'
+        m.inputDeckName = 'mMd.gin'
+        m.writeInputfile(tests_dir)
         correctInput="""#
 # parnasis data
 # Created by: jbk
@@ -122,112 +110,8 @@ output_files = {'diffusion': 'DIFFUSION_gulp.plot', 'msd': 'MSD_gulp.plot'}"""
         inputContents=file('msddiffusion.inp').read().strip()
         assert correctInput[lim:]==inputContents[lim:] 
         # this tests whether parnasis runs with this input file
-        if parnasisTest:
-            from parnasis.ParnasisApp import ParnasisApp
-            p = ParnasisApp()
-            p.singleRun('msddiffusion.inp')
-
-
-    def testCsfApi(self):
-        """test Csf"""
-        from vsat.trajectory.FCsfCalc import FCsfCalc
-        csf = FCsfCalc()
-        csf.trajectory = self.traj
-        csf.q_range = [0, 5]
-        csf.q_resolution = 0.1
-        csf.time_steps_sampled = (0, 165, 1) 
-        csf.selected_atoms = {'Au': 'All'}
-        csf.writeInputFile()
-        correctInput="""#
-# parnasis data
-# Created by: jbk
-# Date of creation: Mon Mar 21 23:19:01 2011
-#
-q_algorithm = 'random_gen' 
-q_type = 'powder average' 
-q_resolution = 0.1 
-trajectory = ['5MF6SB7Q/gulp.nc'] 
-time_steps_sampled = (0, 165, 1) 
-selected_atoms = {'Au': ['*']} 
-q_range = [0, 5] 
-short_description = 'coherent S(Q,E)' 
-weights = 'coherent' 
-q_directions = [True, True, True] 
-type = 'fcsf' 
-output_files = {'fcsf': 'FCSF_gulp.nc', 'fft': 'FCSF_SPECT_gulp.nc'}"""
-        # this tests input file
-        inputContents=file('fcsf.inp').read().strip()
-        assert correctInput[lim:]==inputContents[lim:] 
-        # this tests whether parnasis runs with this input file
-        if parnasisTest:
-            from parnasis.ParnasisApp import ParnasisApp
-            p = ParnasisApp()
-            p.singleRun('fcsf.inp')
-
-    def testMeCsfApi(self):
-        from vsat.trajectory.MeCsfCalc import MeCsfCalc
-        mecsf = MeCsfCalc()
-        mecsf.trajectory = self.traj
-        mecsf.q_range = [0, 8]
-        mecsf.q_resolution = 0.01
-        mecsf.time_steps_sampled = (0, 165, 1) 
-        mecsf.selected_atoms = {'Au': 'All'}
-        mecsf.writeInputFile()
-        correctInput="""#
-# parnasis data
-# Created by: jbk
-# Date of creation: Mon Mar 21 23:28:19 2011
-#
-q_algorithm = 'random_gen' 
-q_type = 'powder average' 
-q_resolution = 0.01 
-me_order = 50 
-trajectory = ['5MF6SB7Q/gulp.nc'] 
-time_steps_sampled = (0, 165, 1) 
-selected_atoms = {'Au': ['*']} 
-me_precision = 'None' 
-q_range = [0, 8] 
-short_description = 'maximum entropy coherent S(Q,E)' 
-weights = 'coherent' 
-q_directions = [True, True, True] 
-type = 'mecsf' 
-output_files = {'memory': 'ME-CSF_Memory_gulp.nc', 'fft': 'ME-CSF_SPECT_gulp.nc', 'mecsf': 'ME-CSF_gulp.nc'}"""
-        # this tests input file
-        inputContents=file('mecsf.inp').read().strip()
-        assert correctInput[lim:]==inputContents[lim:] 
-        # this tests whether parnasis runs with this input file
-        if parnasisTest:
-            from parnasis.ParnasisApp import ParnasisApp
-            p = ParnasisApp()
-            p.singleRun('mecsf.inp')
-            
-    def testVacfDiffusionApi(self):
-        from vsat.trajectory.VacfDiffusionCalc import VacfDiffusionCalc
-        vacf = VacfDiffusionCalc()
-        vacf.trajectory = self.traj
-        vacf.time_steps_sampled = (0, 165, 1) 
-        vacf.selected_atoms = {'Au': 'All'}
-        vacf.writeInputFile()
-        correctInput="""#
-# parnasis data
-# Created by: jbk
-# Date of creation: Mon Mar 21 23:33:27 2011
-#
-trajectory = ['5MF6SB7Q/gulp.nc'] 
-time_steps_sampled = (0, 165, 1) 
-selected_atoms = {'Au': ['*']} 
-weights = 'mass' 
-short_description = 'Vacf diffusion calculation' 
-type = 'vacfdiffusion' 
-output_files = {'plot': 'VACF_gulp.plot'}"""
-        # this tests input file
-        inputContents=file('vacfdiffusion.inp').read().strip()
-        assert correctInput[lim:]==inputContents[lim:] 
-        # this tests whether parnasis runs with this input file
-        if parnasisTest:
-            from parnasis.ParnasisApp import ParnasisApp
-            p = ParnasisApp()
-            p.singleRun('vacfdiffusion.inp')
+        if engineTest:
+            os.system('gulp < mMd.gin > mMd.gout')
 
 if __name__ == '__main__':
     unittest.main()
