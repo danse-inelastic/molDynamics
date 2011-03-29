@@ -1,6 +1,4 @@
-
 from memd.gulp.Visitor import Visitor
-
 
 class KeywordWriter(Visitor):
     
