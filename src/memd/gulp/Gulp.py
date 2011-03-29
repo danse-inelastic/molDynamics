@@ -1,5 +1,5 @@
 import os
-from memdf.MolDynamics import MolDynamics
+from memd.MolDynamics import MolDynamics
 #from memd.gulp.Coordinates import Coordinates
 from os import system, linesep
 #from Potential import Potential

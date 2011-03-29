@@ -1,4 +1,4 @@
-from memdf.gulp.Gulp import Gulp
+from memd.gulp.Gulp import Gulp
 class Phonon(Gulp):
     '''This class allows phonon calculations using traditional molecular mechanics potentials.'''
     
@@ -21,7 +21,8 @@ class Phonon(Gulp):
     
     def writeOptions(self, visitor):
         options=''
-        options+=visitor.writeGulpOptions(self)
+        gopts = visitor.writeGulpOptions(self)
+        options+=gopts
         options+=visitor.writePhononOptions(self)
         return options
     

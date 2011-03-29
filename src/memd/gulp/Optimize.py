@@ -1,4 +1,4 @@
-from memdf.gulp.Gulp import Gulp
+from memd.gulp.Gulp import Gulp
 class Optimize(Gulp):
     '''This class serves as an API/interface for md engines.'''
     constraints = 'None'
