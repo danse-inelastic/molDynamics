@@ -87,14 +87,17 @@ class OptionWriter(Visitor):
         
     def outputOptions(self,mdRuntype):
         '''writes output options'''
-        trajectoryType='his'
+        if mdRuntype.trajectoryFilename.split('.')[-1] in ['his','xyz']:
+            trajectoryType=mdRuntype.trajectoryFilename.split('.')[-1]
+        else:
+            trajectoryType='his'
         if trajectoryType=='xyz':
-            lines='output movie xyz '+mdRuntype.trajectoryFilename+'.xyz'+linesep
+            lines='output movie xyz '+self.addExtensionIfNecessary(mdRuntype.trajectoryFilename, 'xyz')+linesep
         elif trajectoryType=='his':
-            lines='output history '+mdRuntype.trajectoryFilename+'.his'+linesep
-        elif trajectoryType=='xyz and history':
-            lines='output movie xyz '+mdRuntype.trajectoryFilename+'.xyz'+linesep+\
-                    'output history '+mdRuntype.trajectoryFilename+'.his'+linesep
+            lines='output history '+self.addExtensionIfNecessary(mdRuntype.trajectoryFilename, 'his')+linesep
+#        elif trajectoryType=='xyz and history':
+#            lines='output movie xyz '+mdRuntype.trajectoryFilename+'.xyz'+linesep+\
+#                    'output history '+mdRuntype.trajectoryFilename+'.his'+linesep
         lines+='write '+str(mdRuntype.dumpInterval)+' ps'+linesep#+\
         lines+='dump '+mdRuntype.restartFilename+linesep
         # don't write the following line for now--it's probably for optimization only
@@ -141,6 +144,7 @@ class OptionWriter(Visitor):
     def writePhononOptions(self,phononRuntype):
         '''write phonon information'''
         lines='shrink '+phononRuntype.kpointMesh+linesep+\
+        "broaden_dos " + phononRuntype.broadenDos+linesep+\
         self.writeProjectDos(phononRuntype)+\
         'output phonon '+phononRuntype.dosAndDispersionFilename+linesep+\
         'output frequency '+phononRuntype.dosAndDispersionFilename+linesep
@@ -154,10 +158,21 @@ class OptionWriter(Visitor):
             lines=lines+atom+linesep
         return lines
     
+    def addExtensionIfNecessary(self,filename,extension):
+        if filename.split('.')>1:
+            if filename.split('.')[-1]==extension:
+                newname = filename
+            else:
+                newname = filename+'.'+extension
+        else:
+            newname = filename+'.'+extension
+        return newname
+    
     def writeOptimizeOptions(self,runtype):
         '''write optimization information'''
+        trajfile = self.addExtensionIfNecessary(runtype.trajectoryFilename,'xyz')
         lines=''
-        lines+='output movie xyz '+runtype.trajectoryFilename+'.xyz'+linesep
+        lines+='output movie xyz '+trajfile+linesep
         lines+='dump '+runtype.restartFilename+linesep
         return lines
     

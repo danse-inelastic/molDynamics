@@ -15,11 +15,11 @@ C C -0.231 24.95086 0.0 2.6 3.1
 C C  0.362 2.94862 0.0 3.1 3.5
                 
 ensemble nvt 0.05
-temperature 0.0
-equilibration 0.0 ps
-production 0.0 ps
+temperature 500
+equilibration 1 ps
+production 1 ps
 timestep 0.002 ps
-sample 5.0 ps
-output history molDynamics.his.his
-write 0.0 ps
-dump molDynamics.res
+sample 0.5 ps
+output history mMd.his
+write 0.5 ps
+dump mMid.res
