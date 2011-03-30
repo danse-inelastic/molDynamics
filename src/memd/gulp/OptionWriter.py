@@ -144,10 +144,10 @@ class OptionWriter(Visitor):
     def writePhononOptions(self,phononRuntype):
         '''write phonon information'''
         lines='shrink '+phononRuntype.kpointMesh+linesep+\
-        "broaden_dos " + phononRuntype.broadenDos+linesep+\
         self.writeProjectDos(phononRuntype)+\
         'output phonon '+phononRuntype.dosAndDispersionFilename+linesep+\
         'output frequency '+phononRuntype.dosAndDispersionFilename+linesep
+        #"broaden_dos " + phononRuntype.broadenDos+linesep+\
         return lines
     
     def writeProjectDos(self, phononRuntype):

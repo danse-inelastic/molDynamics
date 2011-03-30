@@ -67,7 +67,7 @@ dump molDynamics.res"""
         m.xyzFile='structure.xyz'
         m.forcefield='axiallySymmetricNWS.lib'
         m.kpointMesh = '2 2 2'
-        m.broadenDos = '2.0'
+        m.broadenDos = True
         m.dosAndDispersionFilename = 'graphitePhonons'
         m.inputDeckName = 'mPhon.gin'
         m.writeInputfile(tests_dir)
@@ -88,7 +88,6 @@ C C -0.231 24.95086 0.0 2.6 3.1
 C C  0.362 2.94862 0.0 3.1 3.5
                 
 shrink 2 2 2
-broaden_dos 2.0
 project 0
 output phonon graphitePhonons
 output frequency graphitePhonons"""
