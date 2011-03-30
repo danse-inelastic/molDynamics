@@ -10,6 +10,7 @@ class Gulp(MolDynamics):
     """GULP engine for MolDynamics interface.  
     This class maps the DANSE data structures to GULP's input deck.
     """
+    supercell = '1 1 1'
     computeMaterialProperties = False
     engineExecutablePath=''
     inputDeckName='memd.gin'

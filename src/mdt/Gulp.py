@@ -15,6 +15,7 @@ class Gulp(object):
     '''base class for common gulp runtypes'''
     
     matter = None
+    supercell = '1 1 1'
     temperature = 300.0
     pressure = 0.0
     # forcefield_name='None'

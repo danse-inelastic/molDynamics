@@ -19,6 +19,8 @@ from memd.gulp.GulpPotential import GulpPotential
 class Inventory(InvBase):
     matter = InvBase.d.reference(name='matter', targettype=Structure, owned=False)
     matter.label = 'Structure' 
+    supercell = InvBase.d.str(name = 'supercell', default = '1 1 1')
+    supercell.label = 'Supercell'
     temperature = InvBase.d.float(name = 'temperature', default = 300.0)
     temperature.label = 'Temperature or Initial Energy (K)' 
     pressure = InvBase.d.float(name = 'pressure', default = 0.0)
