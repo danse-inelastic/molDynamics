@@ -70,9 +70,10 @@ class OptionWriter(Visitor):
         #commonOptions = self.writeUnitCell()
         #commonOptions+= coords.write()
         # however, for now we'll bypass the above and write the input file directly onto gulp input file
-        commonOptions = 'supercell '+gulp.supercell
+        commonOptions = ''
         commonOptions += self.gulpFormatUcNAtoms(gulp)
         commonOptions += self.writeForcefield(gulp)
+        commonOptions += 'supercell '+gulp.supercell+linesep
         return commonOptions
     
     def writeMdOptions(self,mdRuntype):

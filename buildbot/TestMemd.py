@@ -48,6 +48,7 @@ C C  8.301 3.42180 0.0 1.8 2.6
 C C -0.231 24.95086 0.0 2.6 3.1
 C C  0.362 2.94862 0.0 3.1 3.5
                 
+supercell 1 1 1
 output movie xyz opt.xyz
 dump molDynamics.res"""
         # this tests input file
@@ -87,6 +88,7 @@ C C  8.301 3.42180 0.0 1.8 2.6
 C C -0.231 24.95086 0.0 2.6 3.1
 C C  0.362 2.94862 0.0 3.1 3.5
                 
+supercell 1 1 1
 shrink 2 2 2
 project 0
 output phonon graphitePhonons
@@ -132,6 +134,7 @@ C C  8.301 3.42180 0.0 1.8 2.6
 C C -0.231 24.95086 0.0 2.6 3.1
 C C  0.362 2.94862 0.0 3.1 3.5
                 
+supercell 1 1 1
 ensemble nvt 0.05
 temperature 500
 equilibration 1 ps
