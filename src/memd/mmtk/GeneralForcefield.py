@@ -1,16 +1,5 @@
-#!/usr/bin/env python
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#
-# {LicenseText}
-#
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-from pyre.components.Component import Component 
 
-class GeneralForcefield(Component):
-    '''Represents the Amber set of potential options from MMTK'''
+class GeneralForcefield(object):
     
     class Inventory(Component.Inventory):
         import pyre.inventory as inv

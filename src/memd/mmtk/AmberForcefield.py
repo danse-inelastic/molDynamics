@@ -8,7 +8,6 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from GeneralForcefield import GeneralForcefield
-from pyre.components.Component import Component
 from MMTK.ForceFields import Amber99ForceField, Amber94ForceField
 
 class AmberForcefield(GeneralForcefield):
@@ -34,7 +33,7 @@ class AmberForcefield(GeneralForcefield):
         if self.i.electrostaticCutoff=='None (minimum image convention for periodic systems)':
             electrostaticCutoff=None
         if self.i.type=='Amber94':
-            return Amber94ForceField(ljCutoff, electrostaticCutoff)
+            return Amber94ForceField(eval(self.ljCutoff), eval(electrostaticCutoff))
         elif self.i.type=='Amber99':
             return Amber99ForceField(ljCutoff, electrostaticCutoff)
         

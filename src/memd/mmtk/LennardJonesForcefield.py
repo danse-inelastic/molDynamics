@@ -9,7 +9,7 @@
 #
 from GeneralForcefield import GeneralForcefield
 from pyre.components.Component import Component
-from MMTK.ForceFields import LennardJonesForceField as LennardJonesFF
+
 
 class LennardJonesForcefield(GeneralForcefield):
     '''Represents the Lennard Jones set of potential options from MMTK'''

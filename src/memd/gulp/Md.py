@@ -12,6 +12,8 @@ class Md(Gulp):
     trajectoryFilename = 'molDynamics.his'
     restartFilename = 'molDynamics.res'
     dumpInterval = 0.0
+    temperature=0.0
+    pressure=0.0
 
 #    trajectoryType = inv.str('trajectoryType', default='xyz')
 #    trajectoryType.meta['tip'] = 'type of trajectory output'  

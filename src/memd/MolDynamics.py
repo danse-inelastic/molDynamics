@@ -5,8 +5,6 @@ class MolDynamics(object):
     
     #sample = Sample()
     xyzFile=''
-    temperature=0.0
-    pressure=0.0
     logFilename = 'molDynamics.log'
     outputDir = ''
                         
