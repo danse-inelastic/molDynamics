@@ -15,7 +15,7 @@ from ..Gulp import Gulp
 
 from dsaw.model.Inventory import Inventory as InvBase
 from matter.orm.Structure import Structure
-from memd.gulp.GulpPotential import GulpPotential
+from memdf.gulp.GulpPotential import GulpPotential
 class Inventory(InvBase):
     matter = InvBase.d.reference(name='matter', targettype=Structure, owned=False)
     matter.label = 'Structure' 
