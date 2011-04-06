@@ -11,9 +11,9 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from pyre.components.Component import Component
-#from memd.Md import Md as MdBase
+#from memdf.Md import Md as MdBase
 from os import linesep
-from memd.gulp.Visitable import Visitable
+from memdf.gulp.Visitable import Visitable
 
 
 class Md(Component,Visitable):#(MdBase):

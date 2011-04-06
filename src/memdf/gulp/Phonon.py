@@ -1,4 +1,4 @@
-from memd.gulp.Gulp import Gulp
+from memdf.gulp.Gulp import Gulp
 class Phonon(Gulp):
     '''This class allows phonon calculations using traditional molecular mechanics potentials.'''
     

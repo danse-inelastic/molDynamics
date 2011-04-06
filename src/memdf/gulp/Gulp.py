@@ -1,6 +1,6 @@
 import os
-from memd.MolDynamics import MolDynamics
-#from memd.gulp.Coordinates import Coordinates
+from memdf.MolDynamics import MolDynamics
+#from memdf.gulp.Coordinates import Coordinates
 from os import system, linesep
 #from Potential import Potential
 from OptionWriter import OptionWriter
@@ -13,7 +13,7 @@ class Gulp(MolDynamics):
     supercell = '1 1 1'
     computeMaterialProperties = False
     engineExecutablePath=''
-    inputDeckName='memd.gin'
+    inputDeckName='memdf.gin'
     #runType = 'md'
     #['md', 'optimize', 'fit', 'phonon']
     #potential = Potential()

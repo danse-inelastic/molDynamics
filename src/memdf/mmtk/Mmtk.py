@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from memd.MolDynamics import MolDynamics
+from memdf.MolDynamics import MolDynamics
 import math
 import MMTK
 from MMTK import Units

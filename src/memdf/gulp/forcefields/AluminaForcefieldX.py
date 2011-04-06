@@ -7,9 +7,9 @@
 #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
-from memd.gulp.forcefields.SpringGulp import SpringGulp
-from memd.gulp.forcefields.BuckinghamGulp import BuckinghamGulp  
-from memd.gulp.forcefields.ForcefieldVisitor import Visitable
+from memdf.gulp.forcefields.SpringGulp import SpringGulp
+from memdf.gulp.forcefields.BuckinghamGulp import BuckinghamGulp  
+from memdf.gulp.forcefields.ForcefieldVisitor import Visitable
 
 class AluminaForcefieldX(Visitable):
     '''Contains the potentials for alumina
