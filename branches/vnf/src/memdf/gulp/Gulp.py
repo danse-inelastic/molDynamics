@@ -42,7 +42,7 @@ class Gulp(MolDynamics):
         return self.listToString(self.writeKeywords(self.keywordWriter))+linesep+\
         self.writeOptions(self.optionWriter)
         
-    def writeInputfile(self,directory):
+    def writeInputfile(self,directory='.'):
         self.inputFileContents = self.getInputfile()
         f=file(os.path.join(directory, self.inputDeckName),'w')
         f.write(self.inputFileContents)
