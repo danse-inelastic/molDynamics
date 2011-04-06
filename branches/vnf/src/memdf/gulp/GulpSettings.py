@@ -56,7 +56,7 @@ class GulpSettings:
     def getDOAndOutputFile(self):
         #based on runtypes 
         outputFiles = {"optimization":{'matter.orm.Structure':None}, 
-            "fit":{'memd.gulp.GulpPotential':None},
+            "fit":{'memdf.gulp.GulpPotential':None},
             "phonons":{'vsat.PhononDOS':['dos.dens'], 
                 'vsat.Phonons':['polarizations.pkl', 'energies.pkl']}, 
             "free energy calc/optimize":{'matter.orm.Structure':None},

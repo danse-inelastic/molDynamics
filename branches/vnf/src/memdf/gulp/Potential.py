@@ -1,5 +1,5 @@
 
-#from memd.gulp.forcefields.InputFile import InputFile
+#from memdf.gulp.forcefields.InputFile import InputFile
 
 class Potential(object):
     '''This class serves as an API/interface for gulp potential construction.'''

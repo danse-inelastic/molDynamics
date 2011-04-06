@@ -1,4 +1,4 @@
-from memd.gulp.Gulp import Gulp
+from memdf.gulp.Gulp import Gulp
 class Md(Gulp):
     '''This class serves as an md property setter.'''
     

@@ -1,4 +1,4 @@
-from memd.gulp.Gulp import Gulp
+from memdf.gulp.Gulp import Gulp
 class Fit(Gulp):
     '''This class fits forcefields to various experimental and ab initio quantities, which for now is mostly ab initio energies.'''
     constraints = 'None'

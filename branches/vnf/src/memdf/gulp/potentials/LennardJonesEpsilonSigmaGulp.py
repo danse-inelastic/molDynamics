@@ -1,4 +1,4 @@
-from memd.gulp.forcefields.TwoAtomPotential import TwoAtomPotential
+from memdf.gulp.forcefields.TwoAtomPotential import TwoAtomPotential
 from os import linesep
 
 class LennardJonesEpsilonSigmaGulp(TwoAtomPotential):

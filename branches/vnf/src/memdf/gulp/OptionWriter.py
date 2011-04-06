@@ -1,5 +1,5 @@
 
-from memd.gulp.Visitor import Visitor
+from memdf.gulp.Visitor import Visitor
 from os import linesep
 
 

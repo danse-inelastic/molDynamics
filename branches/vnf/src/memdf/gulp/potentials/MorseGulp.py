@@ -1,4 +1,4 @@
-from memd.gulp.potentials.TwoAtomPotential import TwoAtomPotential
+from memdf.gulp.potentials.TwoAtomPotential import TwoAtomPotential
 from pyre.components.Component import Component
 from os import linesep
 

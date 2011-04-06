@@ -8,8 +8,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 from pyre.components.Component import Component
-from memd.gulp.forcefields.SpringGulp import SpringGulp
-from memd.gulp.forcefields.BuckinghamGulp import BuckinghamGulp  
+from memdf.gulp.forcefields.SpringGulp import SpringGulp
+from memdf.gulp.forcefields.BuckinghamGulp import BuckinghamGulp  
 
 class AluminaForcefield(Component):
     '''Contains the potentials for alumina'''
