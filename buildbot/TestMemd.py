@@ -153,22 +153,26 @@ dump mMid.res"""
             os.system('gulp < '+inp+' > '+out)
             
     def testMmtkApi(self):
-        from memd.mmtk.Mmtk import Mmtk
-        m = Mmtk()
-        m.xyzFile='structure.xyz'
-        m.forcefield='axiallySymmetricNWS.lib'
-        m.temperature = 500
-        m.timeStep = 0.002
-        m.ensemble = 'nvt'
-        m.thermostatParameter=0.05
-        m.equilibrationTime = 1
-        m.productionTime = 1
-        m.propCalcInterval = 0.5
-        m.trajectoryFilename = 'mMd.xyz'
-        m.restartFilename = 'mMid.res'
-        m.dumpInterval = 0.5
-        #m.inputDeckName = 'mMd.gin'        
-        m.execute()
+        # ATTENTION: MMTK seems to be extremely buggy in general--be careful about using
+        pass
+#        from matter.Molecule import Molecule
+#        st = Molecule(filename='1PID.pdb')
+#        from memd.mmtk.Mmtk import Mmtk
+#        m = Mmtk()
+#        m.structure=st
+#        m.forcefield='axiallySymmetricNWS.lib'
+#        m.temperature = 500
+#        m.timeStep = 0.002
+#        m.ensemble = 'nvt'
+#        m.thermostatParameter=0.05
+#        m.equilibrationTime = 1
+#        m.productionTime = 1
+#        m.propCalcInterval = 0.5
+#        m.trajectoryFilename = 'mMd.xyz'
+#        m.restartFilename = 'mMid.res'
+#        m.dumpInterval = 0.5
+#        #m.inputDeckName = 'mMd.gin'        
+#        m.execute()
 
 
 if __name__ == '__main__':

@@ -25,13 +25,6 @@ class OptionWriter(Visitor):
         return ax,ay,az,bx,by,bz,cx,cy,cz
 
     def gulpFormatUcNAtoms(self,gulp):
-#        try:
-#            f=file(self.i.inputFile)
-#        except:
-#            print "cannot open xyz file"
-#            raise
-#        lines=f.readlines()
-#        ax,ay,az,bx,by,bz,cx,cy,cz = self.ucVecs
         ax,ay,az,bx,by,bz,cx,cy,cz = self.initializeFromFile(gulp)
         text='vectors'+linesep + ax+' '+ay+' '+az + linesep + bx+' '+by+' '+bz+linesep + cx+' '+cy+' '+cz+linesep
         if gulp.__class__.__name__=='Optimize':

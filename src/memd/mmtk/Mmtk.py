@@ -9,6 +9,7 @@ from MMTK.Trajectory import Trajectory, TrajectoryOutput, LogOutput, RestartTraj
 from MMTK.Dynamics import VelocityVerletIntegrator, VelocityScaler, \
                           TranslationRemover, RotationRemover,BarostatReset
 from MMTK.ForceFields import LennardJonesForceField as LennardJonesFF
+import numpy as np
   
 class Mmtk(MolDynamics):
     """MMTK engine for MolDynamics interface.
@@ -30,6 +31,7 @@ class Mmtk(MolDynamics):
     integrator = 'velocity-verlet'
     restarting = False
     forcefield = 'amber'
+    ljCutoff = 15.*Units.Ang
     #'amber', 'lennardJones']
         
     def __init__(self, **kwds):
@@ -45,31 +47,9 @@ class Mmtk(MolDynamics):
 #        self.propCalcInterval = self.timeStep*Units.fs
 #        self.dumpInterval = self.timeStep*Units.fs
         
-    def _norm(self,vec):
-        """gives the Euclidean _norm of a list"""
-        temp=sum([el**2. for el in vec])
-        return math.sqrt(temp)
-        
     def _ind(self,list):
         """gives the indices of the list to iterate over"""
         return range(len(list))
-        
-    def _dot(self,v1,v2):
-        """returns the _dot product of v1 and v2"""
-        return sum([v1[i]*v2[i] for i in self._ind(v1)])
-        
-    def _vecsToParams(self,vecs):
-        """takes lattice vectors in cartesian coordinates with origin at {0,0,0}
-        and returns lattice parameters"""
-        conv=math.pi/180
-        [a,b,c]=vecs
-        ma=math.sqrt(self._dot(a,a))
-        mb=math.sqrt(self._dot(b,b))
-        mc=math.sqrt(self._dot(c,c))
-        al=1/conv*math.acos(self._dot(b,c)/mb/mc)
-        be=1/conv*math.acos(self._dot(a,c)/ma/mc)
-        ga=1/conv*math.acos(self._dot(a,b)/ma/mb)
-        return [ma, mb, mc, al, be, ga]
     
     def appEqual(self,v1,v2):
         '''equal to within a certain numerical accuracy'''
@@ -78,24 +58,25 @@ class Mmtk(MolDynamics):
         else:
             return False
         
-    def _setForcefield(self):
-        if self.forcefield=='amber99':
-            self.ff=Amber99ForceField(eval(self.ljCutoff), eval(self.electrostaticCutoff))
+    def _setForcefield(self):         
         if self.forcefield=='amber94':
-            self.ff=Amber94ForceField(eval(self.ljCutoff), eval(self.electrostaticCutoff))
-        if self.forcefield=='lennard jones':
+            self.ff=Amber94ForceField()
+        elif self.forcefield=='lennard jones':
             self.ff=LennardJonesFF(eval(self.ljCutoff))
+        else: #'amber99'
+            self.ff=Amber99ForceField()
         
     def _setInitialConditions(self):
         '''map MolDynamics unit cell stuff to MMTK's. 
         Eventually much of this will be taken by the crystal class''' 
-        atoms = self.sample.getAtomsAsStrings()
-        uc = self.sample.getCellVectors()
-        if uc==None:
+        #atoms = self.getAtomsAsStrings()
+        #uc = self.getCellVectors()
+        uc=self.structure.lattice.base
+        if uc.all()==np.array([[1.0, 0, 0],[0, 1.0, 0.0],[0.0, 0.0, 1.0]]).all():
             self.mmtkUniverse = MMTK.InfiniteUniverse(self.ff)
         else:
             #ucList=uc.tolist()
-            (a,b,c,al,be,ga)=self._vecsToParams(uc)
+            a,b,c,al,be,ga = uc.abcABG()
             if self.appEqual(al, 90.0) and self.appEqual(be, 90.0) and self.appEqual(ga, 90.0):
                 if a==b and b==c:
                     self.mmtkUniverse = MMTK.CubicPeriodicUniverse(a*Units.Ang, self.ff)
@@ -109,17 +90,17 @@ class Mmtk(MolDynamics):
                      (uc[1][0]*Units.Ang, uc[1][1]*Units.Ang, uc[1][2]*Units.Ang),
                      (uc[2][0]*Units.Ang, uc[2][1]*Units.Ang, uc[2][2]*Units.Ang)), self.ff)
         #add objects to mmtkUniverse
-        for atom in atoms:
-            species, x, y, z = atom.split()
-            self.mmtkUniverse.addObject(MMTK.Atom(species, position = \
-                MMTK.Vector(float(x)*Units.Ang, float(y)*Units.Ang, float(z)*Units.Ang))) 
+        for atom in self.structure:
+            x, y, z = atom.xyz_cartn
+            self.mmtkUniverse.addObject(MMTK.Atom(atom.symbol, position = \
+                MMTK.Vector(x*Units.Ang, y*Units.Ang, z*Units.Ang))) 
 #        elif self.sample.has_attribute('molecule'):
 #            pass
         
     def createTrajectoryAndIntegrator(self):
         '''create trajectory and integrator'''
         #initialize velocities--this has to happen after adding atoms
-        self.mmtkUniverse.initializeVelocitiesToTemperature(self.sample.i.temperature)
+        self.mmtkUniverse.initializeVelocitiesToTemperature(self.temperature)
         # Create trajectory and integrator.
         self.mmtkTrajectory = Trajectory(self.mmtkUniverse, self.trajectoryFilename, "w")
         self.mmtkIntegrator = VelocityVerletIntegrator(self.mmtkUniverse, delta_t=self.timeStep*Units.fs)
@@ -168,10 +149,10 @@ class Mmtk(MolDynamics):
         
     def _integrateNVT(self):
         # Add thermostat 
-        self.mmtkUniverse.thermostat = NoseThermostat(self.sample.i.temperature)
+        self.mmtkUniverse.thermostat = NoseThermostat(self.temperature)
         # Do some equilibration steps and rescaling velocities.
-        self.mmtkIntegrator(steps = self.equilibrationSteps(), actions = [VelocityScaler(self.sample.i.temperature, 
-            0.1*self.sample.i.temperature, 0, None, 100)] + self.equilibration_actions)
+        self.mmtkIntegrator(steps = self.equilibrationSteps(), actions = [VelocityScaler(self.temperature, 
+            0.1*self.temperature, 0, None, 100)] + self.equilibration_actions)
         # Do some "production" steps.
         self.mmtkIntegrator(steps = self.productionSteps(),
                        actions = self.output_actions)
@@ -180,13 +161,13 @@ class Mmtk(MolDynamics):
         
     def _integrateNPT(self):
         # Add thermostat and barostat.
-        self.mmtkUniverse.thermostat = NoseThermostat(self.sample.i.temperature)
-        self.mmtkUniverse.barostat = AndersenBarostat(self.sample.i.pressure)
+        self.mmtkUniverse.thermostat = NoseThermostat(self.temperature)
+        self.mmtkUniverse.barostat = AndersenBarostat(self.pressure)
         # Do some equilibration steps, rescaling velocities and resetting the
         # barostat in regular intervals.
         self.mmtkIntegrator(steps = self.equilibrationSteps(),
-            actions = [VelocityScaler(self.sample.i.temperature, 
-            0.1*self.sample.i.temperature, 0, None, 100),
+            actions = [VelocityScaler(self.temperature, 
+            0.1*self.temperature, 0, None, 100),
             BarostatReset(100)] + self.equilibration_actions)
         # Do some "production" steps.
         self.mmtkIntegrator(steps = self.productionSteps(),
