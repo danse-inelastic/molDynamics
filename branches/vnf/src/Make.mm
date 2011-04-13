@@ -17,7 +17,7 @@
 
 BUILD_DIRS = \
 	mdt \
-	memd \
+	memdf \
 
 OTHER_DIRS = \
 
