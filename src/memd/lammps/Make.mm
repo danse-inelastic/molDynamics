@@ -11,25 +11,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PROJECT = memd
-
-#--------------------------------------------------------------------------
-#
-
-BUILD_DIRS = \
-	gulp \
-	lammps \
-	mmtk \
-	native \
-
-OTHER_DIRS = \
-
-RECURSE_DIRS = $(BUILD_DIRS) $(OTHER_DIRS)
+PACKAGE = lammps
 
 #--------------------------------------------------------------------------
 #
 
 all: export
-	BLD_ACTION="all" $(MM) recurse
 
 
 #--------------------------------------------------------------------------
@@ -37,15 +24,8 @@ all: export
 # export
 
 EXPORT_PYTHON_MODULES = \
-	__init__.py \
-	Memd.py \
-	MolDynamics.py \
-	Sample.py \
-	SnapshotGenerator.py \
-	TrajectoryAction.py \
-	TrajectoryGenerator.py \
-	Trajectory.py \
-	TrajectorySet.py \
+    __init__.py \
+    Lammps.py \
 
 
 export:: export-package-python-modules
