@@ -1,5 +1,0 @@
-
-
-class Visitor(object):
-    
-    pass
